@@ -37,6 +37,9 @@ function Event(id, eventDate, checkOut, checkIn, eventName, available, eventItem
 
     self.save = function (event) {
 
+        ViewModel.LoadDateBegin(moment(event.checkOut()).format('l'));
+        ViewModel.LoadDateEnd(moment(event.checkIn()).format('l'));
+
         var dataObject = ko.toJSON(event);
 
         $.ajax({
@@ -68,7 +71,13 @@ function Event(id, eventDate, checkOut, checkIn, eventName, available, eventItem
             contentType: 'application/json',
             success: function (data) {
                     
-                ViewModel.eventListViewModel.events.push(new Event(data.id, data.eventDate, data.checkOut, data.checkIn, data.eventName, data.available, data.eventOrders));
+                ViewModel.eventListViewModel.events.push(new Event(data.id
+                    , moment(data.eventDate).format('l')
+                    , moment(data.checkOut).format('l')
+                    , moment(data.checkIn).format('l')
+                    , moment(data.eventName).format('l')
+                    , data.available
+                    , data.eventOrders));
 
                 self.id(null);
                 self.eventName('');
@@ -106,7 +115,13 @@ function EventList() {
         $.getJSON(path + 'api/event/asof/' + moment(EventAsOf).format('MM-DD-YYYY').toString(), function (data) {
             $.each(data, function (key, value) {
 
-                self.events.push(new Event(value.id, value.eventDate, value.checkOut, value.checkIn, value.eventName, value.available, value.orderList));
+                self.events.push(new Event(value.id
+                    , moment(value.eventDate).format('l')
+                    , moment(value.checkOut).format('l')
+                    , moment(value.checkIn).format('l')
+                    , value.eventName
+                    , value.available
+                    , value.orderList));
                 $('body').css('cursor', 'default');
 
             })

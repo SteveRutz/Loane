@@ -21,7 +21,7 @@ namespace KnockoutMVC.NHib.Entities
             SB.Append(string.Format(" where truck = '{0}' and eventDate between '{1}' and '{2}' "
                 , Truck
                 , LoadDateBegin.ToString("yyyy-MM-dd 00:00:00")
-                , LoadDateEnd.ToString("yyyy-MM-dd 00:00:00")
+                , LoadDateEnd.ToString("yyyy-MM-dd 24:00:00")
                 ));
             SB.Append(" group by [order].truck, events.eventName, events.eventDate, [order].checkout, [order].available ");
             SB.Append(" , bom.component");

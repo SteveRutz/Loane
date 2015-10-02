@@ -349,32 +349,36 @@
                 </div>
             </div>
 
-            <div id="tabs-5">
+            <div id="tabs-5" data-bind="with: loadListViewModel">
+                <div class="form-inline">
+
+                        <label for="LoadOut">Check Out</label>
+                        <input id="LoadOut" type="text" class="form-control"
+                               data-bind="datepicker: ViewModel.LoadDateBegin
+                                            , event: {change: getLoad}
+                                " />
+                        <label for="LoadIn">Check In</label>
+                        <input id="LoadIn" type="text" class="form-control"
+                               data-bind="datepicker: ViewModel.LoadDateEnd
+                                            , event: {change: getLoad}
+                                " />
+
+                    <select class="form-control"
+                            data-bind="options: ViewModel.addDetailViewModel.truckList
+                                            , value: ViewModel.LoadTruck
+                                            , optionsCaption: ' -- Truck -- '
+                                            , event: {change: getLoad}
+                                        "></select>
+                </div>
                 <div class="col-md-4">
+
                     <div class="panel panel-info">
 
                         <div class="panel-heading">
                             <h2 class="panel-title">Load List</h2>
                         </div>
 
-                        <div class="panel-body" data-bind="with: loadListViewModel">
-
-                            <input type="text" class="form-control"
-                                   data-bind="datepicker: ViewModel.LoadDateBegin
-                                            , event: {change: getLoad}
-                                " />
-
-                            <input type="text" class="form-control"
-                                   data-bind="datepicker: ViewModel.LoadDateEnd
-                                            , event: {change: getLoad}
-                                " />
-
-                            <select class="form-control col-md-4"
-                                    data-bind="options: ViewModel.addDetailViewModel.truckList
-                                            , value: ViewModel.LoadTruck
-                                            , optionsCaption: ' -- Truck -- '
-                                            , event: {change: getLoad}
-                                        "></select>
+                        <div class="panel-body">
 
                             <table class="table table-bordered table-condensed">
                                 <thead>
@@ -394,8 +398,8 @@
                                         <td data-bind="text: EventDate"></td>
                                         <td data-bind="text: Component"></td>
                                         <td data-bind="text: LoadQuantity
-                                            , css: Available() ? 'btn btn-success btn-xs':'btn btn-danger btn-xs'
-                                        , attr: {title: 'Green, inventory available. Red, short inventory.'}
+                                           , css: Available()==0 ? 'btn btn-success btn-xs': Available()==1 ? 'Yellow':'btn btn-danger btn-xs'
+                                        , attr: {title: 'Green, inventory available. Red, short inventory. Yellow, day before/after overlap constraint.'}
                                     "></td>
                                     </tr>
                                 </tbody>
@@ -486,8 +490,8 @@
                 ViewModel.EventDate(Event.eventDate());
                 ViewModel.oEvent(Event);
                 ViewModel.eventOrders(Event.orderList);
-                ViewModel.LoadDateBegin(moment(Event.eventDate()).format('l'));
-                ViewModel.LoadDateEnd(moment(Event.eventDate()).format('l'));
+                ViewModel.LoadDateBegin(moment(Event.checkOut()).format('l'));
+                ViewModel.LoadDateEnd(moment(Event.checkIn()).format('l'));
                 // ViewModel.addDetailViewModel.CheckIn(moment(Event.eventDate()).format('l'));
                 // ViewModel.addDetailViewModel.orderQty(1);
                 //ViewModel.detailListViewModel.getDetails(Event.Id());

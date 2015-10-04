@@ -459,6 +459,7 @@
             ko.bindingHandlers.tabs = {
                 init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
                     $(element).tabs();
+
                     ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
                         $(element).tabs("destroy");
                     });
@@ -468,12 +469,36 @@
             ko.bindingHandlers.jqte = {
                 init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
                     $(element).jqte();
+
+                    //handle the field changing
+                    ko.utils.registerEventHandler(element, "blur", function () {
+                        var observable = valueAccessor();
+                        observable($(element).html());
+                    });
+
                     ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
                         $(element).jqte("destroy");
                     });
+                },
+                update: function (element, valueAccessor) {
+                    var value = ko.utils.unwrapObservable(valueAccessor());
+                    $(element).html(value);
                 }
             };
-
+            /* http://jsfiddle.net/timvdh/P4xpx/
+            ko.bindingHandlers.editHTML = {
+                init: function (element, valueAccessor) {
+                    $(element).on('blur', function () {
+                        var observable = valueAccessor();
+                        observable($(this).html());
+                    });
+                },
+                update: function (element, valueAccessor) {
+                    var value = ko.utils.unwrapObservable(valueAccessor());
+                    $(element).html(value);
+                }
+            };
+            */
 
             var ViewModel;
 

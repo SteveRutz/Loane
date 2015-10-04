@@ -133,6 +133,12 @@ namespace KnockoutMVC.Models
 
         static public void Set(int EventId)
         {
+            SetInvAvailability(EventId, Available.Yellow);
+            SetInvAvailability(EventId, Available.Red);
+        }
+
+        static private void SetInvAvailability(int EventId, Available avlType)
+        {
             
             // create our NHibernate session factory
             var sessionFactory = FluentNHibernate.CreateSessionFactory();
@@ -152,9 +158,9 @@ namespace KnockoutMVC.Models
                         return;
                     }
 
-                    var MaxDate = ordList.Max(x => x.checkin);
+                    var MaxDate = evt.checkIn; // ordList.Max(x => x.checkin);
 
-                    var MinDate = ordList.Min(x => x.checkout);
+                    var MinDate = evt.checkOut; // ordList.Min(x => x.checkout);
 
                     DateTime dMax = Convert.ToDateTime(MaxDate);
 
@@ -187,7 +193,11 @@ namespace KnockoutMVC.Models
                                                  join b in bom on o.item equals b.item
                                                  join i in inv on b.component equals i.item
                                                  from d in myDate
-                                                 where d >= o.checkout && d <= o.checkin
+                                                 where  d >= o.orderEvent.checkOut 
+                                                        && d <= o.orderEvent.checkIn 
+                                                        && avlType==Available.Yellow
+                                                 || d == o.orderEvent.eventDate
+                                                        && avlType == Available.Red
                                                  select new compOrdInv
                                                  {
                                                      myDate = d
@@ -228,17 +238,21 @@ namespace KnockoutMVC.Models
                                                  select o
                             ).ToList();
 
-                    foreach (order o in ordList)
+                    if (avlType == Available.Yellow)
                     {
-                        o.available = (int)Available.Green;
-                        o.orderEvent.available = (int)Available.Green;
-                        session.SaveOrUpdate(o.orderEvent);
+                        foreach (order o in ordList)
+                        {
+
+                            o.available = (int)Available.Green;
+                            o.orderEvent.available = (int)Available.Green;
+                            session.SaveOrUpdate(o.orderEvent);
+                        }
                     }
 
                     foreach (order o in ordAffected)
                     {
-                        o.available = (int)Available.Red;
-                        o.orderEvent.available = (int)Available.Red;
+                        o.available = (int)avlType;
+                        o.orderEvent.available = (int)avlType;
                         session.SaveOrUpdate(o);
                         session.SaveOrUpdate(o.orderEvent);
                     }
@@ -246,128 +260,13 @@ namespace KnockoutMVC.Models
 
                     session.Transaction.Commit();
 
-                    session.Close();
-
-                    try { SetYellow(EventId); }
-                    catch (Exception Ex) { }
-                    
+                    session.Close();            
 
                 }
             }
 
         }
 
-        static public void SetYellow(int EventId)
-        {
-
-            // create our NHibernate session factory
-            var sessionFactory = FluentNHibernate.CreateSessionFactory();
-
-            using (var session = sessionFactory.OpenSession())
-            {
-                // retreive all stores and display them
-                using (session.BeginTransaction())
-                {
-                    events evt = session.Load<events>(EventId);
-
-                    IList<order> ordList = evt.orderList.ToList();
-
-                    var MaxDate = ordList.Max(x => x.checkin);
-
-                    var MinDate = ordList.Min(x => x.checkout);
-
-                    DateTime dMax = Convert.ToDateTime(MaxDate).AddDays(1);
-
-                    DateTime dMin = Convert.ToDateTime(MinDate).AddDays(-1);
-
-                    IList<order> ord = session.CreateCriteria(typeof(order)).List<order>();
-
-                    IList<inventory> inv = session.CreateCriteria(typeof(inventory)).List<inventory>();
-
-                    IList<bom> bom = session.CreateCriteria(typeof(bom)).List<bom>();
-
-                    IList<loadlist> tmp = session.CreateCriteria(typeof(loadlist)).List<loadlist>();
-
-                    TimeSpan DaysDiff = dMin - dMax;
-
-                    int Days = 1;
-
-                    if (DaysDiff.Days > 0) { Days = DaysDiff.Days; }
-
-                    DateTime[] myDate = new DateTime[Days];
-
-                    myDate[0] = dMin;
-
-                    for (int i = 1; i < DaysDiff.Days; i++)
-                    {
-                        myDate[i] = dMin.AddDays(i);
-                    }
-
-                    IList<compOrdInv> CompQty = (from o in ord
-                                                 join b in bom on o.item equals b.item
-                                                 join i in inv on b.component equals i.item
-                                                 from d in myDate
-                                                 where d >= o.checkout && d <= o.checkin
-                                                 select new compOrdInv
-                                                 {
-                                                     myDate = d
-                                                     ,
-                                                     item = b.component
-                                                     ,
-                                                     InvQty = i.qty
-                                                     ,
-                                                     ordQty = o.orderQty
-                                                     ,
-                                                     extQty = b.qty * o.orderQty
-                                                 })
-                                        .ToList();
-
-                    IList<compOrdInv> Short = (from s in CompQty
-                                               group s by new { s.myDate, s.item, s.InvQty }
-                                                   into g
-                                                   where g.Key.InvQty - g.Sum(x => x.extQty) < 0
-                                                   select new compOrdInv
-                                                   {
-                                                       myDate = g.Key.myDate
-                                                       ,
-                                                       item = g.Key.item
-                                                       ,
-                                                       InvQty = g.Key.InvQty
-                                                       ,
-                                                       extQty = g.Sum(x => x.extQty)
-                                                       ,
-                                                       avl = g.Key.InvQty - g.Sum(x => x.extQty)
-                                                   }).ToList();
-
-
-                    IList<order> ordAffected = (from o in ord
-                                                 join b in bom on o.item equals b.item
-                                                 join s in Short on b.component equals s.item
-                                                 join ol in ordList on o.id equals ol.id
-                                                 where s.myDate >= o.checkout
-                                                 && s.myDate <= o.checkin
-                                                 select o
-                                                ).ToList();
-
-                    foreach (order o in ordAffected)
-                    {
-                        o.available = (int)Available.Yellow;
-                        o.orderEvent.available = (int)Available.Yellow;
-                        session.SaveOrUpdate(o);
-                        session.SaveOrUpdate(o.orderEvent);
-                    }
-
-
-                    session.Transaction.Commit();
-
-                    session.Close();
-
-                    return;
-
-                }
-            }
-
-        }
     }
 }
 

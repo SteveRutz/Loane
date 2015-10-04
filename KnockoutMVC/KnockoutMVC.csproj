@@ -256,6 +256,13 @@
     <Content Include="JQueryUI\jquery-ui.structure.min.css" />
     <Content Include="JQueryUI\jquery-ui.theme.css" />
     <Content Include="JQueryUI\jquery-ui.theme.min.css" />
+    <Content Include="JQueryUI\jqte\demo\demo.css" />
+    <Content Include="JQueryUI\jqte\demo\demo.html" />
+    <Content Include="JQueryUI\jqte\jquery-te-1.4.0.css" />
+    <Content Include="JQueryUI\jqte\jquery-te-1.4.0.min.js" />
+    <Content Include="JQueryUI\jqte\jquery-te.png" />
+    <Content Include="JQueryUI\jqte\license\AUTHOR.txt" />
+    <Content Include="JQueryUI\jqte\license\MIT-LICENSE.txt" />
     <Content Include="KnockoutModels\InventoryViewModel.js" />
     <Content Include="KnockoutModels\zLoadListViewModel.js" />
     <Content Include="KnockoutModels\DetailViewModel.js" />

@@ -1,6 +1,6 @@
 ﻿
 // use as register student views view model
-function Event(id, eventDate, checkOut, checkIn, eventName, available, eventItems) {
+function Event(id, eventDate, checkOut, checkIn, eventName, available, comments, eventItems) {
     var self = this;
 
     // observable are update elements upon changes, also update on element data changes [two way binding]
@@ -16,6 +16,7 @@ function Event(id, eventDate, checkOut, checkIn, eventName, available, eventItem
     self.checkIn = ko.observable(checkIn);
     self.eventName = ko.observable(eventName);
     self.available = ko.observable(available);
+    self.comments = ko.observable(comments);
     self.orderList = ko.observableArray(eventItems);
     self.orderCount = ko.observable(self.orderList().length);
 
@@ -77,6 +78,7 @@ function Event(id, eventDate, checkOut, checkIn, eventName, available, eventItem
                     , moment(data.checkIn).format('l')
                     , moment(data.eventName).format('l')
                     , data.available
+                    , data.comments
                     , data.eventOrders));
 
                 self.id(null);
@@ -121,6 +123,7 @@ function EventList() {
                     , moment(value.checkIn).format('l')
                     , value.eventName
                     , value.available
+                    , value.comments
                     , value.orderList));
                 $('body').css('cursor', 'default');
 

@@ -18,6 +18,7 @@ namespace KnockoutMVC.NHib.Mapping
             Map(x => x.checkIn);
             Map(x => x.available);
             Map(x => x.booked);
+            Map(x => x.comments);
             HasMany(x => x.orderList)
             .KeyColumn("orderEvent_id")
             .Inverse()

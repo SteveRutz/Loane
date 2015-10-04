@@ -21,6 +21,7 @@ namespace KnockoutMVC.NHib.Entities
         virtual public bool booked { get; set; }
         virtual public int available { get; set; }
         virtual public IList<order> orderList { get; set; }
+        virtual public string comments { get; set; }
 
         virtual public void addOrder(order newOrder)
         {
@@ -32,25 +33,6 @@ namespace KnockoutMVC.NHib.Entities
         {
             this.orderList.Remove(Order);
         }
-
-    }
-
-    public class eventItemCount : events
-    {
-        private new void addOrder(order newOrder)
-        {
-
-        }
-
-        private new void orderList()
-        {
-
-        }
-
-        public new Int64 id { get; set; }
-
-        public Int64 OrderCnt { get; set; }
-
 
     }
 

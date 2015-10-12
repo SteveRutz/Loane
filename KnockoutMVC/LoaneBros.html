@@ -153,7 +153,7 @@
 
                             <div class="form-group">
                                 <label for="inpComments">Instructions/Comments</label>
-                                <input id="inpComments" name="inpComments" type="text" data-bind="jqte: comments" value="<b>My contents are from <u><span style=&quot;color:rgb(0, 148, 133);&quot;>INPUT</span></u></b>" />
+                                <textarea id="inpComments" data-bind="jqEditor: comments"></textarea>
                             </div>
 
    
@@ -161,6 +161,8 @@
                                    data-bind="click: save
                                 " />
 
+                            <p>Enter HTML into jQuery TE and exit (blur) editor, content of the observable will be displayed here:</p>
+                            <span data-bind="text: comments"/>
                         </form>
 
                     </div>
@@ -466,25 +468,25 @@
                 }
             };
 
-            ko.bindingHandlers.jqte = {
+            ko.bindingHandlers.jqEditor = {
                 init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
-                    $(element).jqte();
-
-                    //handle the field changing
-                    ko.utils.registerEventHandler(element, "blur", function () {
-                        var observable = valueAccessor();
-                        observable($(element).html());
-                    });
-
-                    ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                        $(element).jqte("destroy");
+                    $(element).jqte({
+                        blur: function () {
+                            //alert("The editor is blured");
+                            alert($("div.jqte_editor").html());
+                            $(element).val($("div.jqte_editor").html());
+                            var observable = valueAccessor();
+                            observable($("div.jqte_editor").html());
+                        }
                     });
                 },
                 update: function (element, valueAccessor) {
-                    var value = ko.utils.unwrapObservable(valueAccessor());
-                    $(element).html(value);
+                    
+                   // var value = ko.utils.unwrapObservable(valueAccessor());
+                    //$(element).html(value);
                 }
             };
+
             /* http://jsfiddle.net/timvdh/P4xpx/
             ko.bindingHandlers.editHTML = {
                 init: function (element, valueAccessor) {
@@ -538,6 +540,9 @@
                 // ViewModel.addDetailViewModel.orderQty(1);
                 //ViewModel.detailListViewModel.getDetails(Event.Id());
                 ViewModel.detailListViewModel.getDetails(Event);
+
+                $("div.jqte_editor").html(Event.comments());
+                
 
             };
 

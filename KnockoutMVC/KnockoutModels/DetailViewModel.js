@@ -14,7 +14,7 @@ function Detail(orderEvent, id, item, qty, checkout, checkin, truck, available) 
     self.CheckIn = ko.observable(checkin);
     self.Truck = ko.observable(truck);
     self.InvAvl = ko.observable(available);
-    
+        
     // create computed field by combining first name and last name
     /*
     self.FullName = ko.computed(function () {

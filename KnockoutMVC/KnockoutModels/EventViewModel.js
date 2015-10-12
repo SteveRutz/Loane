@@ -19,7 +19,7 @@ function Event(id, eventDate, checkOut, checkIn, eventName, available, comments,
     self.comments = ko.observable(comments);
     self.orderList = ko.observableArray(eventItems);
     self.orderCount = ko.observable(self.orderList().length);
-
+    
     self.removeDetail = function (order) {
         alert('removeDetail');
 
@@ -76,7 +76,7 @@ function Event(id, eventDate, checkOut, checkIn, eventName, available, comments,
                     , moment(data.eventDate).format('l')
                     , moment(data.checkOut).format('l')
                     , moment(data.checkIn).format('l')
-                    , moment(data.eventName).format('l')
+                    , data.eventName
                     , data.available
                     , data.comments
                     , data.eventOrders));
@@ -125,6 +125,7 @@ function EventList() {
                     , value.available
                     , value.comments
                     , value.orderList));
+
                 $('body').css('cursor', 'default');
 
             })

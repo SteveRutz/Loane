@@ -11,6 +11,7 @@ namespace KnockoutMVC.NHib.Entities
         public events()
         {
             orderList = new List<order>();
+            comments = "";
         }
         //provide copy function?? to make more of same event.
         virtual public int id { get; set; }

@@ -12,6 +12,7 @@
     <script src="KnockoutModels/InventoryViewModel.js"></script>
     <script src="KnockoutModels/DetailViewModel.js"></script>
     <script src="KnockoutModels/EventViewModel.js"></script>
+    <script src="KnockoutModels/TruckListViewModel.js"></script>
 
     <link href="Content/Site.css" rel="stylesheet" />
     <link href="Content/bootstrap.css" rel="stylesheet" />
@@ -41,384 +42,29 @@
 
                 <li data-bind="visible: ViewModel.loadListViewModel.Load().length > 0 "><a id="TbLoadList" href="#tabs-5">LoadList</a></li>
                 <li data-bind="visible: ViewModel.inventoryViewModel.Inventory().length > 0 "><a id="TbInventory" href="#tabs-6">Inventory</a></li>
+                <li><a id="TbTruck" href="#tabs-7">Trucks</a></li>
 
                 <!-- <li data-bind="visible: ViewModel.EventName()!=null"><a id="TbDetailDE" href="#tabs-4">addItem</a></li>  -->
             </ul>
 
 
-            <div id="tabs-1">
+            <!-- Event List -->
+            <div id="tabs-1"></div>
 
-                <div class="form-inline">
+            <!-- Details -->
+            <div id="tabs-2" data-bind="with: ViewModel.oEvent"></div>
 
-                    <input id="inpAsOf" type="text" class="form-control"
-                           data-bind="datepicker: ViewModel.AsOf
-                                            , event: {change: $root.eventListViewModel.getEventAsOf(ViewModel.AsOf())}
-                        " />
+            <!-- Add Event -->
+            <div id="tabs-3"></div>
 
-                    <input type="button" class="btn btn-primary" id="btnAddEvent" value="Add Event" onclick="javascript: $('#TbEventDE').click();" />
+            <!-- Inventory -->
+            <div id="tabs-6"></div>
 
-                    <input type="button" class="btn btn-default" id="btnGetEvents" value="Refresh" data-bind="click: $root.eventListViewModel.getEventAsOf(ViewModel.AsOf())" />
+            <!-- Load List -->
+            <div id="tabs-5" data-bind="with: loadListViewModel"></div>
 
-                </div>
-
-                <div class="col-md-4">
-
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h2 class="panel-title">Events As Of</h2>
-                        </div>
-
-                        <div class="panel-body" data-bind="with: eventListViewModel">
-
-                            <table class="table table-striped table-bordered table-condensed">
-                                <thead>
-                                    <tr>
-                                        <th>Items</th>
-                                        <th>Event</th>
-                                        <th>Event Date</th>
-                                        <th>CheckOut</th>
-                                        <th>CheckIn</th>
-                                        <th>Delete</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody data-bind="foreach: events">
-                                    <tr>
-                                        <td>
-                                            <input type="button"
-                                                   data-bind="value: orderCount
-                                                    , css: available()==0 ? 'btn btn-success btn-xs': available()==1 ? 'Yellow':'btn btn-danger btn-xs'
-                                                    , click: $root.getOrders
-                                                    , attr: {title: orderCount() + ' event Items attached. Green, inventory available. Red, short inventory. Click to view/add deliverables.'}
-                                            " />
-                                        </td>
-
-                                        <td data-bind="text: eventName"></td>
-                                        <td data-bind="text: moment(eventDate()).format('l')"></td>
-                                        <td data-bind="text: moment(checkOut()).format('l')"></td>
-                                        <td data-bind="text: moment(checkIn()).format('l')"></td>
-                                        <td><input type="button" class="btn btn-danger btn-xs" value=" [x] " data-bind="click: $parent.removeEvent" /></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <div id="tabs-2" data-bind="with: ViewModel.oEvent">
-
-                <div id="myTabs2" data-bind="tabs: true">
-                    <ul>
-                        <li>
-                            <a id="TbDetail2" href="#tabs-2a">Items</a>
-                        </li>
-                        <li>
-                            <a id="TbEvent" href="#tabs-2b">Edit Event</a>
-                        </li>
-                    </ul>
-
-                    <div id="tabs-2b" data-bind="with:ViewModel.oEvent">
-
-                        <form role="form">
-
-                            <input type="button" class="btn btn-primary" value="Save Changes"
-                                   data-bind="click: save
-                                " />
-
-                            <input type="button" class="btn btn-default" value="View Inventory"
-                                   data-bind="click: $root.inventoryViewModel.getInventory" />
-
-                            <div class="form-group">
-                                <label for="inpEventName2">Event Name</label>
-                                <input id="inpEventName2" type="text" class="form-control" data-bind="value: eventName" />
-                            </div>
-
-                            <div class="form-group">
-                                <label for="inpEventDate2">Event Date</label>
-                                <input id="inpEventDate2" type="text" class="form-control" data-bind="datepicker: eventDate" />
-                            </div>
-
-                            <div class="form-group">
-                                <label for="inpCheckOut2">Check Out</label>
-                                <input id="inpCheckOut2" type="text" class="form-control" data-bind="datepicker: checkOut" />
-                            </div>
-
-                            <div class="form-group">
-                                <label for="inpCheckIn2">Check In</label>
-                                <input id="inpCheckIn2" type="text" class="form-control" data-bind="datepicker: checkIn" />
-                            </div>
-
-                            <div class="form-group">
-                                <label for="inpComments">Instructions/Comments</label>
-                                <textarea id="inpComments" data-bind="jqEditor: comments"></textarea>
-                            </div>
-
-   
-                            <input type="button" class="btn btn-primary" value="Save Changes"
-                                   data-bind="click: save
-                                " />
-
-                            <p>Enter HTML into jQuery TE and exit (blur) editor, content of the observable will be displayed here:</p>
-                            <span data-bind="text: comments"/>
-                        </form>
-
-                    </div>
-
-                    <div id="tabs-2a" class="col-md-8">
-                        <div class="panel panel-info">
-
-                            <div class="panel-heading">
-
-                                <h2 class="panel-title" data-bind="text: eventName() + ' :: ' + moment(eventDate()).format('l') "></h2>
-
-                            </div>
-
-                            <div class="panel-body">
-
-                                <table class="table table-striped table-bordered table-condensed">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Item</th>
-                                            <th width="50px">Qty</th>
-                                            <!--
-                                    <th>CheckOut</th>
-                                    <th>CheckIn</th>
-                                        -->
-                                            <th>   Truck    </th>
-                                            <th>   Truck    </th>
-                                            <th>Remove</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody id="details" data-bind="foreach: orderList">
-                                        <tr>
-                                            <td>
-                                                <input type="button"
-                                                       data-bind="value: available ? '[Y]':'[N]'
-                                                    , css: available==0 ? 'btn btn-success btn-xs': available==1 ? 'Yellow':'btn btn-danger btn-xs'
-                                                    , attr: {title: 'Green, inventory available. Red, short inventory.'}
-                                            " />
-                                            </td>
-
-                                            <td><select id="inpDetailItem" class="form-control" data-bind="options: ViewModel.addDetailViewModel.itemList, value: item, optionsCaption: '-- Item -- '"></select></td>
-                                            <td><input type="text" class="form-control" data-bind="value: orderQty" /></td>
-                                            <!--
-                                    <td><input type="text" class="form-control" data-bind="datepicker: CheckOut" /></td>
-                                    <td><input type="text" class="form-control" data-bind="datepicker: CheckIn" /></td>
-                                        -->
-                                            <td>
-                                                <select class="form-control col-md-4"
-                                                        data-bind="options: ViewModel.addDetailViewModel.truckList, value: truck, optionsCaption: ' -- Truck -- '"></select>
-                                            </td>
-                                            <td>
-                                                <input type="button"
-                                                       data-bind="value: truck
-                                                    , click: ViewModel.loadListViewModel.getLoad
-
-                                            " />
-
-                                            </td>
-                                            <td><input type="button" class="btn btn-danger btn-xs" value=" [x] " data-bind="click: $parent.removeDetail" /></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                                <br />
-
-                                <input type="button" class="btn btn-default" id="btnGetDetails" value="Refresh"
-                                       data-bind="click: ViewModel.detailListViewModel.getDetails(ViewModel.EventID)" />
-
-                                <input type="button" class="btn btn-primary" value="Add"
-                                       data-bind="click: ViewModel.detailListViewModel.addEventItem
-                                " />
-
-                                <input type="button" class="btn btn-primary" value="Save Changes"
-                                       data-bind="click: save
-                                " />
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="tabs-3">
-                <div class="col-md-4">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h2 class="panel-title">Add Event</h2>
-                        </div>
-
-                        <div class="panel-body" data-bind="with: addEventViewModel">
-
-                            <form role="form">
-                                <div class="form-group">
-                                    <label for="inpEventDate">Event Date</label>
-                                    <input id="inpEventDate" type="text" class="form-control" data-bind="datepicker: eventDate, datepickerOptions:{minDate: new Date()}" />
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inpCheckOut">Check Out</label>
-                                    <input id="inpCheckOut" type="text" class="form-control" data-bind="datepicker: checkOut, datepickerOptions:{minDate: new Date()}" />
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inpCheckIn">Check In</label>
-                                    <input id="inpCheckIn" type="text" class="form-control" data-bind="datepicker: checkIn, datepickerOptions:{minDate: new Date()}" />
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inpEventName">Event Name</label>
-                                    <input id="inpEventName" type="text" class="form-control" data-bind="value: eventName" />
-                                </div>
-
-                            </form>
-
-                            <input type="button" id="btnAddEvent" class="btn btn-primary" value="Add Event" data-bind="click: addEvent" />
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="tabs-6">
-                <div class="col-md-8">
-                    <div class="panel panel-info">
-
-                        <div class="panel-heading">
-                            <h2 class="panel-title">Inventory</h2>
-                        </div>
-
-                        <div class="panel-body" data-bind="with: inventoryViewModel">
-
-                            <input type="button" class="btn btn-default" value="Save Changes" data-bind="click: $root.inventoryViewModel.saveInventory" />
-
-                            <!--<input type="button" class="btn btn-default" value="Add Item" data-bind="click: $root.inventoryViewModel.addInventoryItem('top')" />-->
-
-                            <table id="TableInventory" class="table table-bordered table-condensed">
-                                <thead>
-
-                                    <tr>
-
-                                        <th>Item</th>
-                                        <th>Qty</th>
-                                    </tr>
-
-                                </thead>
-
-                                <tbody data-bind="foreach: Inventory">
-                                    <tr>
-
-                                        <!--
-                                            <th>Id</th>
-
-                                        <td>
-                                            <input type="text" class="form-control col-md-4" data-bind="value: id" />
-                                        </td>
-                                            -->
-
-                                        <td>
-                                            <div class="col-lg-10">
-                                                <input type="text" class="form-control" data-bind="value: item" />
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control col-xs-4" data-bind="value: qty" />
-                                        </td>
-                                        <td><input type="button" class="btn btn-danger btn-xs" value=" [x] " data-bind="click: $parent.removeInventoryItem" /></td>
-
-
-                                        <!--
-                                        <th>Id</th>
-                                        <th>Master</th>
-
-
-
-                                        <td data-bind="text: id"></td>
-                                        <td data-bind="text: master"></td>
-                                        <td data-bind="text: item"></td>
-
-                                        <td data-bind="text: qty
-                                            , attr: {title: 'Quantity owned.'}
-
-                                        "></td>
-                                         -->
-
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <input type="button" class="btn btn-default" value="Save Changes" data-bind="click: $root.inventoryViewModel.saveInventory" />
-                            <input type="button" class="btn btn-default" value="Add Item" data-bind="click: $root.inventoryViewModel.addInventoryItem" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="tabs-5" data-bind="with: loadListViewModel">
-                <div class="form-inline">
-
-                        <label for="LoadOut">Check Out</label>
-                        <input id="LoadOut" type="text" class="form-control"
-                               data-bind="datepicker: ViewModel.LoadDateBegin
-                                            , event: {change: getLoad}
-                                " />
-                        <label for="LoadIn">Check In</label>
-                        <input id="LoadIn" type="text" class="form-control"
-                               data-bind="datepicker: ViewModel.LoadDateEnd
-                                            , event: {change: getLoad}
-                                " />
-
-                    <select class="form-control"
-                            data-bind="options: ViewModel.addDetailViewModel.truckList
-                                            , value: ViewModel.LoadTruck
-                                            , optionsCaption: ' -- Truck -- '
-                                            , event: {change: getLoad}
-                                        "></select>
-                </div>
-                <div class="col-md-4">
-
-                    <div class="panel panel-info">
-
-                        <div class="panel-heading">
-                            <h2 class="panel-title">Load List</h2>
-                        </div>
-
-                        <div class="panel-body">
-
-                            <table class="table table-bordered table-condensed">
-                                <thead>
-
-                                    <tr>
-                                        <th>Event</th>
-                                        <th>Event Date</th>
-                                        <th>Item</th>
-                                        <th>Qty</th>
-                                    </tr>
-
-                                </thead>
-
-                                <tbody data-bind="foreach: Load">
-                                    <tr>
-                                        <td data-bind="text: EventName"></td>
-                                        <td data-bind="text: EventDate"></td>
-                                        <td data-bind="text: Component"></td>
-                                        <td data-bind="text: LoadQuantity
-                                           , css: Available()==0 ? 'btn btn-success btn-xs': Available()==1 ? 'Yellow':'btn btn-danger btn-xs'
-                                        , attr: {title: 'Green, inventory available. Red, short inventory. Yellow, day before/after overlap constraint.'}
-                                    "></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- Truck List -->
+            <div id="tabs-7" data-bind="with: truckViewModel"></div>
 
 
         </div>
@@ -427,136 +73,173 @@
 
             var path = location.href.toLowerCase().replace("zloanebros.html", "").replace("loanebros.html", "");
 
-            ko.bindingHandlers.datepicker = {
-                init: function (element, valueAccessor, allBindingsAccessor) {
-                    //initialize datepicker with some optional options
-                    var options = allBindingsAccessor().datepickerOptions || {};
-                    $(element).datepicker(options);
-
-                    //handle the field changing
-                    ko.utils.registerEventHandler(element, "change", function () {
-                        var observable = valueAccessor();
-                        observable($(element).datepicker("getDate"));
-                    });
-
-                    //handle disposal (if KO removes by the template binding)
-                    ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                        $(element).datepicker("destroy");
-                    });
-
-                },
-
-                //update the control when the view model changes
-                update: function (element, valueAccessor) {
-                    var value = ko.utils.unwrapObservable(valueAccessor()),
-                        current = $(element).datepicker("getDate");
-
-                    if (value - current !== 0) {
-                        $(element).datepicker("setDate", value);
-                    }
-                }
-            };
-
-
-            ko.bindingHandlers.tabs = {
-                init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
-                    $(element).tabs();
-
-                    ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                        $(element).tabs("destroy");
-                    });
-                }
-            };
-
-            ko.bindingHandlers.jqEditor = {
-                init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
-                    $(element).jqte({
-                        blur: function () {
-                            //alert("The editor is blured");
-                            alert($("div.jqte_editor").html());
-                            $(element).val($("div.jqte_editor").html());
-                            var observable = valueAccessor();
-                            observable($("div.jqte_editor").html());
-                        }
-                    });
-                },
-                update: function (element, valueAccessor) {
-                    
-                   // var value = ko.utils.unwrapObservable(valueAccessor());
-                    //$(element).html(value);
-                }
-            };
-
-            /* http://jsfiddle.net/timvdh/P4xpx/
-            ko.bindingHandlers.editHTML = {
-                init: function (element, valueAccessor) {
-                    $(element).on('blur', function () {
-                        var observable = valueAccessor();
-                        observable($(this).html());
-                    });
-                },
-                update: function (element, valueAccessor) {
-                    var value = ko.utils.unwrapObservable(valueAccessor());
-                    $(element).html(value);
-                }
-            };
-            */
-
             var ViewModel;
 
+            $.get("htmEventList.html", "", function (htm) { tEvents(htm); }, "html");
 
-
-            // create index view view model which contain two models for partial views
-            ViewModel = {
-                AsOf: ko.observable()
-             , EventName: ko.observable()
-             , EventID: ko.observable()
-             , EventDate: ko.observable()
-             , oEvent: ko.observable()
-             , eventOrders: ko.observableArray([])
-             , LoadDateBegin: ko.observable()
-             , LoadDateEnd: ko.observable()
-             , LoadTruck: ko.observable()
-             , addDetailViewModel: new Detail()
-             , detailListViewModel: new DetailList()
-             , addEventViewModel: new Event()
-             , eventListViewModel: new EventList()
-             , loadListViewModel: new LoadList()
-             , inventoryViewModel: new InventoryList()
-
+            function tEvents(htm) {
+                $('#tabs-1').html(htm);
+                $.get("htmDetails.html", "", function (htm) { tDetails(htm); }, "html");
             }
 
-            ViewModel.getOrders = function (Event) {
+            function tDetails(htm) {
+                $('#tabs-2').html(htm);
+                $.get("htmAddEvent.html", "", function (htm) { tAddEvent(htm); }, "html");
+            }
 
-                
-                ViewModel.EventID(Event.id());
-                ViewModel.EventName(Event.eventName());
-                ViewModel.EventDate(Event.eventDate());
-                ViewModel.oEvent(Event);
-                ViewModel.eventOrders(Event.orderList);
-                ViewModel.LoadDateBegin(moment(Event.checkOut()).format('l'));
-                ViewModel.LoadDateEnd(moment(Event.checkIn()).format('l'));
-                // ViewModel.addDetailViewModel.CheckIn(moment(Event.eventDate()).format('l'));
-                // ViewModel.addDetailViewModel.orderQty(1);
-                //ViewModel.detailListViewModel.getDetails(Event.Id());
-                ViewModel.detailListViewModel.getDetails(Event);
+            function tAddEvent(htm) {
+                $('#tabs-3').html(htm);
+                $.get("htmInventory.html", "", function (htm) { tInventory(htm); }, "html");
+            }
 
-                $("div.jqte_editor").html(Event.comments());
-                
+            function tInventory(htm) {
+                $('#tabs-6').html(htm);
+                $.get("htmLoadList.html", "", function (htm) { tLoadList(htm); }, "html");
+            }
 
-            };
+            function tLoadList(htm) {
+                $('#tabs-5').html(htm);
+                $.get("htmTruckList.html", "", function (htm) { tTruckList(htm); }, "html");
+            }
+            
+            function tTruckList(htm) {
+                $('#tabs-7').html(htm);
+                applyModel();
+            }
 
-            ko.applyBindings(ViewModel);
 
-            ViewModel.AsOf(new Date());
 
-            ViewModel.EventName("Loane Brothers");
+            function applyModel() {
 
-            ViewModel.eventListViewModel.getEventAsOf(ViewModel.AsOf());
+                ko.bindingHandlers.datepicker = {
+                    init: function (element, valueAccessor, allBindingsAccessor) {
+                        //initialize datepicker with some optional options
+                        var options = allBindingsAccessor().datepickerOptions || {};
+                        $(element).datepicker(options);
 
-           // $('.jqte-test').jqte();
+                        //handle the field changing
+                        ko.utils.registerEventHandler(element, "change", function () {
+                            var observable = valueAccessor();
+                            observable($(element).datepicker("getDate"));
+                        });
 
-            $("#TbEvent").click();
+                        //handle disposal (if KO removes by the template binding)
+                        ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+                            $(element).datepicker("destroy");
+                        });
+
+                    },
+
+                    //update the control when the view model changes
+                    update: function (element, valueAccessor) {
+                        var value = ko.utils.unwrapObservable(valueAccessor()),
+                            current = $(element).datepicker("getDate");
+
+                        if (value - current !== 0) {
+                            $(element).datepicker("setDate", value);
+                        }
+                    }
+                };
+
+
+                ko.bindingHandlers.tabs = {
+                    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+                        $(element).tabs();
+
+                        ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+                            $(element).tabs("destroy");
+                        });
+                    }
+                };
+
+                ko.bindingHandlers.jqEditor = {
+                    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+                        $(element).jqte({
+                            blur: function () {
+                                //alert("The editor is blured");
+                                alert($("div.jqte_editor").html());
+                                $(element).val($("div.jqte_editor").html());
+                                var observable = valueAccessor();
+                                observable($("div.jqte_editor").html());
+                            }
+                        });
+                    },
+                    update: function (element, valueAccessor) {
+
+                        // var value = ko.utils.unwrapObservable(valueAccessor());
+                        //$(element).html(value);
+                    }
+                };
+
+                /* http://jsfiddle.net/timvdh/P4xpx/
+                ko.bindingHandlers.editHTML = {
+                    init: function (element, valueAccessor) {
+                        $(element).on('blur', function () {
+                            var observable = valueAccessor();
+                            observable($(this).html());
+                        });
+                    },
+                    update: function (element, valueAccessor) {
+                        var value = ko.utils.unwrapObservable(valueAccessor());
+                        $(element).html(value);
+                    }
+                };
+                */
+
+                // create index view view model which contain two models for partial views
+                ViewModel = {
+                    AsOf: ko.observable()
+                 , EventName: ko.observable()
+                 , EventID: ko.observable()
+                 , EventDate: ko.observable()
+                 , oEvent: ko.observable()
+                 , eventOrders: ko.observableArray([])
+                 , LoadDateBegin: ko.observable()
+                 , LoadDateEnd: ko.observable()
+                 , LoadTruck: ko.observable()
+                 , addDetailViewModel: new Detail()
+                 , detailListViewModel: new DetailList()
+                 , addEventViewModel: new Event()
+                 , eventListViewModel: new EventList()
+                 , loadListViewModel: new LoadList()
+                 , inventoryViewModel: new InventoryList()
+                 , truckViewModel: new TruckList()
+
+                }
+
+                ViewModel.getOrders = function (Event) {
+
+
+                    ViewModel.EventID(Event.id());
+                    ViewModel.EventName(Event.eventName());
+                    ViewModel.EventDate(Event.eventDate());
+                    ViewModel.oEvent(Event);
+                    ViewModel.eventOrders(Event.orderList);
+                    ViewModel.LoadDateBegin(moment(Event.checkOut()).format('l'));
+                    ViewModel.LoadDateEnd(moment(Event.checkIn()).format('l'));
+                    // ViewModel.addDetailViewModel.CheckIn(moment(Event.eventDate()).format('l'));
+                    // ViewModel.addDetailViewModel.orderQty(1);
+                    //ViewModel.detailListViewModel.getDetails(Event.Id());
+                    ViewModel.detailListViewModel.getDetails(Event);
+
+                    $("div.jqte_editor").html(Event.comments());
+
+
+                };
+
+                ko.applyBindings(ViewModel);
+
+                ViewModel.AsOf(new Date());
+
+                ViewModel.EventName("Loane Brothers");
+
+                ViewModel.eventListViewModel.getEventAsOf(ViewModel.AsOf());
+
+                // $('.jqte-test').jqte();
+
+                $("#TbEvent").click();
+
+            }
 
         </script>
 

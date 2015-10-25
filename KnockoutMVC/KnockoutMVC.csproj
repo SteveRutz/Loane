@@ -230,6 +230,12 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="htmAddEvent.html" />
+    <Content Include="htmTruckList.html" />
+    <Content Include="htmDetails.html" />
+    <Content Include="htmEventList.html" />
+    <Content Include="htmInventory.html" />
+    <Content Include="htmLoadList.html" />
     <Content Include="img\LoaneBros_logo.gif" />
     <Content Include="JQueryUI\external\jquery.js" />
     <Content Include="JQueryUI\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
@@ -263,6 +269,7 @@
     <Content Include="JQueryUI\jqte\jquery-te.png" />
     <Content Include="JQueryUI\jqte\license\AUTHOR.txt" />
     <Content Include="JQueryUI\jqte\license\MIT-LICENSE.txt" />
+    <Content Include="KnockoutModels\TruckListViewModel.js" />
     <Content Include="KnockoutModels\InventoryViewModel.js" />
     <Content Include="KnockoutModels\zLoadListViewModel.js" />
     <Content Include="KnockoutModels\DetailViewModel.js" />

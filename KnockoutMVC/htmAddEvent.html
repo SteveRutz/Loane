@@ -1,0 +1,36 @@
+﻿<div class="col-md-4">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h2 class="panel-title">Add Event</h2>
+        </div>
+
+        <div class="panel-body" data-bind="with: addEventViewModel">
+
+            <form role="form">
+                <div class="form-group">
+                    <label for="inpEventDate">Event Date</label>
+                    <input id="inpEventDate" type="text" class="form-control" data-bind="datepicker: eventDate, datepickerOptions:{minDate: new Date()}" />
+                </div>
+
+                <div class="form-group">
+                    <label for="inpCheckOut">Check Out</label>
+                    <input id="inpCheckOut" type="text" class="form-control" data-bind="datepicker: checkOut, datepickerOptions:{minDate: new Date()}" />
+                </div>
+
+                <div class="form-group">
+                    <label for="inpCheckIn">Check In</label>
+                    <input id="inpCheckIn" type="text" class="form-control" data-bind="datepicker: checkIn, datepickerOptions:{minDate: new Date()}" />
+                </div>
+
+                <div class="form-group">
+                    <label for="inpEventName">Event Name</label>
+                    <input id="inpEventName" type="text" class="form-control" data-bind="value: eventName" />
+                </div>
+
+            </form>
+
+            <input type="button" id="btnAddEvent" class="btn btn-primary" value="Add Event" data-bind="click: addEvent" />
+
+        </div>
+    </div>
+</div>

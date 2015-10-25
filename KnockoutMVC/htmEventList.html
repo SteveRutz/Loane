@@ -1,0 +1,59 @@
+﻿
+<div class="form-inline">
+
+    <input id="inpAsOf" type="text" class="form-control"
+           data-bind="datepicker: ViewModel.AsOf
+                                            , event: {change: $root.eventListViewModel.getEventAsOf(ViewModel.AsOf())}
+                        " />
+
+    <input type="button" class="btn btn-primary" id="btnAddEvent" value="Add Event" onclick="javascript: $('#TbEventDE').click();" />
+
+    <input type="button" class="btn btn-default" id="btnGetEvents" value="Refresh" data-bind="click: $root.eventListViewModel.getEventAsOf(ViewModel.AsOf())" />
+
+</div>
+
+<div class="col-md-4">
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h2 class="panel-title">Events As Of</h2>
+        </div>
+
+        <div class="panel-body" data-bind="with: eventListViewModel">
+
+            <table class="table table-striped table-bordered table-condensed">
+                <thead>
+                    <tr>
+                        <th>Items</th>
+                        <th>Event</th>
+                        <th>Event Date</th>
+                        <th>CheckOut</th>
+                        <th>CheckIn</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+
+                <tbody data-bind="foreach: events">
+                    <tr>
+                        <td>
+                            <input type="button"
+                                   data-bind="value: orderCount
+                                                    , css: available()==0 ? 'btn btn-success btn-xs': available()==1 ? 'Yellow':'btn btn-danger btn-xs'
+                                                    , click: $root.getOrders
+                                                    , attr: {title: orderCount() + ' event Items attached. Green, inventory available. Red, short inventory. Click to view/add deliverables.'}
+                                            " />
+                        </td>
+
+                        <td data-bind="text: eventName"></td>
+                        <td data-bind="text: moment(eventDate()).format('l')"></td>
+                        <td data-bind="text: moment(checkOut()).format('l')"></td>
+                        <td data-bind="text: moment(checkIn()).format('l')"></td>
+                        <td><input type="button" class="btn btn-danger btn-xs" value=" [x] " data-bind="click: $parent.removeEvent" /></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</div>

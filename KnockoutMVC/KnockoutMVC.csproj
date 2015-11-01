@@ -271,7 +271,7 @@
     <Content Include="JQueryUI\jqte\license\MIT-LICENSE.txt" />
     <Content Include="KnockoutModels\TruckListViewModel.js" />
     <Content Include="KnockoutModels\InventoryViewModel.js" />
-    <Content Include="KnockoutModels\zLoadListViewModel.js" />
+    <Content Include="KnockoutModels\LoadListViewModel.js" />
     <Content Include="KnockoutModels\DetailViewModel.js" />
     <Content Include="KnockoutModels\EventViewModel.js" />
     <Content Include="LoaneBros - Copy.html" />

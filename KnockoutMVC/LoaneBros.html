@@ -8,7 +8,7 @@
     <script src="Scripts/moment.js"></script>
     <script src="Scripts/jquery.maskedinput.js"></script>
 
-    <script src="KnockoutModels/zLoadListViewModel.js"></script>
+    <script src="KnockoutModels/LoadListViewModel.js"></script>
     <script src="KnockoutModels/InventoryViewModel.js"></script>
     <script src="KnockoutModels/DetailViewModel.js"></script>
     <script src="KnockoutModels/EventViewModel.js"></script>
@@ -49,7 +49,7 @@
 
 
             <!-- Event List -->
-            <div id="tabs-1"></div>
+            <div id="tabs-1" data-bind="with: eventListViewModel"></div>
 
             <!-- Details -->
             <div id="tabs-2" data-bind="with: ViewModel.oEvent"></div>
@@ -58,14 +58,13 @@
             <div id="tabs-3"></div>
 
             <!-- Inventory -->
-            <div id="tabs-6"></div>
+            <div id="tabs-6" data-bind="with: inventoryViewModel"></div>
 
             <!-- Load List -->
             <div id="tabs-5" data-bind="with: loadListViewModel"></div>
 
             <!-- Truck List -->
             <div id="tabs-7" data-bind="with: truckViewModel"></div>
-
 
         </div>
 
@@ -155,7 +154,7 @@
                 ko.bindingHandlers.jqEditor = {
                     init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
                         $(element).jqte({
-                            blur: function () {
+                             blur: function () {
                                 //alert("The editor is blured");
                                 alert($("div.jqte_editor").html());
                                 $(element).val($("div.jqte_editor").html());
@@ -234,8 +233,6 @@
                 ViewModel.EventName("Loane Brothers");
 
                 ViewModel.eventListViewModel.getEventAsOf(ViewModel.AsOf());
-
-                // $('.jqte-test').jqte();
 
                 $("#TbEvent").click();
 

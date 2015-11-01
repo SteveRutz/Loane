@@ -12,44 +12,46 @@ namespace KnockoutMVC.Controllers
     /// Student Api controller
     /// </summary>
     /// 
-
+   [RoutePrefix("api/truck")]
     public class TruckListController : ApiController
     {
 
         // GET api/student
         
         //public IEnumerable<SQLiteNHibernate.NHib.Entities.Customer> Get()
-        
+        [Route("getTruckList")]
         public string[] Get()
         {
             //return new SQLiteNHibernate.NHib.DataAccess().GetCustomers();
            return TruckListRepository.GetTruckList();
         }
-        
-        // GET api/student/5
-        public IEnumerable<order> Get(int id)
+
+       [HttpPost]
+        [Route("addTruck")]
+        public HttpResponseMessage addTruck(string truckName)
         {
-
-
-            IEnumerable<order> ord = DetailsRepository.GetDetail(id);
-
-            //IList<order> ord = DetailsRepository.GetDetails(evt);
-
-            foreach (order o in ord)
+            try
             {
-                o.orderEvent = null;
+                TruckListRepository.AddTruck(truckName);
+                var response = Request.CreateResponse(HttpStatusCode.OK, truckName);
+                return response;
             }
-
-            return ord;
+            catch (Exception Ex)
+            {
+                var response = Request.CreateResponse(HttpStatusCode.InternalServerError, "addTruck: " + Ex.Message + Ex.InnerException);
+                return response;
+            }
 
         }
 
 
         // DELETE api/student/5
-        public HttpResponseMessage Delete(int id)
+       [HttpPost]
+        [Route("remove")]
+        public HttpResponseMessage remove(string Truck)
         {
             //DetailsRepository.DeleteOrder(id);
-            var response = Request.CreateResponse(HttpStatusCode.OK, id);
+            var response = Request.CreateResponse(HttpStatusCode.OK, Truck);
             return response;
         }
     }

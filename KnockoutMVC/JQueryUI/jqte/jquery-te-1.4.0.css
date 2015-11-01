@@ -405,7 +405,7 @@
 	font-size:15px;
 	overflow:hidden !important;
 	outline:none;
-	resize:none;
+	resize:both;
 }
 .jqte_source textarea, .jqte_source textarea:focus {
 	css_shadow:none !important;

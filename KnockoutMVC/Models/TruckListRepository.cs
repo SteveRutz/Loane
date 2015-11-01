@@ -48,36 +48,7 @@ namespace KnockoutMVC
             
         }
 
-        static public void save (int EventId, order newOrder)
-        {
-
-            // create our NHibernate session factory
-            var sessionFactory = FluentNHibernate.CreateSessionFactory();
-
-            using (var session = sessionFactory.OpenSession())
-            {
-                // retreive all stores and display them
-                using (session.BeginTransaction())
-                {
-
-                        events evt = session.Load<events>(EventId);
-
-                         evt.addOrder(newOrder);
-
-                         session.SaveOrUpdate(evt);
-
-                         session.Transaction.Commit();
-
-                         newOrder.orderEvent = null; 
-
-                }
-
-            }
-
-        }
-
-
-        internal static void DeleteOrder(int id)
+        internal static void AddTruck(string Name)
         {
             // create our NHibernate session factory
             var sessionFactory = FluentNHibernate.CreateSessionFactory();
@@ -88,9 +59,32 @@ namespace KnockoutMVC
                 // retreive all stores and display them
                 using (var transaction = session.BeginTransaction())
                 {
-                    var queryString = string.Format("delete {0} where id = :id", typeof(order));
+                    truck Truck = new truck();
+                    Truck.name = Name;
+
+                    session.Save(Truck);
+
+                    transaction.Commit();
+
+                }
+
+            }
+        }
+
+        internal static void DeleteTruck(string Name)
+        {
+            // create our NHibernate session factory
+            var sessionFactory = FluentNHibernate.CreateSessionFactory();
+
+            using (var session = sessionFactory.OpenSession())
+            {
+
+                // retreive all stores and display them
+                using (var transaction = session.BeginTransaction())
+                {
+                    var queryString = string.Format("delete {0} where name = :name", typeof(truck));
                     session.CreateQuery(queryString)
-                           .SetParameter("id", id)
+                           .SetParameter("name", Name)
                            .ExecuteUpdate();
 
                     transaction.Commit();

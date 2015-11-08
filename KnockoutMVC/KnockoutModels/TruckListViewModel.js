@@ -16,53 +16,6 @@ function TruckList() {
 
     self.myTruck = Truck("Truck Name");
 
-    self.removeTruck = function (truck) {
-
-        var dataObject = ko.toJSON(truck);
-
-        $.ajax({
-            url: (path + 'api/truck/remove'),
-            type: 'post',
-            data: dataObject,
-            contentType: 'application/json',
-            success: function (value) {
-
-                self.Trucks.remove(truck);
-
-            }
-
-, error: function (jqXHR, exception) { errorFunction(jqXHR, exception); }
-
-        });
-
-
-        
-
-    };
-
-   self.addTruck = function () {
-
-       var dataObject = ko.toJSON(self.myTruck);
-
-       $.ajax({
-           url: (path + 'api/truck'),
-           type: 'post',
-           data: dataObject,
-           contentType: 'application/json',
-           success: function (value) {
-
-               self.Trucks.push(value);
-
-           }
-
-    , error: function (jqXHR, exception) { errorFunction(jqXHR, exception); }
-
-       });
-        
-   };
-
-
-
     // observable arrays are update binding elements upon array changes
     self.Trucks = ko.observableArray([]);
 
@@ -73,17 +26,13 @@ function TruckList() {
         $('body').css('cursor', 'wait');
 
         // retrieve students list from server side and push each object to model's students list
-            $.getJSON(path + 'api/truck/getTruckList', function (data) {
+            $.getJSON(path + 'api/trucklist/getTruckList', function (data) {
 
-                $.each(data, function (key, value) {
+                $.each(data, function (idx, value) { self.Trucks.push(new Truck(value)); });
+                        
+                                        $('body').css('cursor', 'default');
     
-                    self.Trucks.push(new Truck(value));
-                    
-                })
-    
-                $('body').css('cursor', 'default');
-    
-            }
+                               }
             )
                    /*   .done(function () {
     
@@ -98,6 +47,55 @@ function TruckList() {
                  // alert("finished");
     
               });
+
+            self.addTruck = function () {
+
+                $.ajax({
+                    url: path + 'api/truck/'+self.myTruck+'/add'
+                    , method: "post"
+                    , cache: false
+                    , async: "true"
+                    , success: function (value) {
+
+                           // alert(value);
+                            self.Trucks.push(new Truck(value));
+
+                        }
+                    , error: function (jqXHR, exception) { errorFunction(jqXHR, exception); }
+                });
+
+            }
+
+            self.removeTruck = function (truck) {
+
+                var dataObject = ko.toJSON(truck);
+
+                $.ajax({
+                    url: path + 'api/truck/' + JSON.parse(dataObject).truck + '/delete',
+                    type: 'post',
+                    data: dataObject,
+                    contentType: 'application/json',
+                    success: function (value) {
+
+                        self.Trucks.remove(truck);
+
+                    }
+
+                   , error: function (jqXHR, exception) { errorFunction(jqXHR, exception); }
+
+                });
+
+
+
+
+            };
+
                   
 }
+
+
+
+
+
+
 

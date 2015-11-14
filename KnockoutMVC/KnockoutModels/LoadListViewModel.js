@@ -29,6 +29,38 @@ function LoadList() {
 
     self.firstRecord = ko.observable(new TruckLoad('', '', '', '', '', ''));
 
+    self.getEventLoad = function (event) {
+
+        self.Load.removeAll();
+
+        dataObject = ko.toJSON(event);
+
+        $.ajax({
+            url: (path + 'api/loadlist/event'),
+            type: 'post',
+            data: dataObject,
+            contentType: 'application/json',
+            success: function (data) {
+
+                //alert(data);
+
+                $.each(data, function (key, value) {
+                    self.Load.push(new TruckLoad(value.truck, value.eventName, new Date(value.eventDate).toLocaleDateString(), value.checkOut, value.Avl, value.component, value.LoadQty));
+
+                });
+
+                try {
+                    self.firstRecord(self.Load()[1]);
+                }
+                catch (e) { }
+
+            }
+            , error: function (jqXHR, exception) { errorFunction(jqXHR, exception); }
+
+        });
+
+    };
+
     self.getLoad = function (detail){
 
         try{

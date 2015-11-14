@@ -43,6 +43,7 @@
                 <li data-bind="visible: ViewModel.loadListViewModel.Load().length > 0 "><a id="TbLoadList" href="#tabs-5">LoadList</a></li>
                 <li data-bind="visible: ViewModel.inventoryViewModel.Inventory().length > 0 "><a id="TbInventory" href="#tabs-6">Inventory</a></li>
                 <li><a id="TbTruck" href="#tabs-7">Trucks</a></li>
+                <li data-bind="visible: ViewModel.oEvent()!=null "><a id="TbTruck" href="#tabs-8">Print</a></li>
 
                 <!-- <li data-bind="visible: ViewModel.EventName()!=null"><a id="TbDetailDE" href="#tabs-4">addItem</a></li>  -->
             </ul>
@@ -65,6 +66,9 @@
 
             <!-- Truck List -->
             <div id="tabs-7" data-bind="with: truckViewModel"></div>
+
+            <!-- Print Event -->
+            <div id="tabs-8" data-bind="with: ViewModel.oEvent"></div>
 
         </div>
 
@@ -100,9 +104,14 @@
                 $('#tabs-5').html(htm);
                 $.get("htmTruckList.html", "", function (htm) { tTruckList(htm); }, "html");
             }
-            
+
             function tTruckList(htm) {
                 $('#tabs-7').html(htm);
+                $.get("htmPrintOut.html", "", function (htm) { tPrintOut(htm); }, "html");
+            }
+            
+            function tPrintOut(htm) {
+                $('#tabs-8').html(htm);
                 applyModel();
             }
 
@@ -220,6 +229,7 @@
                     // ViewModel.addDetailViewModel.orderQty(1);
                     //ViewModel.detailListViewModel.getDetails(Event.Id());
                     ViewModel.detailListViewModel.getDetails(Event);
+                    ViewModel.loadListViewModel.getEventLoad(Event);
 
                     $("div.jqte_editor").html(Event.comments());
 

@@ -231,6 +231,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="htmAddEvent.html" />
+    <Content Include="htmPrintOut.html" />
     <Content Include="htmTruckList.html" />
     <Content Include="htmDetails.html" />
     <Content Include="htmEventList.html" />
@@ -269,12 +270,12 @@
     <Content Include="JQueryUI\jqte\jquery-te.png" />
     <Content Include="JQueryUI\jqte\license\AUTHOR.txt" />
     <Content Include="JQueryUI\jqte\license\MIT-LICENSE.txt" />
+    <Content Include="KnockoutModels\BOMViewModel.js" />
     <Content Include="KnockoutModels\TruckListViewModel.js" />
     <Content Include="KnockoutModels\InventoryViewModel.js" />
     <Content Include="KnockoutModels\LoadListViewModel.js" />
     <Content Include="KnockoutModels\DetailViewModel.js" />
     <Content Include="KnockoutModels\EventViewModel.js" />
-    <Content Include="LoaneBros - Copy.html" />
     <Content Include="LoaneBros.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

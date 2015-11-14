@@ -19,19 +19,19 @@ namespace KnockoutMVC.Controllers
         // GET api/student
         
         //public IEnumerable<SQLiteNHibernate.NHib.Entities.Customer> Get()
-        [Route("getTruckList")]
-        public string[] Get()
+        [HttpGet]
+        public string[] getTruckList()
         {
             //return new SQLiteNHibernate.NHib.DataAccess().GetCustomers();
            return TruckListRepository.GetTruckList();
         }
 
-       [HttpPost]
-        [Route("addTruck")]
-        public HttpResponseMessage addTruck(string truckName)
+        [HttpPost]
+        public HttpResponseMessage zaddTruck([FromBody] string truckName )
         {
             try
             {
+                //string truckName = "";
                 TruckListRepository.AddTruck(truckName);
                 var response = Request.CreateResponse(HttpStatusCode.OK, truckName);
                 return response;
@@ -47,12 +47,23 @@ namespace KnockoutMVC.Controllers
 
         // DELETE api/student/5
        [HttpPost]
-        [Route("remove")]
-        public HttpResponseMessage remove(string Truck)
+       [Route("{Truck}/{type}")]
+        public HttpResponseMessage Post(string Truck, string type)
         {
-            //DetailsRepository.DeleteOrder(id);
-            var response = Request.CreateResponse(HttpStatusCode.OK, Truck);
-            return response;
+            try
+            {
+
+                if(type=="add"){TruckListRepository.AddTruck(Truck);}
+                else if (type == "delete") { TruckListRepository.DeleteTruck(Truck); }
+                
+                var response = Request.CreateResponse(HttpStatusCode.OK, Truck);
+                return response;
+            }
+            catch (Exception Ex)
+            {
+                var response = Request.CreateResponse(HttpStatusCode.InternalServerError, "addTruck: " + Ex.Message + Ex.InnerException);
+                return response;
+            }
         }
     }
 }

@@ -56,6 +56,14 @@ namespace KnockoutMVC.Controllers
 
         }
 
+        [Route("{event}")]
+        public IList<loadlist> Post(events evt)
+        {
+
+            return LoadListRepository.GetLoadList(evt);
+
+        }
+
 
         // DELETE api/student/5
         public HttpResponseMessage Delete(int id)

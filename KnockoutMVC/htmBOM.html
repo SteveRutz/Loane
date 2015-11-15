@@ -1,0 +1,52 @@
+﻿<div class="col-md-8">
+    <div class="panel panel-info">
+
+        <div class="panel-heading">
+            <h2 class="panel-title">Bill-Of-Material</h2>
+        </div>
+
+        <div class="panel-body">
+
+            <input type="button" class="btn btn-default" value="Save Changes" data-bind="click: $root.bomViewModel.saveBOM" />
+
+            <!--<input type="button" class="btn btn-default" value="Add Item" data-bind="click: $root.inventoryViewModel.addInventoryItem('top')" />-->
+
+            <table id="TableBOM" class="table table-bordered table-condensed">
+                <thead>
+
+                    <tr>
+                        <th>Id</th>
+                        <th>Master</th>
+                        <th>Part</th>
+                        <th>Qty</th>
+                    </tr>
+
+                </thead>
+
+                <tbody data-bind="foreach: BOM">
+                    <tr>
+
+                        <td data-bind="text: id"/>              
+
+                        <td>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" data-bind="value: master" />
+                            </div>
+                        </td>
+                        <td>
+                               <input type="text" class="form-control" data-bind="value: part" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control col-xs-4" data-bind="value: qty" />
+                        </td>
+                        <td><input type="button" class="btn btn-danger btn-xs" value=" [x] " data-bind="click: $parent.removePart" /></td>
+
+                    </tr>
+                </tbody>
+            </table>
+
+            <input type="button" class="btn btn-default" value="Save Changes" data-bind="click: $root.bomViewModel.saveBOM" />
+            <input type="button" class="btn btn-default" value="Add Item" data-bind="click: $root.bomViewModel.addPart" />
+        </div>
+    </div>
+</div>

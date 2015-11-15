@@ -190,6 +190,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\BOMController.cs" />
     <Compile Include="Controllers\InventoryItemController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\TruckListController.cs" />
@@ -201,6 +202,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\InventoryAvailability.cs" />
+    <Compile Include="Models\bomRepository.cs" />
     <Compile Include="Models\InventoryRepository.cs" />
     <Compile Include="Models\TruckListRepository.cs" />
     <Compile Include="Models\ItemListRepository.cs" />
@@ -231,6 +233,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="htmAddEvent.html" />
+    <Content Include="htmBOM.html" />
     <Content Include="htmPrintOut.html" />
     <Content Include="htmTruckList.html" />
     <Content Include="htmDetails.html" />

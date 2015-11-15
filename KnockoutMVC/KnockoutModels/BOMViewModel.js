@@ -1,39 +1,39 @@
 ﻿
 // use as register views view model
-function Item(id, master, item, qty) {
+function Part(Id, Master, Part, Qty) {
     var self = this;
 
     // observable are update elements upon changes, also update on element data changes [two way binding]
 
-    self.id = ko.observable(id);
-    self.master = ko.observable(master);
-    self.item = ko.observable(item);
-    self.qty = ko.observable(qty);
+    self.id = ko.observable(Id);
+    self.master = ko.observable(Master);
+    self.part = ko.observable(Part);
+    self.qty = ko.observable(Qty);
 
 }
 
 
 // use as list view's view model
-function InventoryList() {
+function PartList() {
 
     var self = this;
 
     // observable arrays are update binding elements upon array changes
-    self.Inventory = ko.observableArray([]);
+    self.BOM = ko.observableArray([]);
 
-    self.getInventory = function () {
+    self.getBOM = function () {
 
-        self.Inventory.removeAll();
+        self.BOM.removeAll();
 
-        $("#TbInventory").click();
+        $("#tbBOM").click();
 
         $('body').css('cursor', 'wait');
 
         // retrieve students list from server side and push each object to model's students list
-        $.getJSON(path + 'api/inventory', function (data) {
+        $.getJSON(path + 'api/bom', function (data) {
             $.each(data, function (key, value) {
 
-                self.Inventory.push(new Item(value.id, value.master, value.item, value.qty));
+                self.BOM.push(new Part(value.id, value.item, value.component, value.qty));
                 
             })
 
@@ -43,12 +43,12 @@ function InventoryList() {
         );
     };
 
-    self.saveInventory = function () {
+    self.saveBOM = function () {
 
         var dataObject = ko.toJSON(self.Inventory);
 
         $.ajax({
-            url: (path + 'api/inventory'),
+            url: (path + 'api/bom'),
             type: 'post',
             data: dataObject,
             contentType: 'application/json',
@@ -63,8 +63,6 @@ function InventoryList() {
                 */
                 alert(data);
 
-                
-
                 $("#TbDetailDE").click();
 
             }
@@ -75,18 +73,18 @@ function InventoryList() {
 
     };
 
-    self.addInventoryItem = function () {
+    self.addPart = function () {
 
-        var dataObject = ko.toJSON(new Item(0, false, "Added Item", 0));
+        var dataObject = ko.toJSON(new Part(0, "Master Item", "Component Part", 0));
 
         $.ajax({
-            url: (path + 'api/inventoryitem'),
+            url: (path + 'api/BOM'),
             type: 'post',
             data: dataObject,
             contentType: 'application/json',
             success: function (value) {
 
-                 self.Inventory.push(new Item(value.id, value.master, value.item, value.qty));
+                 self.BOM.push(new Item(value.id, value.master, value.item, value.qty));
 
             }
 
@@ -99,7 +97,7 @@ function InventoryList() {
     };
 
     // remove Event
-    self.removeInventoryItem = function (Item) {
+    self.removePart = function (Item) {
 
         var txt;
         var r = confirm("Ok to delete '"+ Item.item() + ", qty: " + Item.qty() + "'?");
@@ -115,11 +113,11 @@ function InventoryList() {
         }
 
         $.ajax({
-            url: (path + 'api/inventory/' + Item.id()),
+            url: (path + 'api/bom/' + Item.id() + '/delete'),
             type: 'get', //'delete'
             contentType: 'application/json',
             success: function () {
-                self.Inventory.remove(Item);
+                self.BOM.remove(Item);
             }
 
            , error: function (jqXHR, exception) { errorFunction(jqXHR, exception); }

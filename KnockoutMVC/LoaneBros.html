@@ -13,6 +13,7 @@
     <script src="KnockoutModels/DetailViewModel.js"></script>
     <script src="KnockoutModels/EventViewModel.js"></script>
     <script src="KnockoutModels/TruckListViewModel.js"></script>
+    <script src="KnockoutModels/BOMViewModel.js"></script>
 
     <link href="Content/Site.css" rel="stylesheet" />
     <link href="Content/bootstrap.css" rel="stylesheet" />
@@ -38,12 +39,13 @@
                 <li data-bind="visible: ViewModel.oEvent()!=null ">
                     <a id="TbDetail" href="#tabs-2">Items/Event</a>               
                 </li>
+                <li data-bind="visible: ViewModel.oEvent()!=null "><a id="TbTruck" href="#tabs-8">Print</a></li>
                 <li><a id="TbEventDE" href="#tabs-3">addEvent</a></li>
 
                 <li data-bind="visible: ViewModel.loadListViewModel.Load().length > 0 "><a id="TbLoadList" href="#tabs-5">LoadList</a></li>
                 <li data-bind="visible: ViewModel.inventoryViewModel.Inventory().length > 0 "><a id="TbInventory" href="#tabs-6">Inventory</a></li>
                 <li><a id="TbTruck" href="#tabs-7">Trucks</a></li>
-                <li data-bind="visible: ViewModel.oEvent()!=null "><a id="TbTruck" href="#tabs-8">Print</a></li>
+                <li><a id="tbBOM" href="#tabs-9">BOM</a></li>
 
                 <!-- <li data-bind="visible: ViewModel.EventName()!=null"><a id="TbDetailDE" href="#tabs-4">addItem</a></li>  -->
             </ul>
@@ -69,6 +71,9 @@
 
             <!-- Print Event -->
             <div id="tabs-8" data-bind="with: ViewModel.oEvent"></div>
+
+            <!-- BOMs -->
+            <div id="tabs-9" data-bind="with: bomViewModel"></div>
 
         </div>
 
@@ -109,9 +114,14 @@
                 $('#tabs-7').html(htm);
                 $.get("htmPrintOut.html", "", function (htm) { tPrintOut(htm); }, "html");
             }
-            
+
             function tPrintOut(htm) {
                 $('#tabs-8').html(htm);
+                $.get("htmBOM.html", "", function (htm) { tBOM(htm); }, "html");
+            }
+            
+            function tBOM(htm) {
+                $('#tabs-9').html(htm);
                 applyModel();
             }
 
@@ -212,6 +222,7 @@
                  , loadListViewModel: new LoadList()
                  , inventoryViewModel: new InventoryList()
                  , truckViewModel: new TruckList()
+                 , bomViewModel: new PartList()
 
                 }
 
@@ -243,6 +254,8 @@
                 ViewModel.EventName("Loane Brothers");
 
                 ViewModel.eventListViewModel.getEventAsOf(ViewModel.AsOf());
+
+               // ViewModel.bomViewModel.getBOM();
 
                 $("#TbEvent").click();
 

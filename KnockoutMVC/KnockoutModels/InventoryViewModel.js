@@ -1,6 +1,6 @@
 ﻿
 // use as register views view model
-function Item(id, master, item, qty) {
+function Item(id, master, item, qty, bomQty) {
     var self = this;
 
     // observable are update elements upon changes, also update on element data changes [two way binding]
@@ -9,19 +9,38 @@ function Item(id, master, item, qty) {
     self.master = ko.observable(master);
     self.item = ko.observable(item);
     self.qty = ko.observable(qty);
-
+    self.bomQty = ko.observable(bomQty)
 }
-
 
 // use as list view's view model
 function InventoryList() {
 
     var self = this;
 
+    self.MasterItems = ko.observableArray([]);
+
+    self.bomMaster = ko.observable();
+
+    self.bomMaster.subscribe(function (data) {
+        alert(data);
+        //console.log(data);
+        self.getInventory(data);
+    });
+
+    $.getJSON(path + 'api/bom', function (data) {
+        $.each(data, function (key, value) {
+
+            self.MasterItems.push(value.item);
+
+        })
+
+        $('body').css('cursor', 'default');
+    });
+
     // observable arrays are update binding elements upon array changes
     self.Inventory = ko.observableArray([]);
 
-    self.getInventory = function () {
+    self.getInventory = function (masterItem) {
 
         self.Inventory.removeAll();
 
@@ -29,26 +48,29 @@ function InventoryList() {
 
         $('body').css('cursor', 'wait');
 
+        var myPath = path + 'api/inventory';
+        if (masterItem[0] != null) { myPath = myPath + "/" + masterItem; }
+
         // retrieve students list from server side and push each object to model's students list
-        $.getJSON(path + 'api/inventory', function (data) {
+        $.getJSON(myPath, dataObject, function (data) {
             $.each(data, function (key, value) {
 
-                self.Inventory.push(new Item(value.id, value.master, value.item, value.qty));
+                    self.Inventory.push(new Item(value.id, value.master, value.item, value.qty, value.bomQty));
                 
-            })
+                })
 
-            $('body').css('cursor', 'default');
+                $('body').css('cursor', 'default');
 
-        }
-        );
+            });
     };
 
     self.saveInventory = function () {
 
         var dataObject = ko.toJSON(self.Inventory);
+        var MasterItem = self.MasterItems().valueOf();
 
         $.ajax({
-            url: (path + 'api/inventory'),
+            url: (path + 'api/inventory/'+ MasterItem[0]),
             type: 'post',
             data: dataObject,
             contentType: 'application/json',
@@ -86,7 +108,7 @@ function InventoryList() {
             contentType: 'application/json',
             success: function (value) {
 
-                 self.Inventory.push(new Item(value.id, value.master, value.item, value.qty));
+                 self.Inventory.push(new Item(value.id, value.master, value.item, value.qty, 0));
 
             }
 

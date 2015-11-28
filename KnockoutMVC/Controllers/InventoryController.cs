@@ -22,7 +22,14 @@ namespace KnockoutMVC.Controllers
 
             //System.Web.Script.Serialization.JavaScriptSerializer JSS = new System.Web.Script.Serialization.JavaScriptSerializer();
             IList<inventory> Inventory = InventoryRepository.GetInventory();
+            return Inventory;
+        }
 
+        [Route("{masterItem}")]
+        public IEnumerable<inventory> Get(string masterItem)
+        {
+            //System.Web.Script.Serialization.JavaScriptSerializer JSS = new System.Web.Script.Serialization.JavaScriptSerializer();
+            IList<inventory> Inventory = InventoryRepository.GetInventory(masterItem);
             return Inventory;
         }
 
@@ -39,10 +46,11 @@ namespace KnockoutMVC.Controllers
         }
 
         // POST api/inventory
-        public HttpResponseMessage Post(List<inventory> Inventory)
+        [Route("{masterItem}")]
+        public HttpResponseMessage Post(List<inventory> Inventory, string masterItem)
         {
 
-            string msg = InventoryRepository.saveAll(Inventory);
+            string msg = InventoryRepository.saveAll(Inventory, masterItem);
             var response = Request.CreateResponse(HttpStatusCode.Created, msg);
             string url = Url.Link("DefaultApi",new{msg});
             response.Headers.Location = new Uri(url);

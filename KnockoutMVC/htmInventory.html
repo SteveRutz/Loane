@@ -1,4 +1,4 @@
-﻿<div class="col-md-8">
+﻿<div class="col-md-6">
     <div class="panel panel-info">
 
         <div class="panel-heading">
@@ -7,17 +7,24 @@
 
         <div class="panel-body">
 
-            <input type="button" class="btn btn-default" value="Save Changes" data-bind="click: $root.inventoryViewModel.saveInventory" />
+            <div class="form-inline">
+                <input type="button" class="btn btn-default" value="Save Changes" data-bind="click: $root.inventoryViewModel.saveInventory" />
 
+                <select id="selOrderItem" class="form-control" 
+                        data-bind="options: MasterItems, value: bomMaster, optionsCaption: '-- Order Item BOM -- '"></select>
+            </div>
             <!--<input type="button" class="btn btn-default" value="Add Item" data-bind="click: $root.inventoryViewModel.addInventoryItem('top')" />-->
 
             <table id="TableInventory" class="table table-bordered table-condensed">
                 <thead>
 
                     <tr>
-
+                        <th>Order<br/>Item</th>
                         <th>Item</th>
                         <th>Qty</th>
+                        <th>BOM<br/>Qty</th>
+                        <th>BOM</th>
+                        <th><input type="button" class="btn btn-danger btn-xs" value=" [x] "/></th>
                     </tr>
 
                 </thead>
@@ -32,16 +39,23 @@
                             <input type="text" class="form-control col-md-4" data-bind="value: id" />
                         </td>
                             -->
+                        <td class="col-xs-1">
+                            <input type="checkbox" class="form-control col-xs-4" data-bind="checked: master" />
+                        </td>
 
-                        <td>
-                            <div class="col-lg-10">
-                                <input type="text" class="form-control" data-bind="value: item" />
-                            </div>
+                        <td class="col-lg-8">
+                            <input type="text" class="form-control" data-bind="value: item" />
                         </td>
-                        <td>
-                            <input type="text" class="form-control col-xs-4" data-bind="value: qty" />
+                        <td class="col-xs-1">
+                            <input type="text" class="form-control col-xs-2" data-bind="value: qty" />
                         </td>
-                        <td><input type="button" class="btn btn-danger btn-xs" value=" [x] " data-bind="click: $parent.removeInventoryItem" /></td>
+                        <td class="col-xs-1">
+                            <input type="text" class="form-control col-xs-2" data-bind="value: bomQty" />
+                        </td>
+                        <td class="col-xs-1">
+                            <input type="checkbox" class="form-control col-xs-2" data-bind="checked: bomQty" />
+                        </td>
+                        <td class="col-xs-1"><input type="button" class="btn btn-danger btn-xs" value=" [x] " data-bind="click: $parent.removeInventoryItem" /></td>
 
 
                         <!--

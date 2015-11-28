@@ -13,13 +13,70 @@ namespace KnockoutMVC
 {
     public class InventoryRepository
     {
-        /*
-        static public IList<order> GetItemList(int id)
+
+        static public IList<inventory> GetInventory(string masterItem)
+        {
+            SQLiteCommand cmd = new SQLiteCommand(new SQLiteConnection());
+
+            cmd.Connection.ConnectionString = string.Format("data source={0}", FluentNHibernate.DbFile);
+
+            cmd.CommandText = sql.bomList(masterItem.Replace("'", "''"));
+
+            cmd.Connection.Open();
+
+            SQLiteDataReader rdr = cmd.ExecuteReader();
+
+            IList<inventory> inv = new List<inventory>();
+
+            while (rdr.Read())
+            {
+                inv.Add(
+                    new inventory
+                    {
+                        id = Convert.ToInt32(rdr["id"].ToString())
+                       , item = rdr["item"].ToString()
+                       , master = Convert.ToBoolean(rdr["master"].ToString())
+                       , qty = Convert.ToInt32(rdr["qty"].ToString())
+                       , bomQty = Convert.ToInt32( rdr["bomQty"].ToString())
+                       
+                    });
+            }
+
+            return inv;
+        }
+/*
+        static public IList<inventory> GetInventory(string masterItem)
         {
 
-        }
-         */
+            // create our NHibernate session factory
+            var sessionFactory = FluentNHibernate.CreateSessionFactory();
 
+            using (var session = sessionFactory.OpenSession())
+            {
+                // retreive all stores and display them
+                using (session.BeginTransaction())
+                {
+
+                    IList<inventory> Inventory = session.CreateCriteria(typeof(inventory)).List<inventory>();
+
+                    IList<bom> bom = session.CreateCriteria(typeof(bom)).List<bom>();
+
+                    IList<bom> bomItems = bom.Where(x => x.item == masterItem).ToList();
+
+                    IList<inventory> rtnList = (from I in Inventory
+                            join b in bomItems on I.item equals b.component into tt
+                            from t in tt.DefaultIfEmpty()
+                            select new inventory {qty=I.qty, item=I.item, master=I.master, bomQty=(t.qty==null ? 0 : t.qty)}).ToList();
+
+                    return rtnList;
+
+                }
+
+            }
+
+
+        }
+*/
         static public IList<inventory> GetInventory()
         {
 
@@ -91,7 +148,7 @@ namespace KnockoutMVC
 
         }
 
-        static public string saveAll(List<inventory> Inventory)
+        static public string saveAll(List<inventory> Inventory, string masterItem)
         {
 
             // create our NHibernate session factory
@@ -101,15 +158,47 @@ namespace KnockoutMVC
             {
                 // retreive all stores and display them
                 try{
-
-                
+                    
                     using (session.BeginTransaction())
                     {
-                        foreach (inventory item in Inventory)
+                        IList<bom> BOM=null;
+                        if (masterItem != null)
                         {
-                            session.SaveOrUpdate(item);
+                            BOM = session.CreateCriteria(typeof(bom)).List<bom>();
+                            BOM = BOM.Where(x => x.item == masterItem).ToList();
                         }
 
+                        if(BOM!=null){
+
+                            foreach (inventory item in Inventory)
+                            {
+                                bom bomItem = BOM.Where(x => x.component == item.item).FirstOrDefault();
+                                if (bomItem == null && item.bomQty > 0)
+                                {
+                                    bomItem = new bom();
+                                    bomItem.component = item.item;
+                                    bomItem.qty = item.bomQty;
+                                    bomItem.item = masterItem;
+                                    session.Save(bomItem);
+                                }
+                                else if(item.bomQty>0)
+                                {
+                                    bomItem.qty = item.bomQty;
+                                    session.SaveOrUpdate(bomItem);
+                                }
+
+                                session.SaveOrUpdate(item);
+
+                            }
+
+                        }
+                        else
+                        {
+                            foreach (inventory item in Inventory)
+                            {
+                                session.SaveOrUpdate(item);
+                            }
+                        }
 
                         session.Transaction.Commit();
 

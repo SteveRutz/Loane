@@ -21,6 +21,7 @@ function Event(id, eventDate, checkOut, checkIn, eventName, available, comments,
     self.orderCount = ko.observable(self.orderList().length);
     
     self.removeDetail = function (order) {
+
         alert('removeDetail');
 
         $.ajax({

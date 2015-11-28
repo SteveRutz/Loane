@@ -8,6 +8,17 @@ namespace KnockoutMVC.NHib.Entities
     public static class sql
     {
 
+        public static string bomList(string masterItem)
+        {
+            System.Text.StringBuilder SB = new System.Text.StringBuilder();
+            SB.Append("select Inventory.id, Inventory.master, Inventory.item, Inventory.qty, ifnull(bom.qty, 0) As bomQty ");
+            SB.Append(" from inventory left join bom on bom.component = inventory.item ");
+            SB.Append(string.Format(" and bom.item = '{0}' ", masterItem));
+
+            return SB.ToString();
+
+        }
+
         public static string loadlistEvent(events evt)
         {
 

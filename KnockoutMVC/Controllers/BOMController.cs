@@ -17,13 +17,25 @@ namespace KnockoutMVC.Controllers
     public class BOMController : ApiController
     {
 
-        public IEnumerable<bom> Get()
+        public IEnumerable<inventory> Get()
         {
 
             //System.Web.Script.Serialization.JavaScriptSerializer JSS = new System.Web.Script.Serialization.JavaScriptSerializer();
-            IList<bom> bom = bomRepository.GetBOM();
+            IList<inventory> MasterItems = bomRepository.GetMasterItems();
 
-            return bom;
+            return MasterItems;
+        }
+
+        // Get List
+        [Route("{MasterItem}")]
+        public HttpResponseMessage Get(string MasterItem)
+        {
+            //Not able to get one record for delete.
+            //Could setup a delete controller or add method to string?
+            IList<bom> bom = bomRepository.GetBOM();
+            var response = Request.CreateResponse(HttpStatusCode.OK, bom);
+            return response;
+
         }
 
         // Deletes...

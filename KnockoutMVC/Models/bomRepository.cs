@@ -14,6 +14,29 @@ namespace KnockoutMVC
     public class bomRepository
     {
 
+        static public IList<inventory> GetMasterItems()
+        {
+
+            // create our NHibernate session factory
+            var sessionFactory = FluentNHibernate.CreateSessionFactory();
+
+            using (var session = sessionFactory.OpenSession())
+            {
+                // retreive all stores and display them
+                using (session.BeginTransaction())
+                {
+
+                    IList<inventory> BOM = session.CreateCriteria(typeof(inventory)).List<inventory>();
+
+                    return BOM.Where(x => x.master == true).ToList();
+
+                }
+
+            }
+
+
+        }
+
         static public IList<bom> GetBOM()
         {
 

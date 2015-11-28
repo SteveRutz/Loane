@@ -29,9 +29,11 @@
 </head>
 <body>
 
+    <!--
     <div data-bind="with: ViewModel.oEvent">
         <h2 class="panel-title" data-bind="text: 'Event: ' + eventName(), css:{color:'blue'}"></h2>
     </div>
+        -->
         <div id="myTabs" data-bind="tabs: true">
             <!--<ul class="nav nav-tabs" data-bind="tabs: true" id="myTabs">-->
             <ul>
@@ -223,7 +225,6 @@
                  , inventoryViewModel: new InventoryList()
                  , truckViewModel: new TruckList()
                  , bomViewModel: new PartList()
-
                 }
 
                 ViewModel.getOrders = function (Event) {
@@ -255,7 +256,7 @@
 
                 ViewModel.eventListViewModel.getEventAsOf(ViewModel.AsOf());
 
-               // ViewModel.bomViewModel.getBOM();
+                //ViewModel.bomViewModel.getBOM();
 
                 $("#TbEvent").click();
 

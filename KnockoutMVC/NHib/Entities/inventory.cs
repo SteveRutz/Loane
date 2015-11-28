@@ -12,6 +12,7 @@ namespace KnockoutMVC.NHib.Entities
         virtual public bool master { get; set; }
         virtual public string item { get; set; }
         virtual public int qty { get; set; }
+        virtual public int bomQty { get; set; }
 
     }
 }

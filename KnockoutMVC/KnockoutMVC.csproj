@@ -228,6 +228,10 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\plugins\dataTables\dataTables.bootstrap.css" />
+    <Content Include="Content\plugins\dataTables\dataTables.responsive.css" />
+    <Content Include="Content\plugins\dataTables\dataTables.tableTools.min.css" />
+    <Content Include="Content\plugins\dataTables\jquery.dataTables.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -305,6 +309,14 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\Plugins\dataTables\dataTables.bootstrap.js" />
+    <Content Include="Scripts\Plugins\dataTables\dataTables.responsive.js" />
+    <Content Include="Scripts\Plugins\dataTables\dataTables.tableTools.min.js" />
+    <Content Include="Scripts\Plugins\dataTables\jquery.dataTables.js" />
+    <Content Include="Scripts\Plugins\dataTables\jquery.dataTables.min.js" />
+    <Content Include="Scripts\Plugins\dataTables\swf\copy_csv_xls.swf" />
+    <Content Include="Scripts\Plugins\dataTables\swf\copy_csv_xls_pdf.swf" />
+    <Content Include="Scripts\Plugins\jeditable\jquery.jeditable.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />

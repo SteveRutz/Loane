@@ -17,14 +17,29 @@ function InventoryList() {
 
     var self = this;
 
+    // observable arrays are update binding elements upon array changes
+    self.Inventory = ko.observableArray([]);
+
+    self.filterOrderItem = ko.observable(false);
+    self.filterItem = ko.observable('');
+    self.filterInvQty = ko.observable();
+    self.filterBomQty = ko.observable(false);
+
     self.MasterItems = ko.observableArray([]);
 
     self.bomMaster = ko.observable();
 
     self.bomMaster.subscribe(function (data) {
-        alert(data);
-        //console.log(data);
-        self.getInventory(data);
+        //alert(data);
+        if (data == '-- Bills-Of-Material -- ') {
+            $('#lblbomQty').html("BOM");
+        }
+        else {
+            $('#lblbomQty').html(data);
+            //console.log(data);
+            self.getInventory(data);
+        }
+
     });
 
     $.getJSON(path + 'api/bom', function (data) {
@@ -37,9 +52,6 @@ function InventoryList() {
         $('body').css('cursor', 'default');
     });
 
-    // observable arrays are update binding elements upon array changes
-    self.Inventory = ko.observableArray([]);
-
     self.getInventory = function (masterItem) {
 
         self.Inventory.removeAll();
@@ -51,8 +63,7 @@ function InventoryList() {
         var myPath = path + 'api/inventory';
         if (masterItem[0] != null) { myPath = myPath + "/" + masterItem; }
 
-        // retrieve students list from server side and push each object to model's students list
-        $.getJSON(myPath, dataObject, function (data) {
+        $.getJSON(myPath, function (data) {
             $.each(data, function (key, value) {
 
                     self.Inventory.push(new Item(value.id, value.master, value.item, value.qty, value.bomQty));
@@ -61,7 +72,8 @@ function InventoryList() {
 
                 $('body').css('cursor', 'default');
 
-            });
+        });
+
     };
 
     self.saveInventory = function () {
@@ -148,6 +160,86 @@ function InventoryList() {
 
         });
     };
+    
+    self.headers = [
+    { title: 'Order<br/>Item', sortPropertyName: 'master', asc: true, active: false },
+    { title: 'Item', sortPropertyName: 'item', asc: false, active: true },
+    { title: 'Inv<br/>Qty', sortPropertyName: 'qty', asc: true, active: false },
+    { title: "<span id='lblbomQty' /><br/>Qty", sortPropertyName: 'bomQty', asc: true, active: false },
+    {
+        title: '<input type="button" class="btn btn-danger btn-xs" value=" [x] " />'
+        , sortPropertyName: 'NA'
+        , asc: true, active: false
+    }
+    ];
+
+    //self.activeSort = ko.observable('item'); //set the default sort
+    self.activeSort = ko.observable(function () { return 0; });
+   // self.ascending = ko.observable(true);
+    self.sort = function (header, event) {
+        //if this header was just clicked a second time
+        if (header.active) {
+            header.asc = !header.asc; //toggle the direction of the sort
+        }
+        //make sure all other headers are set to inactive
+        ko.utils.arrayForEach(self.headers, function (item) { item.active = false; });
+        //the header that was just clicked is now active
+        header.active = true;//our now-active header
+
+        var prop = header.sortPropertyName;
+        
+        if (prop == "NA") { return;}
+
+        var ascSort = function (a, b) {
+           // alert(a[prop] < b[prop]); alert(a[prop] > b[prop]);
+            //if (a[prop] < b[prop] ? -1 : a[prop] > b[prop] ? 1 : a[prop] == b[prop] ? 0 : 0 != 0) { alert("ascSort: " + prop);}
+            return a[prop]() < b[prop]() ? -1 : a[prop]() > b[prop]() ? 1 : a[prop]() == b[prop]() ? 0 : 0;
+        };
+        var descSort = function (a, b) {
+           // if (a[prop] < b[prop] ? -1 : a[prop] > b[prop] ? 1 : a[prop] == b[prop] ? 0 : 0 != 0) { alert("descSort: " + prop); }
+            return a[prop]() > b[prop]() ? -1 : a[prop]() < b[prop]() ? 1 : a[prop]() == b[prop]() ? 0 : 0;
+        };
+        var sortFunc = header.asc ? ascSort : descSort;
+
+        self.activeSort(sortFunc);
+
+        //store the new active sort function
+        //self.activeSort(prop);
+        //self.ascending(header.asc);
+    };
+
+    self.filteredInventory = ko.computed(function () {
+
+        return ko.utils.arrayFilter(self.Inventory(), function (rec) {
+            return (
+                
+                      (self.filterOrderItem == null || self.filterOrderItem() == false || self.filterOrderItem() == rec.master())
+                        &&
+                      (self.filterItem().length == 0 ||
+                            rec.item().toLowerCase().indexOf(self.filterItem().toLowerCase()) > -1)
+                        &&
+                      (self.filterInvQty() == null || self.filterInvQty()=="" || self.filterInvQty() == rec.qty())
+                        && 
+                      (self.filterBomQty() == null || self.filterBomQty() == false || self.filterBomQty() == (rec.bomQty() > 0) )
+                       &&
+                      (self.activeSort() != null) 
+                   )
+        }).sort(self.activeSort()
+        /*
+            function (a, b) {
+            if (a[self.activeSort()] == b[self.activeSort()]) { return 0; }
+            if (self.ascending()) {
+                return a[self.activeSort()] < b[self.activeSort()] ? -1 : 1;
+            }
+            else {
+                return a[self.activeSort()] > b[self.activeSort()] ? -1 : 1;
+            }
+            
+        }*/
+        //function (a, b) { return a.item() > b.item() ? -1 : 1; }
+        );
+
+    });
 
 }
 

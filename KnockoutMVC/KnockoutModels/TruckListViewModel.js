@@ -19,34 +19,42 @@ function TruckList() {
     // observable arrays are update binding elements upon array changes
     self.Trucks = ko.observableArray([]);
 
+    self.clearTrucks = function () {
         self.Trucks.removeAll();
+    }
 
-        $("#TbTrucks").click();
+    this.getTrucks = function () {
 
-        $('body').css('cursor', 'wait');
+        
 
-        // retrieve students list from server side and push each object to model's students list
+            $('body').css('cursor', 'wait');
+
+            // retrieve students list from server side and push each object to model's students list
             $.getJSON(path + 'api/trucklist/getTruckList', function (data) {
 
                 $.each(data, function (idx, value) { self.Trucks.push(new Truck(value)); });
-                        
-                                        $('body').css('cursor', 'default');
-    
-                               }
+                
+                $('body').css('cursor', 'default');
+                
+
+            }
             )
                    /*   .done(function () {
     
                           alert("second success");
     
                       })*/
-    
+
               .fail(function (jqXHR, exception) { errorFunction(jqXHR, exception); })
-    
+
               .always(function () {
-    
-                 // alert("finished");
-    
+                  
+                  $('body').css('cursor', 'default');
+                  
+
               });
+
+        }
 
             self.addTruck = function () {
 

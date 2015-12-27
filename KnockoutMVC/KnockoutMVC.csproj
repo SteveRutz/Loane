@@ -226,6 +226,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="htmAdmin.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\plugins\dataTables\dataTables.bootstrap.css" />
@@ -277,6 +278,7 @@
     <Content Include="JQueryUI\jqte\jquery-te.png" />
     <Content Include="JQueryUI\jqte\license\AUTHOR.txt" />
     <Content Include="JQueryUI\jqte\license\MIT-LICENSE.txt" />
+    <Content Include="KnockoutModels\AdminViewModel.js" />
     <Content Include="KnockoutModels\BOMViewModel.js" />
     <Content Include="KnockoutModels\TruckListViewModel.js" />
     <Content Include="KnockoutModels\InventoryViewModel.js" />
@@ -341,9 +343,7 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="NHib\Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

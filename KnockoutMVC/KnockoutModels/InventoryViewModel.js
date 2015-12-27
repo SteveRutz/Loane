@@ -61,7 +61,10 @@ function InventoryList() {
         $('body').css('cursor', 'wait');
 
         var myPath = path + 'api/inventory';
-        if (masterItem[0] != null) { myPath = myPath + "/" + masterItem; }
+
+        if (masterItem != null) {
+            if (masterItem[0] != null) { myPath = myPath + "/" + masterItem; }
+        }
 
         $.getJSON(myPath, function (data) {
             $.each(data, function (key, value) {
@@ -75,6 +78,10 @@ function InventoryList() {
         });
 
     };
+
+    self.clearInventory = function () {
+        self.Inventory.removeAll();
+    }
 
     self.saveInventory = function () {
 
@@ -165,12 +172,35 @@ function InventoryList() {
     { title: 'Order<br/>Item', sortPropertyName: 'master', asc: true, active: false },
     { title: 'Item', sortPropertyName: 'item', asc: false, active: true },
     { title: 'Inv<br/>Qty', sortPropertyName: 'qty', asc: true, active: false },
-    { title: "<span id='lblbomQty' /><br/>Qty", sortPropertyName: 'bomQty', asc: true, active: false },
-    {
+    { title: "<span id='lblbomQty' /><br/>Qty", sortPropertyName: 'bomQty', asc: true, active: false }
+    /*, {
         title: '<input type="button" class="btn btn-danger btn-xs" value=" [x] " />'
         , sortPropertyName: 'NA'
         , asc: true, active: false
-    }
+    } */
+    ];
+
+    self.bomHeaders = [
+{ title: 'Item', sortPropertyName: 'item', asc: false, active: true },
+{ title: 'Inv<br/>Qty', sortPropertyName: 'qty', asc: true, active: false },
+{ title: "BOM<br/>Qty", sortPropertyName: 'bomQty', asc: true, active: false }
+/*, {
+    title: '<input type="button" class="btn btn-danger btn-xs" value=" [x] " />'
+    , sortPropertyName: 'NA'
+    , asc: true, active: false
+} */
+    ];
+
+    self.delHeaders = [
+{ title: 'Order<br/>Item', sortPropertyName: 'master', asc: true, active: false },
+{ title: 'Item', sortPropertyName: 'item', asc: false, active: true },
+{ title: 'Inv<br/>Qty', sortPropertyName: 'qty', asc: true, active: false },
+{ title: "Delete", sortPropertyName: 'bomQty', asc: true, active: false }
+/*, {
+    title: '<input type="button" class="btn btn-danger btn-xs" value=" [x] " />'
+    , sortPropertyName: 'NA'
+    , asc: true, active: false
+} */
     ];
 
     //self.activeSort = ko.observable('item'); //set the default sort
@@ -224,20 +254,27 @@ function InventoryList() {
                        &&
                       (self.activeSort() != null) 
                    )
-        }).sort(self.activeSort()
-        /*
-            function (a, b) {
-            if (a[self.activeSort()] == b[self.activeSort()]) { return 0; }
-            if (self.ascending()) {
-                return a[self.activeSort()] < b[self.activeSort()] ? -1 : 1;
-            }
-            else {
-                return a[self.activeSort()] > b[self.activeSort()] ? -1 : 1;
-            }
-            
-        }*/
-        //function (a, b) { return a.item() > b.item() ? -1 : 1; }
-        );
+        }).sort(self.activeSort());
+
+    });
+
+    self.filteredBOM = ko.computed(function () {
+
+        return ko.utils.arrayFilter(self.Inventory(), function (rec) {
+            return (
+
+                      (rec.bomQty() > 0)
+                        &&
+                      (self.filterItem().length == 0 ||
+                            rec.item().toLowerCase().indexOf(self.filterItem().toLowerCase()) > -1)
+                        &&
+                      (self.filterInvQty() == null || self.filterInvQty() == "" || self.filterInvQty() == rec.qty())
+                        &&
+                      (self.filterBomQty() == null || self.filterBomQty() == false || self.filterBomQty() == (rec.bomQty() > 0))
+                       &&
+                      (self.activeSort() != null)
+                   )
+        }).sort(self.activeSort());
 
     });
 

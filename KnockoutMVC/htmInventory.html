@@ -1,86 +1,218 @@
 ﻿
-<div class="col-xs-9">
-    <div class="panel panel-info">
+<div id="myTabs6" data-bind="tabs: true">
 
-        <div class="panel-heading">
-            <h2 class="panel-title">Inventory</h2>
+    <ul>
+        <li>
+            <a href="#tabs-6a">Inventory/BOM</a>
+        </li>
+        <li>
+            <a href="#tabs-6b"><span data-bind="text:bomMaster"/></a>
+        </li>
+        <li>
+            <a href="#tabs-6c" data-bind="visible: bomMaster()!=''">Delete Inventory</a>
+        </li>
+    </ul>
+
+    <div class="col-xs-9" id="tabs-6a">
+        <div class="panel panel-info">
+
+            <div class="panel-heading">
+                <h2 class="panel-title">Inventory</h2>
+            </div>
+
+            <div class="panel-body">
+
+                <div class="form-inline">
+                    <input type="button" class="btn btn-default" value="Save Changes" data-bind="click: $root.inventoryViewModel.saveInventory" />
+
+                    <select id="selOrderItem" class="form-control"
+                            data-bind="options: MasterItems, value: bomMaster, optionsCaption: '-- Bills-Of-Material -- '"></select>
+                    &nbsp;&nbsp;&nbsp;&nbsp;**First Row Filter
+                </div>
+
+                <table id="TableInventory" class="table table-bordered table-condensed table-striped">
+                    <thead>
+
+                        <tr data-bind="foreach: headers">
+                            <th class="sorting" data-bind="html: title, click: $parent.sort" />
+                        </tr>
+                        <tr>
+                            <th><input type="checkbox" class="form-control col-xs-2" data-bind="checked: filterOrderItem" /></th>
+                            <th><input type="text" class="form-control" data-bind="value: filterItem" /></th>
+                            <th><input type="text" class="form-control" data-bind="value: filterInvQty" /></th>
+                            <th><input type="checkbox" class="form-control col-xs-2" data-bind="checked: filterBomQty" /></th>
+                            <th>Filter</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody data-bind="foreach: filteredInventory">
+                        <tr>
+
+                            <!--
+                                <th>Id</th>
+
+                            <td>
+                                <input type="text" class="form-control col-md-4" data-bind="value: id" />
+                            </td>
+                                -->
+                            <td class="col-xs-1">
+                                <input type="checkbox" class="form-control col-xs-2" data-bind="checked: master" />
+                            </td>
+
+                            <td class="col-xs-4">
+                                <input type="text" class="form-control" data-bind="value: item" />
+                            </td>
+
+                            <td class="col-xs-1">
+                                <input type="text" class="form-control col-xs-4" data-bind="value: qty" />
+                            </td>
+
+                            <td class="col-xs-1">
+                                <input type="text" class="form-control col-xs-4" data-bind="value: bomQty, disable: $parent.bomMaster()==null" />
+                            </td>
+                            
+                            <td class="col-xs-1" data-bind="text: $parent.bomMaster"/>
+
+                        </tr>
+                    </tbody>
+                </table>
+
+                <input type="button" class="btn btn-default" value="Save Changes" data-bind="click: $root.inventoryViewModel.saveInventory" />
+                <input type="button" class="btn btn-default" value="Add Item" data-bind="click: $root.inventoryViewModel.addInventoryItem" />
+
+
+            </div>
+
         </div>
 
-        <div class="panel-body">
+    </div>
 
-            <div class="form-inline">
-                <input type="button" class="btn btn-default" value="Save Changes" data-bind="click: $root.inventoryViewModel.saveInventory" />
+    <div class="col-xs-9" id="tabs-6b">
+        <div class="panel panel-info">
 
-                <select id="selOrderItem" class="form-control"
-                        data-bind="options: MasterItems, value: bomMaster, optionsCaption: '-- Bills-Of-Material -- '"></select>
+            <div class="panel-heading">
+                <h2 class="panel-title">Bill - of - Material</h2>
             </div>
-            
-            <!--<input type="button" class="btn btn-default" value="Add Item" data-bind="click: $root.inventoryViewModel.addInventoryItem('top')" />-->
-            <table id="TableInventory" class="table table-bordered table-condensed table-striped">
-                <thead>
 
-                    <tr data-bind="foreach: headers">
-                        <th class="sorting" data-bind="html: title, click: $parent.sort"/>
-                    </tr>
-                    <tr>
-                        <th><input type="checkbox" class="form-control col-xs-2" data-bind="checked: filterOrderItem" /></th>
-                        <th><input type="text" class="form-control" data-bind="value: filterItem" /></th>
-                        <th><input type="text" class="form-control" data-bind="value: filterInvQty" /></th>
-                        <th><input type="checkbox" class="form-control col-xs-2" data-bind="checked: filterBomQty" /></th>
-                    </tr>
+            <div class="panel-body">
 
-                </thead>
+                <div class="form-inline">
+                    <input type="button" class="btn btn-default" value="Save Changes" data-bind="click: $root.inventoryViewModel.saveInventory" />
 
-                <tbody data-bind="foreach: filteredInventory">
-                    <tr>
+                    <select id="selOrderItem" class="form-control"
+                            data-bind="options: MasterItems, value: bomMaster, optionsCaption: '-- Bills-Of-Material -- '"></select>
+                </div>
 
-                        <!--
-                    <th>Id</th>
+                <table id="TableInventory" class="table table-bordered table-condensed table-striped">
+                    <thead>
 
-                <td>
-                    <input type="text" class="form-control col-md-4" data-bind="value: id" />
-                </td>
-                    -->
-                        <td class="col-xs-1">
-                            <input type="checkbox" class="form-control col-xs-2" data-bind="checked: master" />
-                        </td>
+                        <tr data-bind="foreach: bomHeaders">
+                            <th class="sorting" data-bind="html: title, click: $parent.sort" />
+                        </tr>
+                        <tr>
+                            <th><input type="text" class="form-control" data-bind="value: filterItem" /></th>
+                            <th><input type="text" class="form-control" data-bind="value: filterInvQty" /></th>
+                            <th><input type="checkbox" class="form-control col-xs-2" data-bind="checked: filterBomQty" /></th>
+                        </tr>
 
-                        <td class="col-xs-4">
-                            <input type="text" class="form-control" data-bind="value: item" />
-                        </td>
+                    </thead>
 
-                        <td class="col-xs-1">
-                            <input type="text" class="form-control col-xs-4" data-bind="value: qty" />
-                        </td>
+                    <tbody data-bind="foreach: filteredBOM">
+                        <tr>
 
-                        <td class="col-xs-1">
-                            <input type="text" class="form-control col-xs-4" data-bind="value: bomQty" />
-                        </td>
+                            <td class="col-xs-4">
+                                <input type="text" class="form-control" data-bind="value: item" />
+                            </td>
 
-                        <td class="col-xs-1"><input type="button" class="btn btn-danger btn-xs" value=" [x] " data-bind="click: $parent.removeInventoryItem" /></td>
+                            <td class="col-xs-1">
+                                <input type="text" class="form-control col-xs-4" data-bind="value: qty" />
+                            </td>
 
+                            <td class="col-xs-1">
+                                <input type="text" class="form-control col-xs-4" data-bind="value: bomQty" />
+                            </td>
 
-                        <!--
-                <th>Id</th>
-                <th>Master</th>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <input type="button" class="btn btn-default" value="Save Changes" data-bind="click: $root.inventoryViewModel.saveInventory" />
+                <input type="button" class="btn btn-default" value="Add Item" data-bind="click: $root.inventoryViewModel.addInventoryItem" />
 
 
+            </div>
 
-                <td data-bind="text: id"></td>
-                <td data-bind="text: master"></td>
-                <td data-bind="text: item"></td>
+        </div>
 
-                <td data-bind="text: qty
-                    , attr: {title: 'Quantity owned.'}
+    </div>
 
-                "></td>
-                 -->
+    <div class="col-xs-9" id="tabs-6c">
+        <div class="panel panel-info">
 
-                    </tr>
-                </tbody>
-            </table>
+            <div class="panel-heading">
+                <h2 class="panel-title">Delete Inventory</h2>
+            </div>
 
-            <input type="button" class="btn btn-default" value="Save Changes" data-bind="click: $root.inventoryViewModel.saveInventory" />
-            <input type="button" class="btn btn-default" value="Add Item" data-bind="click: $root.inventoryViewModel.addInventoryItem" />
+            <div class="panel-body">
+
+                <div class="form-inline">
+                    <input type="button" class="btn btn-default" value="Save Changes" data-bind="click: $root.inventoryViewModel.saveInventory" />
+
+                    <select id="selOrderItem" class="form-control"
+                            data-bind="options: MasterItems, value: bomMaster, optionsCaption: '-- Bills-Of-Material -- '"></select>
+                </div>
+
+                <table id="TableInventory" class="table table-bordered table-condensed table-striped">
+                    <thead>
+
+                        <tr data-bind="foreach: delHeaders">
+                            <th class="sorting" data-bind="html: title, click: $parent.sort" />
+                        </tr>
+                        <tr>
+                            <th><input type="checkbox" class="form-control col-xs-2" data-bind="checked: filterOrderItem" /></th>
+                            <th><input type="text" class="form-control" data-bind="value: filterItem" /></th>
+                            <th><input type="text" class="form-control" data-bind="value: filterInvQty" /></th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody data-bind="foreach: filteredInventory">
+                        <tr>
+
+                            <!--
+                                <th>Id</th>
+
+                            <td>
+                                <input type="text" class="form-control col-md-4" data-bind="value: id" />
+                            </td>
+                                -->
+                            <td class="col-xs-1">
+                                <input type="checkbox" class="form-control col-xs-2" data-bind="checked: master" />
+                            </td>
+
+                            <td class="col-xs-4">
+                                <input type="text" class="form-control" data-bind="value: item" />
+                            </td>
+
+                            <td class="col-xs-1">
+                                <input type="text" class="form-control col-xs-4" data-bind="value: qty" />
+                            </td>
+
+                            <td class="col-xs-1"><input type="button" class="btn btn-danger btn-xs" value=" [x] " data-bind="click: $parent.removeInventoryItem" /></td>
+
+                        </tr>
+                    </tbody>
+                </table>
+
+                <input type="button" class="btn btn-default" value="Save Changes" data-bind="click: $root.inventoryViewModel.saveInventory" />
+                <input type="button" class="btn btn-default" value="Add Item" data-bind="click: $root.inventoryViewModel.addInventoryItem" />
+
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>

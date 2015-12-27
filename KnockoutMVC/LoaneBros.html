@@ -14,6 +14,8 @@
     <script src="KnockoutModels/EventViewModel.js"></script>
     <script src="KnockoutModels/TruckListViewModel.js"></script>
     <script src="KnockoutModels/BOMViewModel.js"></script>
+    <script src="KnockoutModels/AdminViewModel.js"></script>
+
 
     <link href="Content/Site.css" rel="stylesheet" />
     <link href="Content/bootstrap.css" rel="stylesheet" />
@@ -22,8 +24,8 @@
     <link href="JQueryUI/jqte/jquery-te-1.4.0.css" rel="stylesheet" />
     <script src="JQueryUI/jqte/jquery-te-1.4.0.min.js"></script>
 
-    <link href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css" rel="stylesheet" />
-   <!-- <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script> -->
+    <!--<link href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script> -->
 
         <!--
                 <link href=" content />plugins/dataTables/jquery.dataTables.min.css" rel="stylesheet" />
@@ -55,15 +57,16 @@
             <ul>
                 <li><a id="TbEvent" href="#tabs-1">Events</a></li>
                 <li data-bind="visible: ViewModel.oEvent()!=null ">
-                    <a id="TbDetail" href="#tabs-2">Items/Event</a>               
+                    <a id="TbDetail" href="#tabs-2">Details</a>               
                 </li>
-                <li data-bind="visible: ViewModel.oEvent()!=null "><a id="TbTruck" href="#tabs-8">Print</a></li>
+                <li data-bind="visible: ViewModel.oEvent()!=null "><a id="TbPrint" href="#tabs-8">Print</a></li>
                 <li><a id="TbEventDE" href="#tabs-3">addEvent</a></li>
 
                 <li data-bind="visible: ViewModel.loadListViewModel.Load().length > 0 "><a id="TbLoadList" href="#tabs-5">LoadList</a></li>
                 <li data-bind="visible: ViewModel.inventoryViewModel.Inventory().length > 0 "><a id="TbInventory" href="#tabs-6">Inventory</a></li>
-                <li><a id="TbTruck" href="#tabs-7">Trucks</a></li>
-                <li><a id="tbBOM" href="#tabs-9">BOM</a></li>
+                <li data-bind="visible: ViewModel.truckViewModel.Trucks().length > 0"><a id="TbTruck" href="#tabs-7">Trucks</a></li>
+                <li><a id="TbAdmin" href="#tabs-9">Admin</a></li>
+                <!--<li><a id="tbBOM" href="#tabs-9">BOM</a></li>-->
 
                 <!-- <li data-bind="visible: ViewModel.EventName()!=null"><a id="TbDetailDE" href="#tabs-4">addItem</a></li>  -->
             </ul>
@@ -90,8 +93,11 @@
             <!-- Print Event -->
             <div id="tabs-8" data-bind="with: ViewModel.oEvent"></div>
 
+            <!-- Admin -->
+            <div id="tabs-9" data-bind="with: adminViewModel"></div>
+
             <!-- BOMs -->
-            <div id="tabs-9" data-bind="with: bomViewModel"></div>
+            <div id="ztabs-9" data-bind="with: bomViewModel"></div>
 
         </div>
 
@@ -135,13 +141,22 @@
 
             function tPrintOut(htm) {
                 $('#tabs-8').html(htm);
+                $.get("htmAdmin.html", "", function (htm) { tAdmin(htm); }, "html");
+            }
+
+            function tAdmin(htm) {
+                $('#tabs-9').html(htm);
                 $.get("htmBOM.html", "", function (htm) { tBOM(htm); }, "html");
             }
+
+
             
             function tBOM(htm) {
-                $('#tabs-9').html(htm);
+                //$('#tabs-9').html(htm);
                 applyModel();
             }
+
+
 
 
 
@@ -241,6 +256,7 @@
                  , inventoryViewModel: new InventoryList()
                  , truckViewModel: new TruckList()
                  , bomViewModel: new PartList()
+                 , adminViewModel: new Admin()
                 }
 
                 ViewModel.getOrders = function (Event) {

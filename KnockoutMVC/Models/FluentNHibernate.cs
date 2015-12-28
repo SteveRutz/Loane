@@ -36,7 +36,7 @@ namespace KnockoutMVC
 
                 if (CTX.Request.Url.ToString().IndexOf("localhost") == -1)
                 {
-                    m_DbFile = @"\\" + CTX.Server.MapPath("\\") + @"knockout\App_Data\LoaneBrothers.db";
+                    m_DbFile = @"\\" + CTX.Server.MapPath("\\") + @"LoaneBros\App_Data\LoaneBrothers.db";
                 }
 
                 return m_DbFile;

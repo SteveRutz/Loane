@@ -11,6 +11,7 @@ function Admin() {
         else
         {
             ViewModel.inventoryViewModel.clearInventory();
+            ViewModel.oEvent() != null ? $("#TbDetail").click() : $("#TbEvent").click();
         }
     });
 
@@ -24,6 +25,8 @@ function Admin() {
         }
         else {
             ViewModel.truckViewModel.clearTrucks();
+            ViewModel.oEvent() != null ? $("#TbDetail").click() :  $("#TbEvent").click(); 
+            
         }
     });
 
@@ -33,6 +36,9 @@ function Admin() {
         if (data) {
             $('#TbNewEvent').click();
         }
+        else {
+            ViewModel.oEvent() != null ? $("#TbDetail").click() : $("#TbEvent").click();
+        }
     });
 
     self.cbxEditEvent = ko.observable();
@@ -40,6 +46,9 @@ function Admin() {
     self.cbxEditEvent.subscribe(function (data) {
         if (data) {
             $('#TbEditEvent').click();
+        }
+        else {
+            $("#TbDetail").click();
         }
     });
     
@@ -53,6 +62,7 @@ function Admin() {
         }
         else {
             ViewModel.loadListViewModel.clearLoad();
+            $("#TbDetail").click();
         }
     });
 
@@ -63,6 +73,9 @@ function Admin() {
             $('#TbPrint').click();
             ViewModel.loadListViewModel.getEventLoad(ViewModel.oEvent);
         }
+        else {
+            $("#TbDetail").click();
+        }
     });
 
     self.cbxNotes = ko.observable();
@@ -70,6 +83,9 @@ function Admin() {
     self.cbxNotes.subscribe(function (data) {
         if (data) {
             $('#TbEventNotes').click();
+        }
+        else {
+            $("#TbDetail").click();
         }
     });
 

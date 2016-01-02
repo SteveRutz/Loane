@@ -229,10 +229,6 @@
     <Content Include="htmAdmin.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\plugins\dataTables\dataTables.bootstrap.css" />
-    <Content Include="Content\plugins\dataTables\dataTables.responsive.css" />
-    <Content Include="Content\plugins\dataTables\dataTables.tableTools.min.css" />
-    <Content Include="Content\plugins\dataTables\jquery.dataTables.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -291,6 +287,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="App_Data\LoaneBrothers.db" />
+    <Content Include="LoaneBrosDb\LoaneBrothers.txt" />
     <None Include="Properties\PublishProfiles\www.steverutz.com.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

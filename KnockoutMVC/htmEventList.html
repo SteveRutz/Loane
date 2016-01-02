@@ -1,22 +1,23 @@
 ﻿
-<div class="form-inline">
 
-    <input id="inpAsOf" type="text" class="form-control"
-           data-bind="datepicker: ViewModel.AsOf
-                                            , event: {change: $root.eventListViewModel.getEventAsOf(ViewModel.AsOf())}
-                        " />
 
-    <input type="button" class="btn btn-default" id="btnGetEvents" value="Refresh" data-bind="click: $root.eventListViewModel.getEventAsOf(ViewModel.AsOf())" />
-
-    <input type="checkbox" class="btn btn-primary" id="btnAddEvent" data-bind="checked: cbxNewEvent" /> Add Event
-
-</div>
-
-<div class="col-md-4">
+<div class="col-md-6">
 
     <div class="panel panel-info">
         <div class="panel-heading">
             <h2 class="panel-title">Events As Of</h2>
+            <div class="form-inline">
+
+                <input id="inpAsOf" type="text" class="form-control" style="width: 150px"
+                       data-bind="datepicker: ViewModel.AsOf
+                                            , event: {change: $root.eventListViewModel.getEventAsOf(ViewModel.AsOf())}
+                        " />
+
+                <input type="button" class="btn btn-default" id="btnGetEvents" value="Refresh" data-bind="click: $root.eventListViewModel.getEventAsOf(ViewModel.AsOf())" />
+
+                <input type="checkbox" class="btn btn-primary" id="btnAddEvent" data-bind="checked: cbxNewEvent" /> Add Event
+
+            </div>
         </div>
 
         <div class="panel-body">

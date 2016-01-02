@@ -24,26 +24,6 @@
     <link href="JQueryUI/jqte/jquery-te-1.4.0.css" rel="stylesheet" />
     <script src="JQueryUI/jqte/jquery-te-1.4.0.min.js"></script>
 
-    <!--<link href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css" rel="stylesheet" />
-    <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script> -->
-
-        <!--
-                <link href=" content />plugins/dataTables/jquery.dataTables.min.css" rel="stylesheet" />
-    <script src="Scripts/Plugins/dataTables/jquery.dataTables.min.js"></script>
-        
-    <script src=" scripts />Plugins/jeditable/jquery.jeditable.js"></script>
-
-
-    <link href="Content/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
-    <link href="Content/plugins/dataTables/dataTables.responsive.css" rel="stylesheet" />
-    <link href="Content/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet" />
-
-   <script src="Scripts/Plugins/dataTables/dataTables.bootstrap.js"></script>
-    <script src="Scripts/Plugins/dataTables/dataTables.responsive.js"></script>
-    <script src="Scripts/Plugins/dataTables/dataTables.tableTools.min.js"></script>
-    <script src="Scripts/Plugins/dataTables/jquery.dataTables.js"></script>
-        -->
-
 </head>
 <body>
 
@@ -56,18 +36,19 @@
             <!--<ul class="nav nav-tabs" data-bind="tabs: true" id="myTabs">-->
             <ul>
                 <li><a id="TbEvent" href="#tabs-1">Events</a></li>
+                <li data-bind="visible: ViewModel.oEvent()!=null ">
+                    <a id="TbDetail" href="#tabs-2">Details</a>
+                </li>
                 <li data-bind="visible: cbxEditEvent "><a id="TbEditEvent" href="#tabs-2b">Event</a></li>
                 <li data-bind="visible: cbxNotes "><a id="TbEventNotes" href="#tabs-2c">Event Notes</a></li>
-                <li data-bind="visible: ViewModel.oEvent()!=null ">
-                    <a id="TbDetail" href="#tabs-2">Details</a>               
-                </li>
+
                 <li data-bind="visible: cbxPrint "><a id="TbPrint" href="#tabs-8">Print</a></li>
                 <li data-bind="visible: ViewModel.loadListViewModel.Load().length > 0 "><a id="TbLoadList" href="#tabs-5">LoadList</a></li>
                 <li data-bind="visible: ViewModel.inventoryViewModel.Inventory().length > 0 "><a id="TbInventory" href="#tabs-6">Inventory</a></li>
                 <li data-bind="visible: ViewModel.truckViewModel.Trucks().length > 0"><a id="TbTruck" href="#tabs-7">Trucks</a></li>
                 <li data-bind="visible: cbxNewEvent"><a id="TbNewEvent" href="#tabs-3">New Event</a></li>
-                <li><a id="TbAdmin" href="#tabs-9">Admin</a></li>
-                <!--<li><a id="tbBOM" href="#tabs-9">BOM</a></li>-->
+                <!--<li><a id="TbAdmin" href="#tabs-9">Admin</a></li>
+                <li><a id="tbBOM" href="#tabs-9">BOM</a></li>-->
 
             </ul>
 

@@ -61,7 +61,13 @@ function LoadList() {
 
     };
 
-    self.getLoad = function (detail){
+    self.clearLoad = function () {
+        self.Load.removeAll();
+    }
+
+    self.getLoad = function (detail) {
+
+        $("#cbxLoadList").prop('checked',true);
 
         try{
             if (detail.truck!=null) { ViewModel.LoadTruck(detail.truck);}
@@ -94,7 +100,9 @@ function LoadList() {
                 }
                 catch (e) { }
 
-                $("#TbLoadList").click();
+               $("#TbLoadList").click();
+
+
 
 
 

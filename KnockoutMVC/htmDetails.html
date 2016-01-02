@@ -1,17 +1,5 @@
-﻿<div id="myTabs2" data-bind="tabs: true">
-    <ul>
-        <li>
-            <a id="TbDetail2" href="#tabs-2a">Items</a>
-        </li>
-        <li>
-            <a id="TbEvent" href="#tabs-2b">Event</a>
-        </li>
-        <li>
-            <a id="TbEventComment" href="#tabs-2c">Instructions/Comments</a>
-        </li>
-    </ul>
+﻿
 
-    <div id="tabs-2a" class="col-md-8">
         <div class="panel panel-info">
 
             <div class="panel-heading">
@@ -84,72 +72,22 @@
                        data-bind="click: save
                                 " />
 
+                <input id="cbxLoadList" type="checkbox" data-bind="checked: cbxLoadList" /> Load List
+
+                <input type="checkbox" data-bind="checked: cbxPrint" /> Print
+
+                <input type="checkbox" data-bind="checked: cbxNotes" /> Notes
+
+                <input type="checkbox" data-bind="checked: cbxEditEvent" /> Edit Event
+
+                 <input type="checkbox" data-bind="checked: cbxNewEvent" /> New Event
+
+                <input type="checkbox" data-bind="checked: cbxInventory" /> Inventory
+
+                <input type="checkbox" data-bind="checked: cbxTrucks" /> Trucks
+
             </div>
         </div>
-    </div>
 
-    <div id="tabs-2b" data-bind="with:ViewModel.oEvent">
-
-        <form role="form">
-
-            <input type="button" class="btn btn-primary" value="Save Changes"
-                   data-bind="click: save
-                                " />
-
-            <input type="button" class="btn btn-default" value="View Inventory"
-                   data-bind="click: $root.inventoryViewModel.getInventory" />
-
-            <div class="form-group">
-                <label for="inpEventName2">Event Name</label>
-                <input id="inpEventName2" type="text" class="form-control" data-bind="value: eventName" />
-            </div>
-
-            <div class="form-group">
-                <label for="inpEventDate2">Event Date</label>
-                <input id="inpEventDate2" type="text" class="form-control" data-bind="datepicker: eventDate" />
-            </div>
-
-            <div class="form-group">
-                <label for="inpCheckOut2">Check Out</label>
-                <input id="inpCheckOut2" type="text" class="form-control" data-bind="datepicker: checkOut" />
-            </div>
-
-            <div class="form-group">
-                <label for="inpCheckIn2">Check In</label>
-                <input id="inpCheckIn2" type="text" class="form-control" data-bind="datepicker: checkIn" />
-            </div>
-
-            <input type="button" class="btn btn-primary" value="Save Changes"
-                   data-bind="click: save
-                                " />
-
-        </form>
-
-    </div>
-
-    <div id="tabs-2c" class="row" data-bind="with:ViewModel.oEvent">
-
-        <form role="form">
-
-            <input type="button" class="btn btn-primary" value="Save Changes"
-                   data-bind="click: save
-                                " />
-
-            <input type="button" class="btn btn-default" value="View Inventory"
-                   data-bind="click: $root.inventoryViewModel.getInventory" />
-
-            <div class="form-group">
-                <textarea id="inpComments" rows="20" data-bind="jqEditor: comments"></textarea>
-            </div>
-
-
-            <input type="button" class="btn btn-primary" value="Save Changes"
-                   data-bind="click: save
-                                " />
-
-        </form>
-
-    </div>
-    <div class="row"  style="margin:10px" data-bind="html: comments" /></>
+    <div class="row"  style="margin:10px" data-bind="html: comments" />
     
-</div>

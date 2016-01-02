@@ -73,8 +73,6 @@ function DetailList() {
 
         // event Items is the observable list of orders!
         //self.details = Event.eventItems;
-
-        $("#TbDetail").click();
        
         // retrieve details list from server side and push each object to model's details list
 

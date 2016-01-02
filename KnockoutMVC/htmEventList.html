@@ -6,9 +6,9 @@
                                             , event: {change: $root.eventListViewModel.getEventAsOf(ViewModel.AsOf())}
                         " />
 
-    <input type="button" class="btn btn-primary" id="btnAddEvent" value="Add Event" onclick="javascript: $('#TbEventDE').click();" />
-
     <input type="button" class="btn btn-default" id="btnGetEvents" value="Refresh" data-bind="click: $root.eventListViewModel.getEventAsOf(ViewModel.AsOf())" />
+
+    <input type="checkbox" class="btn btn-primary" id="btnAddEvent" data-bind="checked: cbxNewEvent" /> Add Event
 
 </div>
 

@@ -1,0 +1,35 @@
+﻿
+    <form role="form">
+
+        <input type="button" class="btn btn-primary" value="Save Changes"
+               data-bind="click: save
+                                " />
+
+        <input type="button" class="btn btn-default" value="View Inventory"
+               data-bind="click: $root.inventoryViewModel.getInventory" />
+
+        <div class="form-group">
+            <label for="inpEventName2">Event Name</label>
+            <input id="inpEventName2" type="text" class="form-control" data-bind="value: eventName" />
+        </div>
+
+        <div class="form-group">
+            <label for="inpEventDate2">Event Date</label>
+            <input id="inpEventDate2" type="text" class="form-control" data-bind="datepicker: eventDate" />
+        </div>
+
+        <div class="form-group">
+            <label for="inpCheckOut2">Check Out</label>
+            <input id="inpCheckOut2" type="text" class="form-control" data-bind="datepicker: checkOut" />
+        </div>
+
+        <div class="form-group">
+            <label for="inpCheckIn2">Check In</label>
+            <input id="inpCheckIn2" type="text" class="form-control" data-bind="datepicker: checkIn" />
+        </div>
+
+        <input type="button" class="btn btn-primary" value="Save Changes"
+               data-bind="click: save
+                                " />
+
+    </form>

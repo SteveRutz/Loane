@@ -1,0 +1,22 @@
+﻿<form role="form">
+
+    <input type="button" class="btn btn-primary" value="Save Changes"
+           data-bind="click: save
+                                " />
+
+    <input type="button" class="btn btn-default" value="View Inventory"
+           data-bind="click: $root.inventoryViewModel.getInventory" />
+
+    <div class="form-group">
+        <textarea id="inpComments" rows="20" data-bind="jqEditor: comments"></textarea>
+    </div>
+
+
+    <input type="button" class="btn btn-primary" value="Save Changes"
+           data-bind="click: save
+                                " />
+
+</form>
+
+
+<div class="row" style="margin:10px" data-bind="html: comments" />

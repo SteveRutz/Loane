@@ -237,8 +237,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="htmAddEvent.html" />
+    <Content Include="htmEventAdd.html" />
     <Content Include="htmBOM.html" />
+    <Content Include="htmEventEdit.html" />
+    <Content Include="htmEventNotes.html" />
     <Content Include="htmPrintOut.html" />
     <Content Include="htmTruckList.html" />
     <Content Include="htmDetails.html" />

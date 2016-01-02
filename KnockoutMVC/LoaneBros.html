@@ -56,50 +56,56 @@
             <!--<ul class="nav nav-tabs" data-bind="tabs: true" id="myTabs">-->
             <ul>
                 <li><a id="TbEvent" href="#tabs-1">Events</a></li>
+                <li data-bind="visible: cbxEditEvent "><a id="TbEditEvent" href="#tabs-2b">Event</a></li>
+                <li data-bind="visible: cbxNotes "><a id="TbEventNotes" href="#tabs-2c">Event Notes</a></li>
                 <li data-bind="visible: ViewModel.oEvent()!=null ">
                     <a id="TbDetail" href="#tabs-2">Details</a>               
                 </li>
-                <li data-bind="visible: ViewModel.oEvent()!=null "><a id="TbPrint" href="#tabs-8">Print</a></li>
-                <li><a id="TbEventDE" href="#tabs-3">addEvent</a></li>
-
+                <li data-bind="visible: cbxPrint "><a id="TbPrint" href="#tabs-8">Print</a></li>
                 <li data-bind="visible: ViewModel.loadListViewModel.Load().length > 0 "><a id="TbLoadList" href="#tabs-5">LoadList</a></li>
                 <li data-bind="visible: ViewModel.inventoryViewModel.Inventory().length > 0 "><a id="TbInventory" href="#tabs-6">Inventory</a></li>
                 <li data-bind="visible: ViewModel.truckViewModel.Trucks().length > 0"><a id="TbTruck" href="#tabs-7">Trucks</a></li>
+                <li data-bind="visible: cbxNewEvent"><a id="TbNewEvent" href="#tabs-3">New Event</a></li>
                 <li><a id="TbAdmin" href="#tabs-9">Admin</a></li>
                 <!--<li><a id="tbBOM" href="#tabs-9">BOM</a></li>-->
 
-                <!-- <li data-bind="visible: ViewModel.EventName()!=null"><a id="TbDetailDE" href="#tabs-4">addItem</a></li>  -->
             </ul>
 
 
-            <!-- Event List -->
-            <div id="tabs-1" data-bind="with: eventListViewModel"></div>
+                <!-- Event List -->
+                <div id="tabs-1" data-bind="with: eventListViewModel"></div>
 
-            <!-- Details -->
-            <div id="tabs-2" data-bind="with: ViewModel.oEvent"></div>
+                <!-- Edit Event -->
+                <div id="tabs-2b" data-bind="with:ViewModel.oEvent"></div>
 
-            <!-- Add Event -->
-            <div id="tabs-3"></div>
+                <!-- Event Notes -->
+                <div id="tabs-2c" data-bind="with:ViewModel.oEvent"></div>
 
-            <!-- Inventory -->
-            <div id="tabs-6" data-bind="with: inventoryViewModel"></div>
+                <!-- Details -->
+                <div id="tabs-2" data-bind="with: ViewModel.oEvent"></div>
 
-            <!-- Load List -->
-            <div id="tabs-5" data-bind="with: loadListViewModel"></div>
+                <!-- New Event -->
+                <div id="tabs-3"></div>
 
-            <!-- Truck List -->
-            <div id="tabs-7" data-bind="with: truckViewModel"></div>
+                <!-- Inventory -->
+                <div id="tabs-6" data-bind="with: inventoryViewModel"></div>
 
-            <!-- Print Event -->
-            <div id="tabs-8" data-bind="with: ViewModel.oEvent"></div>
+                <!-- Load List -->
+                <div id="tabs-5" data-bind="with: loadListViewModel"></div>
 
-            <!-- Admin -->
-            <div id="tabs-9" data-bind="with: adminViewModel"></div>
+                <!-- Truck List -->
+                <div id="tabs-7" data-bind="with: truckViewModel"></div>
 
-            <!-- BOMs -->
-            <div id="ztabs-9" data-bind="with: bomViewModel"></div>
+                <!-- Print Event -->
+                <div id="tabs-8" data-bind="with: ViewModel.oEvent"></div>
 
-        </div>
+                <!-- Admin -->
+                <div id="tabs-9" data-bind="with: adminViewModel"></div>
+
+                <!-- BOMs -->
+                <div id="ztabs-9" data-bind="with: bomViewModel"></div>
+
+            </div>
 
         <script>
 
@@ -107,52 +113,62 @@
 
             var ViewModel;
 
-            $.get("htmEventList.html", "", function (htm) { tEvents(htm); }, "html");
+            $.get("htmEventList.html", "", function (htm) { $('#tabs-1').html(htm); tDetails() }, "html");
 
-            function tEvents(htm) {
-                $('#tabs-1').html(htm);
-                $.get("htmDetails.html", "", function (htm) { tDetails(htm); }, "html");
+            function tDetails() {
+                
+                $.get("htmDetails.html", "", function (htm) { $('#tabs-2').html(htm); tEventAdd(); }, "html");
             }
 
-            function tDetails(htm) {
-                $('#tabs-2').html(htm);
-                $.get("htmAddEvent.html", "", function (htm) { tAddEvent(htm); }, "html");
+            function tEventAdd() {
+                
+                $.get("htmEventAdd.html", "", function (htm) { $('#tabs-3').html(htm); tEventEdit(); }, "html");
             }
 
-            function tAddEvent(htm) {
-                $('#tabs-3').html(htm);
-                $.get("htmInventory.html", "", function (htm) { tInventory(htm); }, "html");
+            function tEventEdit() {
+
+                $.get("htmEventEdit.html", "", function (htm) { $('#tabs-2b').html(htm); tEventNotes(); }, "html");
             }
 
-            function tInventory(htm) {
-                $('#tabs-6').html(htm);
-                $.get("htmLoadList.html", "", function (htm) { tLoadList(htm); }, "html");
+            function tEventNotes() {
+
+                $.get("htmEventNotes.html", "", function (htm) { $('#tabs-2c').html(htm); tInventory(); }, "html");
             }
 
-            function tLoadList(htm) {
-                $('#tabs-5').html(htm);
-                $.get("htmTruckList.html", "", function (htm) { tTruckList(htm); }, "html");
+            function tInventory() {
+                
+                $.get("htmInventory.html", "", function (htm) { $('#tabs-6').html(htm); tLoadList(); }, "html");
             }
 
-            function tTruckList(htm) {
-                $('#tabs-7').html(htm);
-                $.get("htmPrintOut.html", "", function (htm) { tPrintOut(htm); }, "html");
+            function tLoadList() {
+                
+                $.get("htmLoadList.html", "", function (htm) { $('#tabs-5').html(htm); tTruckList(htm); }, "html");
             }
 
-            function tPrintOut(htm) {
-                $('#tabs-8').html(htm);
-                $.get("htmAdmin.html", "", function (htm) { tAdmin(htm); }, "html");
+            function tTruckList() {
+                
+                $.get("htmTruckList.html", "", function (htm) { $('#tabs-7').html(htm); tPrint(htm); }, "html");
             }
 
-            function tAdmin(htm) {
-                $('#tabs-9').html(htm);
+            function tPrint() {
+                
+                $.get("htmPrintOut.html", "", function (htm) { $('#tabs-8').html(htm); tAdmin(htm); }, "html");
+            }
+
+            function tAdmin() {
+                
+                $.get("htmAdmin.html", "", function (htm) { $('#tabs-9').html(htm); tBOM(); }, "html");
+            }
+
+            function tBom() {
+                return; // turned off
                 $.get("htmBOM.html", "", function (htm) { tBOM(htm); }, "html");
             }
 
 
             
             function tBOM(htm) {
-                //$('#tabs-9').html(htm);
+                //alert("Apply");
                 applyModel();
             }
 
@@ -267,13 +283,14 @@
                     ViewModel.EventDate(Event.eventDate());
                     ViewModel.oEvent(Event);
                     ViewModel.eventOrders(Event.orderList);
-                    ViewModel.LoadDateBegin(moment(Event.checkOut()).format('l'));
-                    ViewModel.LoadDateEnd(moment(Event.checkIn()).format('l'));
+                    ViewModel.LoadDateBegin(moment(ViewModel.oEvent().checkOut()).format('l'));
+                    ViewModel.LoadDateEnd(moment(ViewModel.oEvent().checkIn()).format('l'));
                     // ViewModel.addDetailViewModel.CheckIn(moment(Event.eventDate()).format('l'));
                     // ViewModel.addDetailViewModel.orderQty(1);
                     //ViewModel.detailListViewModel.getDetails(Event.Id());
                     ViewModel.detailListViewModel.getDetails(Event);
-                    ViewModel.loadListViewModel.getEventLoad(Event);
+
+                    $("#TbDetail").click();
 
                     $("div.jqte_editor").html(Event.comments());
 

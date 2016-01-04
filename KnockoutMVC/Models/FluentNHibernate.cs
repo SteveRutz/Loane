@@ -31,14 +31,14 @@ namespace KnockoutMVC
                 HttpContext CTX = HttpContext.Current;
                 
                 //DbFile = CTX.Server.MapPath(@"App_Data\LoaneBrothers.db").Replace("api\\", "");
-                //string m_DbFile = CTX.Server.MapPath("\\") + @"App_Data\LoaneBrothers.db";
-                string m_DbFile = CTX.Server.MapPath("\\") + @"LoaneBrosDb/LoaneBrothers.txt";
+                string m_DbFile = CTX.Server.MapPath("\\") + @"App_Data\LoaneBrothers.db";
+                //string m_DbFile = CTX.Server.MapPath("\\") + @"LoaneBrosDb/LoaneBrothers.txt";
 
 
                 if (CTX.Request.Url.ToString().IndexOf("localhost") == -1)
                 {
-                    //m_DbFile = @"\\" + CTX.Server.MapPath("\\") + @"LoaneBros\App_Data\LoaneBrothers.db";
-                    m_DbFile = @"\\" + CTX.Server.MapPath("\\") + @"LoaneBros/LoaneBrosDb/LoaneBrothers.txt";
+                    m_DbFile = @"\\" + CTX.Server.MapPath("\\") + @"LoaneBros\App_Data\LoaneBrothers.db";
+                    //m_DbFile = @"\\" + CTX.Server.MapPath("\\") + @"LoaneBros\LoaneBrosDb\LoaneBrothers.txt";
                 }
 
                 return m_DbFile;

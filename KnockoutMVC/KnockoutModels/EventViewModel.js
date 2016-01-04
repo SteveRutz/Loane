@@ -103,6 +103,8 @@ function EventList() {
 
     var self = this;
 
+    self.filterEvent = ko.observable();
+
     // observable arrays are update binding elements upon array changes
     self.events = ko.observableArray([]);
 
@@ -164,6 +166,78 @@ function EventList() {
 
         });
     };
+
+    self.evtHeaders = [
+{ title: 'Items', sortPropertyName: 'orderCount', asc: true, active: false },
+{ title: 'Event', sortPropertyName: 'eventName', asc: false, active: true},
+{ title: 'Event<br/>Date', sortPropertyName: 'eventDate', asc: true, active: false },
+{ title: "Check-Out", sortPropertyName: 'checkOut', asc: true, active: false },
+{ title: "Check-In", sortPropertyName: 'checkIn', asc: true, active: false },
+{ title: "Delete", sortPropertyName: 'eventDate', asc: true, active: false }
+    ];
+
+    //self.activeSort = ko.observable('eventName'); //set the default sort
+    self.activeSort = ko.observable(function () { return 0; });
+    // self.ascending = ko.observable(true);
+    self.sort = function (header, event) {
+        //alert('sort');
+        //alert(JSON.stringify(header));
+        //if this header was just clicked a second time
+        if (header.active) {
+            header.asc = !header.asc; //toggle the direction of the sort
+        }
+        //make sure all other headers are set to inactive
+        ko.utils.arrayForEach(self.evtHeaders, function (item) { item.active = false; });
+        //the header that was just clicked is now active
+        header.active = true;//our now-active header
+
+        var prop = header.sortPropertyName;
+
+        if (prop == "NA") { return; }
+
+        var ascSort = function (a, b) {
+            //alert(prop);
+            //alert(a[prop] < b[prop]); alert(a[prop] > b[prop]);
+            //if (a[prop] < b[prop] ? -1 : a[prop] > b[prop] ? 1 : a[prop] == b[prop] ? 0 : 0 != 0) { alert("ascSort: " + prop);}
+
+            if (prop == 'eventName') {
+                return a[prop]() < b[prop]() ? -1 : a[prop]() > b[prop]() ? 1 : a[prop]() == b[prop]() ? 0 : 0;
+            }
+            else {
+                return new Date(a[prop]()) < new Date(b[prop]()) ? -1 : new Date(a[prop]()) > new Date(b[prop]()) ? 1 : new Date(a[prop]()) == new Date(b[prop]()) ? 0 : 0;
+            }
+        };
+        var descSort = function (a, b) {
+            //alert(prop);
+            //if (a[prop] < b[prop] ? -1 : a[prop] > b[prop] ? 1 : a[prop] == b[prop] ? 0 : 0 != 0) { alert("descSort: " + prop); }
+            
+            if (prop == 'eventName') {
+                return a[prop]() > b[prop]() ? -1 : a[prop]() < b[prop]() ? 1 : a[prop]() == b[prop]() ? 0 : 0;
+            } else {
+                return new Date(a[prop]()) > new Date(b[prop]()) ? -1 : new Date(a[prop]()) < new Date(b[prop]()) ? 1 : new Date(a[prop]()) == new Date(b[prop]()) ? 0 : 0;
+            }
+        };
+        var sortFunc = header.asc ? ascSort : descSort;
+
+        self.activeSort(sortFunc);
+
+        //store the new active sort function
+        //self.activeSort(prop);
+        //self.ascending(header.asc);
+    };
+
+    self.filteredEvents = ko.computed(function () {
+
+        return ko.utils.arrayFilter(self.events(), function (rec) {
+            return (
+                      (self.filterEvent() == null ||
+                            rec.eventName().toLowerCase().indexOf(self.filterEvent().toLowerCase()) > -1)
+                        &&
+                      (self.activeSort() != null)
+                   )
+        }).sort(self.activeSort());
+
+    });
 
 }
 

@@ -86,7 +86,7 @@ namespace KnockoutMVC.Controllers
             {
                 msg = "Check In: " + Event.checkIn.ToShortDateString() + " before event Date: " + Event.eventDate.ToShortDateString() + "?";
             }
-            else if (Event.checkOut < Event.eventDate)
+            else if (Event.checkOut > Event.eventDate)
             {
                 msg = "Check Out: " + Event.checkOut.ToShortDateString() + " after event Date: " + Event.eventDate.ToShortDateString() + "?";
             }

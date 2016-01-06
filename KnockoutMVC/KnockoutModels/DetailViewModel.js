@@ -15,6 +15,7 @@ function Detail(orderEvent, id, item, qty, checkout, checkin, truck, available) 
     self.Truck = ko.observable(truck);
     self.InvAvl = ko.observable(available);
         
+    self.Truck.subscribe(function (data) { alert(data); });
     // create computed field by combining first name and last name
     /*
     self.FullName = ko.computed(function () {
@@ -52,47 +53,15 @@ function DetailList() {
     //self.details = ko.observableArray([]);
 
     self.getDetails = function (Event) {
-
         $("#TbDetail").click();
-
-        return; 
-
-        if (Event == null) { return; }
-        try{if (Event.orderList() == null) { return;}
-        } catch (e) { return;}
-        
-        //self.details.removeAll();
-        //alert("get Details");
-
-        /*
-        $.each(Event.eventItems(), function(key,value){
-            self.details.push(new Detail(Event, value.id, value.item, value.orderQty, moment(value.checkout).format('l'), moment(value.checkin).format('l'), value.truck, value.available));
-
-        });
-        */
-
-        // event Items is the observable list of orders!
-        //self.details = Event.eventItems;
-       
-        // retrieve details list from server side and push each object to model's details list
-
-        /*
-        $.getJSON(path + 'api/detail/' + ViewModel.EventID(), function (data) {
-
-            $.each(data, function (key, value) {
-                self.details.push(new Detail(ViewModel.oEvent, value.id, value.item, value.orderQty, moment(value.checkout).format('l'), moment(value.checkin).format('l'), value.truck, value.available));
-            });
-
-            $("#TbDetail").click();
-
-        });
-        */
     };
 
     self.addEventItem = function (event) {
         //new Detail(value.eventid, value.id, value.item, value.orderQty, value.checkout, value.checkin, value.truck, value.available
 
         var detail = new Detail(event, 0, "", 1, moment(ViewModel.EventDate).format('l'), moment(ViewModel.EventDate).format('l'), "", 0)
+
+        detail.Truck.subscribe(function (data) { alert(data); });
 
         var dataObject = ko.toJSON(detail);
 
@@ -120,32 +89,7 @@ function DetailList() {
 
     self.saveAll = function () {
 
-
-        /*
-        self.details().forEach(function (dtl) {
-
-            dtl.CheckIn = moment(dtl.CheckIn()).format("MM-dd-YYYY");
-            dtl.CheckOut = moment(dtl.CheckOut()).format("MM-dd-YYYY");;
-
-        });
-        */
-        /*
-        $.each(self.details, function (key, value) {
-
-            value.orderEvent() = ViewModel.oEvent;                
-
-        });*/
-        
-        //var dataObject = ko.toJSON(self.details);
-
-        /*
-        ViewModel.oEvent().orderList().forEach(function (dtl) {
-            dtl.orderEvent = null;
-        });
-        */
         var dataObject = ko.toJSON(ViewModel.oEvent);
-
-
 
             $.ajax({
                 url: (path + 'api/itemlist'),
@@ -166,26 +110,17 @@ function DetailList() {
 
 
     // remove detail. current data context object is passed to function automatically.
-
+    // Can this be deleted? removed?
     self.removeDetail = function (detail, event) {
-        
-        event.orderList.remove(detail);
-        event.orderCount(event.orderList().length);
 
-        self.saveAll();
+        if (confirm("Remove Item2? Not Removable.")) {
 
-        /*
-        $.ajax({
-            url: path + 'api/detail/' + detail.Id() + '/delete',
-            type: 'get',
-            contentType: 'application/json',
-            success: function () {
+            event.orderList.remove(detail);
+            event.orderCount(event.orderList().length);
 
-                self.details.remove(detail);
+            self.saveAll();
+        }
 
-            }
-        });
-        */
 
     };
 

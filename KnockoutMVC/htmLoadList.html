@@ -47,7 +47,7 @@
                         <td data-bind="text: EventDate"></td>
                         <td data-bind="text: Component"></td>
                         <td data-bind="text: LoadQuantity
-                                           , css: Available()==0 ? 'btn btn-success btn-xs': Available()==1 ? 'Yellow':'btn btn-danger btn-xs'
+                                           , css: Available()==0 ? 'btn btn-success btn-xs': Available()==1 ? 'btn btn-warning btn-xs':'btn btn-danger btn-xs'
                                         , attr: {title: 'Green, inventory available. Red, short inventory. Yellow, day before/after overlap constraint.'}
                                     "></td>
                     </tr>

@@ -67,7 +67,8 @@ function LoadList() {
 
     self.getLoad = function (detail) {
 
-        $("#cbxLoadList").prop('checked',true);
+        $("#cbxLoadList").prop('checked', 'checked');
+        $("#cbxLoadList").attr('checked', 'checked');
 
         try{
             if (detail.truck!=null) { ViewModel.LoadTruck(detail.truck);}

@@ -15,7 +15,7 @@
 
                 <input type="text" class="form-control" style="width: 150px" placeholder="filter Event Name" data-bind="value: filterEvent" />
 
-                <input type="button" class="btn btn-default" id="btnGetEvents" value="Refresh" data-bind="click: $root.eventListViewModel.getEventAsOf(ViewModel.AsOf())" />
+               <!-- <input type="button" class="btn btn-default" id="btnGetEvents" value="Refresh" data-bind="click: $root.eventListViewModel.getEventAsOf(ViewModel.AsOf())" /> -->
 
                 <input type="checkbox" class="btn btn-primary" id="btnAddEvent" data-bind="checked: cbxNewEvent" /> Add Event
 
@@ -46,7 +46,7 @@
                         <td>
                             <input type="button"
                                    data-bind="value: orderCount
-                                                    , css: available()==0 ? 'btn btn-success btn-xs': available()==1 ? 'Yellow':'btn btn-danger btn-xs'
+                                                    , css: available()==0 ? 'btn btn-success btn-xs': available()==1 ? 'btn btn-warning btn-xs':'btn btn-danger btn-xs'
                                                     , click: $root.getOrders
                                                     , attr: {title: orderCount() + ' event Items attached. Green, inventory available. Red, short inventory. Click to view/add deliverables.'}
                                             " />

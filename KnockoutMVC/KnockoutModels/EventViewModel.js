@@ -22,18 +22,20 @@ function Event(id, eventDate, checkOut, checkIn, eventName, available, comments,
     
     self.removeDetail = function (order) {
 
-        alert('removeDetail');
+        if (confirm("Remove this Item?")) {
 
-        $.ajax({
-            url: path + 'api/detail/' + order.id + '/delete',
-            type: 'get',
-            contentType: 'application/json',
-            success: function () {
+            $.ajax({
+                url: path + 'api/detail/' + order.id + '/delete',
+                type: 'get',
+                contentType: 'application/json',
+                success: function () {
 
-                self.orderList.remove(order);
+                    self.orderList.remove(order);
 
-            }
-        });
+                }
+            });
+
+        }
 
     };
 
@@ -52,6 +54,7 @@ function Event(id, eventDate, checkOut, checkIn, eventName, available, comments,
             success: function (data) {
 
                 alert(data);
+                ViewModel.getOrders(event);
 
             }
             , error: function (jqXHR, exception) { errorFunction(jqXHR, exception); }

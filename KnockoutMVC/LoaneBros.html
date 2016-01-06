@@ -205,10 +205,12 @@
                         $(element).jqte({
                              blur: function () {
                                 //alert("The editor is blured");
-                                alert($("div.jqte_editor").html());
+                                //alert($("div.jqte_editor").html());
                                 $(element).val($("div.jqte_editor").html());
                                 var observable = valueAccessor();
                                 observable($("div.jqte_editor").html());
+                                 //Save Notes.
+                                ViewModel.addEventViewModel.save(ViewModel.oEvent());
                             }
                         });
                     },

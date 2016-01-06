@@ -31,7 +31,7 @@
                             <td>
                                 <input type="button"
                                        data-bind="value: available ? '[Y]':'[N]'
-                                                    , css: available==0 ? 'btn btn-success btn-xs': available==1 ? 'Yellow':'btn btn-danger btn-xs'
+                                                    , css: available==0 ? 'btn btn-success btn-xs': available==1 ? 'btn btn-warning btn-xs':'btn btn-danger btn-xs'
                                                     , attr: {title: 'Green, inventory available. Red, short inventory.'}
                                             " />
                             </td>
@@ -46,12 +46,13 @@
                                 <select class="form-control col-md-4"
                                         data-bind="options: ViewModel.addDetailViewModel.truckList, value: truck, optionsCaption: ' -- Truck -- '"></select>
                             </td>
+
                             <td>
                                 <input type="button"
                                        data-bind="value: truck
                                                     , click: ViewModel.loadListViewModel.getLoad
-
-                                            " />
+                                            
+                                            " value="test" />
 
                             </td>
                             <td><input type="button" class="btn btn-danger btn-xs" value=" [x] " data-bind="click: $parent.removeDetail" /></td>
@@ -60,9 +61,6 @@
                 </table>
 
                 <br />
-
-                <input type="button" class="btn btn-default" id="btnGetDetails" value="Refresh"
-                       data-bind="click: ViewModel.detailListViewModel.getDetails(ViewModel.EventID)" />
 
                 <input type="button" class="btn btn-primary" value="Add"
                        data-bind="click: ViewModel.detailListViewModel.addEventItem

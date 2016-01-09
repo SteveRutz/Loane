@@ -1,6 +1,6 @@
 ﻿
 // use as register student views view model
-function Event(id, eventDate, checkOut, checkIn, eventName, available, comments, eventItems) {
+function Event(id, eventDate, checkOut, checkIn, eventName, available, comments, eventItems, booked) {
     var self = this;
 
     // observable are update elements upon changes, also update on element data changes [two way binding]
@@ -19,6 +19,7 @@ function Event(id, eventDate, checkOut, checkIn, eventName, available, comments,
     self.comments = ko.observable(comments);
     self.orderList = ko.observableArray(eventItems);
     self.orderCount = ko.observable(self.orderList().length);
+    self.booked = ko.observable(booked);
     
     self.removeDetail = function (order) {
 
@@ -83,7 +84,7 @@ function Event(id, eventDate, checkOut, checkIn, eventName, available, comments,
                     , data.eventName
                     , data.available
                     , data.comments
-                    , data.eventOrders));
+                    , data.eventOrders, booked));
 
                 self.id(null);
                 self.eventName('');
@@ -130,7 +131,7 @@ function EventList() {
                     , value.eventName
                     , value.available
                     , value.comments
-                    , value.orderList));
+                    , value.orderList, value.booked));
 
                 $('body').css('cursor', 'default');
 
@@ -176,6 +177,7 @@ function EventList() {
 { title: 'Event<br/>Date', sortPropertyName: 'eventDate', asc: true, active: false },
 { title: "Check-Out", sortPropertyName: 'checkOut', asc: true, active: false },
 { title: "Check-In", sortPropertyName: 'checkIn', asc: true, active: false },
+{ title: "Booked", sortPropertyName: 'booked', asc: true, active: false },
 { title: "Delete", sortPropertyName: 'eventDate', asc: true, active: false }
     ];
 

@@ -56,6 +56,10 @@
                         <td data-bind="text: moment(eventDate()).format('l')"></td>
                         <td data-bind="text: moment(checkOut()).format('l')"></td>
                         <td data-bind="text: moment(checkIn()).format('l')"></td>
+                        <td>
+                            <span class="glyphicon glyphicon-check" data-bind="visible: booked()==true" />
+                            <span class="glyphicon glyphicon-unchecked" data-bind="visible: booked()==false" />
+                        </td>
                         <td><input type="button" class="btn btn-danger btn-xs" value=" [x] " data-bind="click: $parent.removeEvent" /></td>
                     </tr>
                 </tbody>

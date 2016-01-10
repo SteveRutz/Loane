@@ -41,7 +41,7 @@ namespace KnockoutMVC
         }
         */
         //static public IList<eventItemCount> GetEvents()
-        static public IList<events> GetEvents()
+        static public IList<events> GetEvents(DateTime AsOf)
         {
 
             //InventoryAvailability.Set();
@@ -54,7 +54,9 @@ namespace KnockoutMVC
                 using (session.BeginTransaction())
                 {
 
-                    IList<events> evts = session.CreateCriteria(typeof(events)).List<events>();
+                    IList<events> evts = session.CreateCriteria(typeof(events))
+                        .Add(NHibernate.Criterion.Restrictions.Ge("eventDate", AsOf))
+                        .List<events>();
 
                     try
                     {

@@ -16,18 +16,18 @@ namespace KnockoutMVC.Controllers
     [RoutePrefix("api/event")]
     public class EventController : ApiController
     {
-        public IEnumerable<events> Get()
-        {
+        //public IEnumerable<events> Get()
+        //{
 
-            //System.Web.Script.Serialization.JavaScriptSerializer JSS = new System.Web.Script.Serialization.JavaScriptSerializer();
-            IList<events> evts = EventsRepository.GetEvents();
-            foreach (events et in evts)
-            {
-                et.orderList = null;
-            }
+        //    //System.Web.Script.Serialization.JavaScriptSerializer JSS = new System.Web.Script.Serialization.JavaScriptSerializer();
+        //    IList<events> evts = EventsRepository.GetEvents();
+        //    foreach (events et in evts)
+        //    {
+        //        et.orderList = null;
+        //    }
 
-            return evts;
-        }
+        //    return evts;
+        //}
         /*
         public IEnumerable<eventItemCount> Get()
         {
@@ -47,7 +47,7 @@ namespace KnockoutMVC.Controllers
         //public IEnumerable<eventItemCount> Get(DateTime AsOf)
         {
             //IEnumerable<eventItemCount> evts = EventsRepository.GetEvents()
-            IList<events> evts = EventsRepository.GetEvents()
+            IList<events> evts = EventsRepository.GetEvents(AsOf)
             .Where(x => x.eventDate >= AsOf)
             .OrderBy(x => x.eventDate)
             .ToList();

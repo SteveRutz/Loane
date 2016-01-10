@@ -1,5 +1,10 @@
 ﻿
-
+<style>
+   #tabs-6 th {
+        cursor: pointer;
+        text-align:center
+    }
+</style>
 
 <div class="col-md-6">
 
@@ -56,7 +61,7 @@
                         <td data-bind="text: moment(eventDate()).format('l')"></td>
                         <td data-bind="text: moment(checkOut()).format('l')"></td>
                         <td data-bind="text: moment(checkIn()).format('l')"></td>
-                        <td>
+                        <td style="text-align: center">
                             <span class="glyphicon glyphicon-check" data-bind="visible: booked()==true" />
                             <span class="glyphicon glyphicon-unchecked" data-bind="visible: booked()==false" />
                         </td>

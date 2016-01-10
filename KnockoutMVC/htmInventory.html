@@ -1,4 +1,11 @@
 ﻿
+<style>
+    #tabs-1 th {
+        cursor: pointer;
+        text-align: center;
+    }
+</style>
+
 <div id="myTabs6" data-bind="tabs: true">
 
     <ul>
@@ -184,14 +191,7 @@
                     <tbody data-bind="foreach: filteredInventory">
                         <tr>
 
-                            <!--
-                                <th>Id</th>
-
-                            <td>
-                                <input type="text" class="form-control col-md-4" data-bind="value: id" />
-                            </td>
-                                -->
-                            <td class="col-xs-1" style="align-items:center; margin-left:5px">
+                            <td class="col-xs-1" style="text-align:center ; margin-left:5px">
                                 <span class="glyphicon glyphicon-check" data-bind="visible: master()==true"/>
                                 <span class="glyphicon glyphicon-unchecked" data-bind="visible: master()==false" />
                             </td>

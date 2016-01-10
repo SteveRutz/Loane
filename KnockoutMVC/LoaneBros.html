@@ -27,12 +27,8 @@
 </head>
 <body>
 
-    <!--
-    <div data-bind="with: ViewModel.oEvent">
-        <h2 class="panel-title" data-bind="text: 'Event: ' + eventName(), css:{color:'blue'}"></h2>
-    </div>
-        -->
-        <div id="myTabs" data-bind="tabs: true">
+    <div class="col-xs-12">
+        <div id="myTabs" class="col-xs-9" data-bind="tabs: true">
             <!--<ul class="nav nav-tabs" data-bind="tabs: true" id="myTabs">-->
             <ul>
                 <li><a id="TbEvent" href="#tabs-1">Events</a></li>
@@ -52,41 +48,44 @@
 
             </ul>
 
+            <!-- Event List -->
+            <div id="tabs-1" class="col-xs-12" data-bind="with: eventListViewModel"></div>
 
-                <!-- Event List -->
-                <div id="tabs-1" data-bind="with: eventListViewModel"></div>
+            <!-- Edit Event -->
+            <div id="tabs-2b" data-bind="with:ViewModel.oEvent"></div>
 
-                <!-- Edit Event -->
-                <div id="tabs-2b" data-bind="with:ViewModel.oEvent"></div>
+            <!-- Event Notes -->
+            <div id="tabs-2c" data-bind="with:ViewModel.oEvent"></div>
 
-                <!-- Event Notes -->
-                <div id="tabs-2c" data-bind="with:ViewModel.oEvent"></div>
+            <!-- Details -->
+            <div id="tabs-2" data-bind="with: ViewModel.oEvent"></div>
 
-                <!-- Details -->
-                <div id="tabs-2" data-bind="with: ViewModel.oEvent"></div>
+            <!-- New Event -->
+            <div id="tabs-3"></div>
 
-                <!-- New Event -->
-                <div id="tabs-3"></div>
+            <!-- Inventory -->
+            <div id="tabs-6" class="col-xs-12" data-bind="with: inventoryViewModel"></div>
 
-                <!-- Inventory -->
-                <div id="tabs-6" data-bind="with: inventoryViewModel"></div>
+            <!-- Load List -->
+            <div id="tabs-5" data-bind="with: loadListViewModel"></div>
 
-                <!-- Load List -->
-                <div id="tabs-5" data-bind="with: loadListViewModel"></div>
+            <!-- Truck List -->
+            <div id="tabs-7" data-bind="with: truckViewModel"></div>
 
-                <!-- Truck List -->
-                <div id="tabs-7" data-bind="with: truckViewModel"></div>
+            <!-- Print Event -->
+            <div id="tabs-8" data-bind="with: ViewModel.oEvent"></div>
 
-                <!-- Print Event -->
-                <div id="tabs-8" data-bind="with: ViewModel.oEvent"></div>
+            <!-- BOMs -->
+            <div id="ztabs-9" data-bind="with: bomViewModel"></div>
 
-                <!-- Admin -->
-                <div id="tabs-9" data-bind="with: adminViewModel"></div>
+        </div>
 
-                <!-- BOMs -->
-                <div id="ztabs-9" data-bind="with: bomViewModel"></div>
+    </div>
 
-            </div>
+        <!-- Admin -->
+        <div id="tabs-9" data-bind="with: adminViewModel"></div>
+
+
 
         <script>
 
@@ -97,12 +96,12 @@
             $.get("htmEventList.html", "", function (htm) { $('#tabs-1').html(htm); tDetails() }, "html");
 
             function tDetails() {
-                
+
                 $.get("htmDetails.html", "", function (htm) { $('#tabs-2').html(htm); tEventAdd(); }, "html");
             }
 
             function tEventAdd() {
-                
+
                 $.get("htmEventAdd.html", "", function (htm) { $('#tabs-3').html(htm); tEventEdit(); }, "html");
             }
 
@@ -117,27 +116,27 @@
             }
 
             function tInventory() {
-                
+
                 $.get("htmInventory.html", "", function (htm) { $('#tabs-6').html(htm); tLoadList(); }, "html");
             }
 
             function tLoadList() {
-                
+
                 $.get("htmLoadList.html", "", function (htm) { $('#tabs-5').html(htm); tTruckList(htm); }, "html");
             }
 
             function tTruckList() {
-                
+
                 $.get("htmTruckList.html", "", function (htm) { $('#tabs-7').html(htm); tPrint(htm); }, "html");
             }
 
             function tPrint() {
-                
+
                 $.get("htmPrintOut.html", "", function (htm) { $('#tabs-8').html(htm); tAdmin(htm); }, "html");
             }
 
             function tAdmin() {
-                
+
                 $.get("htmAdmin.html", "", function (htm) { $('#tabs-9').html(htm); tBOM(); }, "html");
             }
 
@@ -147,7 +146,7 @@
             }
 
 
-            
+
             function tBOM(htm) {
                 //alert("Apply");
                 applyModel();

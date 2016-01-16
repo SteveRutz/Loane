@@ -35,6 +35,7 @@
                     <tr>
                         <th>Event</th>
                         <th>Event Date</th>
+                        <th>Truck</th>
                         <th>Item</th>
                         <th>Qty</th>
                     </tr>
@@ -45,6 +46,7 @@
                     <tr>
                         <td data-bind="text: EventName"></td>
                         <td data-bind="text: EventDate"></td>
+                        <td data-bind="text: Truck"></td>
                         <td data-bind="text: Component"></td>
                         <td data-bind="text: LoadQuantity
                                            , css: Available()==0 ? 'btn btn-success btn-xs': Available()==1 ? 'btn btn-warning btn-xs':'btn btn-danger btn-xs'

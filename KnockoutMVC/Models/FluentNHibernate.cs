@@ -35,6 +35,10 @@ namespace KnockoutMVC
                 if (CTX.Request.Url.ToString().IndexOf("localhost") == -1)
                 {
                     m_DbFile = @"\\" + CTX.Server.MapPath("\\") + @"/LoaneBros/App_Data/LoaneBrothers.db";
+                    //m_DbFile = @"\\" + CTX.Server.MapPath("\\") + @"\LoaneBrosData\LoaneBrothers.db";
+                    //m_DbFile = @"\\nas-002\Winspace\10-steverutz.com\www\LoaneBrosData\LoaneBrothers.db";
+                    //m_DbFile = @"\\\\nas-002\Winspace\10-steverutz.com\www\LoaneBrosData\LoaneBrothers.db";
+                    //DbFile = System.Configuration.ConfigurationManager.ConnectionStrings["SqLiteCon"].ConnectionString;
                 }
 
                 return m_DbFile;
@@ -46,21 +50,11 @@ namespace KnockoutMVC
 
         public static ISessionFactory CreateSessionFactory()
         {
-            //DbFile = "LoaneBros.db";
+        
             try
             {
                 HttpContext CTX = HttpContext.Current;
-
-                //DbFile = CTX.Server.MapPath(@"App_Data\LoaneBrothers.db").Replace("api\\", "");
-                DbFile = CTX.Server.MapPath("\\") + @"App_Data\LoaneBrothers.db";
-
-
-                if (CTX.Request.Url.ToString().IndexOf("localhost") == -1)
-                {
-                    DbFile = @"\\" + CTX.Server.MapPath("\\") + @"knockout\App_Data\LoaneBrothers.db";
-                }
-
-                //DbFile = System.Configuration.ConfigurationManager.ConnectionStrings["SqLiteCon"].ConnectionString;
+                
                 return Fluently.Configure()
                     //.Database(SQLiteConfiguration.Standard.InMemory)
                     .Database(SQLiteConfiguration.Standard

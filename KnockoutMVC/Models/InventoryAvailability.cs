@@ -162,6 +162,11 @@ namespace KnockoutMVC.Models
 
                     var MinDate = evt.checkOut; // ordList.Min(x => x.checkout);
 
+                    if (avlType == Available.Red)
+                    {
+                        MaxDate = evt.eventDate; MinDate = evt.eventDate;
+                    }
+
                     DateTime dMax = Convert.ToDateTime(MaxDate);
 
                     DateTime dMin = Convert.ToDateTime(MinDate);
@@ -196,7 +201,7 @@ namespace KnockoutMVC.Models
                                                  where  d >= o.orderEvent.checkOut 
                                                         && d <= o.orderEvent.checkIn 
                                                         && avlType==Available.Yellow
-                                                 || d == o.orderEvent.eventDate
+                                                 || d.ToShortDateString() == o.orderEvent.eventDate.ToShortDateString()
                                                         && avlType == Available.Red
                                                  select new compOrdInv
                                                  {

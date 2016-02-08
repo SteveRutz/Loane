@@ -35,6 +35,7 @@
                                data-bind="value: available ? '[Y]':'[N]'
                                                     , css: available==0 ? 'btn btn-success btn-xs': available==1 ? 'btn btn-warning btn-xs':'btn btn-danger btn-xs'
                                                     , attr: {title: 'Green, inventory available. Red, short inventory.'}
+                                                    , click: ViewModel.detailListViewModel.viewBom
                                             " />
                     </td>
 

@@ -186,8 +186,14 @@ namespace KnockoutMVC
                                     bomItem.qty = item.bomQty;
                                     session.SaveOrUpdate(bomItem);
                                 }
+                                else if (item.bomQty==0 && bomItem != null)
+                                {
+                                    var queryString = string.Format("delete {0} where id = :id", typeof(bom));
+                                    session.CreateQuery(queryString)
+                                           .SetParameter("id", bomItem.id)
+                                           .ExecuteUpdate();
+                                }
 
-                                session.SaveOrUpdate(item);
 
                             }
 

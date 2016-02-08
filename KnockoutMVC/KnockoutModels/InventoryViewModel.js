@@ -38,6 +38,7 @@ function InventoryList() {
             $('#lblbomQty').html(data);
             //console.log(data);
             self.getInventory(data);
+            cbxInventory(true);
         }
 
     });
@@ -86,10 +87,10 @@ function InventoryList() {
     self.saveInventory = function () {
 
         var dataObject = ko.toJSON(self.Inventory);
-        var MasterItem = self.MasterItems().valueOf();
+        var MasterItem = self.bomMaster();
 
         $.ajax({
-            url: (path + 'api/inventory/'+ MasterItem[0]),
+            url: (path + 'api/inventory/'+ MasterItem),
             type: 'post',
             data: dataObject,
             contentType: 'application/json',
@@ -102,7 +103,7 @@ function InventoryList() {
                 self.Item('');
 
                 */
-                alert(data);
+                alert(data.Data);
 
                 
 

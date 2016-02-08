@@ -47,14 +47,21 @@ namespace KnockoutMVC.Controllers
 
         // POST api/inventory
         [Route("{masterItem}")]
-        public HttpResponseMessage Post(List<inventory> Inventory, string masterItem)
+        public System.Web.Mvc.ActionResult Post(List<inventory> Inventory, string masterItem)
         {
 
             string msg = InventoryRepository.saveAll(Inventory, masterItem);
-            var response = Request.CreateResponse(HttpStatusCode.Created, msg);
-            string url = Url.Link("DefaultApi",new{msg});
-            response.Headers.Location = new Uri(url);
-            return response;
+
+            return new System.Web.Mvc.JsonResult()
+        {
+            Data = msg
+            //JsonRequestBehavior = System.Web.Mvc.JsonRequestBehavior.AllowGet
+        };
+
+            //var response = Request.CreateResponse(HttpStatusCode.Created, msg);
+            //string url = Url.Link("DefaultApi",new{msg});
+            //response.Headers.Location = new Uri(url);
+            //return response;
                 
         }
 

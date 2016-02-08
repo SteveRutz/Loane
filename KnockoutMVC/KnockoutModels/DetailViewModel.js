@@ -124,6 +124,15 @@ function DetailList() {
 
     };
 
+
+    self.viewBom = function (detail) {
+
+        ViewModel.inventoryViewModel.bomMaster(detail.item);
+        ViewModel.inventoryViewModel.headers[3].active = true;
+        ViewModel.inventoryViewModel.sort(ViewModel.inventoryViewModel.headers[3]);
+ 
+    };
+
 }
 
 

@@ -119,7 +119,7 @@ function InventoryList() {
 
     self.addInventoryItem = function () {
 
-        var dataObject = ko.toJSON(new Item(0, false, "Added Item", 0));
+        var dataObject = ko.toJSON(new Item(0, false, " Added Item", 0));
 
         $.ajax({
             url: (path + 'api/inventoryitem'),
@@ -247,7 +247,9 @@ function InventoryList() {
                       (self.filterOrderItem == null || self.filterOrderItem() == false || self.filterOrderItem() == rec.master())
                         &&
                       (self.filterItem().length == 0 ||
-                            rec.item().toLowerCase().indexOf(self.filterItem().toLowerCase()) > -1)
+                            rec.item().toLowerCase().indexOf(self.filterItem().toLowerCase()) > -1
+                           || rec.item().toLowerCase().indexOf('added') > -1
+                        )
                         &&
                       (self.filterInvQty() == null || self.filterInvQty()=="" || self.filterInvQty() == rec.qty())
                         && 
@@ -265,17 +267,26 @@ function InventoryList() {
             return (
 
                       (rec.bomQty() > 0)
-                        &&
-                      (self.filterItem().length == 0 ||
-                            rec.item().toLowerCase().indexOf(self.filterItem().toLowerCase()) > -1)
-                        &&
-                      (self.filterInvQty() == null || self.filterInvQty() == "" || self.filterInvQty() == rec.qty())
-                        &&
-                      (self.filterBomQty() == null || self.filterBomQty() == false || self.filterBomQty() == (rec.bomQty() > 0))
-                       &&
-                      (self.activeSort() != null)
+
                    )
         }).sort(self.activeSort());
+
+    });
+
+    self.filteredMasterItems = ko.computed(function () {
+        return ko.utils.arrayFilter(self.MasterItems(), function (rec) {
+            
+            if (rec.toLowerCase().indexOf('add') > -1) {
+                alert(rec);
+            }
+
+            return (self.filterItem().length == 0
+
+                || rec.toLowerCase().indexOf(self.filterItem().toLowerCase()) > -1
+
+               )
+
+        });
 
     });
 

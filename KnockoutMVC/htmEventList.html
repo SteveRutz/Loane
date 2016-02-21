@@ -8,19 +8,15 @@
 
     <div class="panel panel-info">
         <div class="panel-heading">
-            <h2 class="panel-title">Events As Of</h2>
+            
             <div class="form-inline">
 
-                <input id="inpAsOf" type="text" class="form-control" style="width: 125px"
+                <input type="text" class="form-control" placeholder="filter Event Name" data-bind="value: filterEvent" />
+
+                <input id="inpAsOf" type="text" class="form-control ui-icon-calender" style="width:150px"
                        data-bind="datepicker: ViewModel.AsOf
                                             , event: {change: $root.eventListViewModel.getEventAsOf(ViewModel.AsOf())}
                         " />
-
-                <input type="text" class="form-control" style="width: 150px" placeholder="filter Event Name" data-bind="value: filterEvent" />
-
-                <!-- <input type="button" class="btn btn-default" id="btnGetEvents" value="Refresh" data-bind="click: $root.eventListViewModel.getEventAsOf(ViewModel.AsOf())" /> -->
-
-                <input type="checkbox" class="btn btn-primary" id="btnAddEvent" data-bind="checked: cbxNewEvent" /> Add Event
 
             </div>
         </div>
@@ -46,16 +42,16 @@
 
                 <tbody data-bind="foreach: filteredEvents">
                     <tr>
+
+                        <td data-bind="text: eventName"></td>
                         <td>
-                            <input type="button"
+                            <input type="button" class="btn-xs form-control "
                                    data-bind="value: orderCount
-                                                    , css: available()==0 ? 'btn btn-success btn-xs': available()==1 ? 'btn btn-warning btn-xs':'btn btn-danger btn-xs'
+                                                    , css: available()==0 ? 'btn-xs btn-success form-control': available()==1 ? 'btn-xs btn-warning form-control':'btn-xs btn-danger form-control'
                                                     , click: $root.getOrders
                                                     , attr: {title: orderCount() + ' event Items attached. Green, inventory available. Red, short inventory. Click to view/add deliverables.'}
                                             " />
                         </td>
-
-                        <td data-bind="text: eventName"></td>
                         <td data-bind="text: moment(eventDate()).format('l')"></td>
                         <td data-bind="text: moment(checkOut()).format('l')"></td>
                         <td data-bind="text: moment(checkIn()).format('l')"></td>
@@ -63,7 +59,7 @@
                             <span class="glyphicon glyphicon-check" data-bind="visible: booked()==true" />
                             <span class="glyphicon glyphicon-unchecked" data-bind="visible: booked()==false" />
                         </td>
-                        <td><input type="button" class="btn btn-danger btn-xs" value=" [x] " data-bind="click: $parent.removeEvent" /></td>
+                        <td><input type="button" class="btn-xs btn-danger form-control" value=" [x] " data-bind="click: $parent.removeEvent" /></td>
                     </tr>
                 </tbody>
             </table>

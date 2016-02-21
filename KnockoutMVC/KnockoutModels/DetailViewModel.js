@@ -41,6 +41,33 @@ function Detail(orderEvent, id, item, qty, checkout, checkin, truck, available) 
 
     $.getJSON(path + 'api/itemlist', function (data) { self.itemList(data); });
 
+    self.filterItem = ko.observable('');
+
+    self.filteredItemList = ko.computed(function () {
+        return ko.utils.arrayFilter(self.itemList(), function (rec) {
+
+            if (rec.toLowerCase().indexOf('add') > -1) {
+                alert(rec);
+            }
+
+            return (self.filterItem().length == 0
+
+                || rec.toLowerCase().indexOf(self.filterItem().toLowerCase()) > -1
+
+                || ViewModel.oEvent().orderList().filter(
+
+                        function (data) {
+                            return rec.indexOf(data["item"]) > -1;
+                        }
+
+                   ).length != 0
+
+               )
+
+        });
+
+    });
+
 }
 
 
@@ -132,6 +159,10 @@ function DetailList() {
         ViewModel.inventoryViewModel.sort(ViewModel.inventoryViewModel.headers[3]);
  
     };
+
+    self.activeSort = ko.observable(function () { return 0; });
+
+
 
 }
 

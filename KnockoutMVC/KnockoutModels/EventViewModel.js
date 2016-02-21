@@ -102,7 +102,6 @@ function Event(id, eventDate, checkOut, checkIn, eventName, available, comments,
 }
 
 
-// use as student list view's view model
 function EventList() {
 
     var self = this;
@@ -172,8 +171,8 @@ function EventList() {
     };
 
     self.evtHeaders = [
+{ title: 'Event', sortPropertyName: 'eventName', asc: false, active: true },
 { title: 'Items', sortPropertyName: 'orderCount', asc: true, active: false },
-{ title: 'Event', sortPropertyName: 'eventName', asc: false, active: true},
 { title: 'Event<br/>Date', sortPropertyName: 'eventDate', asc: true, active: false },
 { title: "Check-Out", sortPropertyName: 'checkOut', asc: true, active: false },
 { title: "Check-In", sortPropertyName: 'checkIn', asc: true, active: false },
@@ -245,6 +244,7 @@ function EventList() {
     });
 
 }
+
 
 function errorFunction(jqXHR, exception) {
     $("body").css('cursor', 'default');

@@ -38,7 +38,7 @@
                         <input type="button" class="btn btn-primary" value="Save Changes" data-bind="click: $root.inventoryViewModel.saveInventory" />
 
                         <select id="selOrderItem" class="form-control"
-                                data-bind="options: MasterItems, value: bomMaster, optionsCaption: '-- Bills-Of-Material -- '"></select>
+                                data-bind="options: filteredMasterItems, value: bomMaster, optionsCaption: '-- Bills-Of-Material -- '"></select>
                         &nbsp;&nbsp;&nbsp;&nbsp;**First Row Filter
                     </div>
 
@@ -105,7 +105,7 @@
                         <input type="button" class="btn btn-primary" value="Save Changes" data-bind="click: $root.inventoryViewModel.saveInventory" />
 
                         <select id="selOrderItem" class="form-control"
-                                data-bind="options: MasterItems, value: bomMaster, optionsCaption: '-- Bills-Of-Material -- '"></select>
+                                data-bind="options: filteredMasterItems, value: bomMaster, optionsCaption: '-- Bills-Of-Material -- '"></select>
                     </div>
 
                     <table id="TableInventory" class="table table-bordered table-condensed table-striped">
@@ -166,7 +166,7 @@
                         <input type="button" class="btn btn-primary" value="Save Changes" data-bind="click: $root.inventoryViewModel.saveInventory" />
 
                         <select id="selOrderItem" class="form-control"
-                                data-bind="options: MasterItems, value: bomMaster, optionsCaption: '-- Bills-Of-Material -- '"></select>
+                                data-bind="options: filteredMasterItems, value: bomMaster, optionsCaption: '-- Bills-Of-Material -- '"></select>
                     </div>
 
                     <table id="TableInventory" class="table table-bordered table-condensed table-striped">
@@ -175,11 +175,11 @@
                             <tr data-bind="foreach: delHeaders">
                                 <th class="sorting" data-bind="html: title, click: $parent.sort" />
                             </tr>
-                            <tr>
+                            <!--<tr>
                                 <th><input type="checkbox" class="form-control col-xs-2" data-bind="checked: filterOrderItem" /></th>
                                 <th><input type="text" placeholder="Item Filter Row" class="form-control" data-bind="value: filterItem" /></th>
                                 <th><input type="text" placeholder="Qty" class="form-control" data-bind="value: filterInvQty" /></th>
-                            </tr>
+                            </tr>-->
 
                         </thead>
 

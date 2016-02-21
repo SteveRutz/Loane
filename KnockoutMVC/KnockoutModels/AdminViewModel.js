@@ -89,4 +89,20 @@ function Admin() {
         }
     });
 
+    self.cbxDetail = ko.observable();
+
+    self.cbxDetail.subscribe(function () {
+            $('#TbDetail').click();
+    });
+
+    self.cbxEvent = ko.observable();
+
+    self.cbxEvent.subscribe(function (data) {
+
+            $('#TbEvent').click();
+
+    });
+
+
+
 }

@@ -26,12 +26,24 @@
                     <th>   Truck    </th>
                     <th>Remove</th>
                 </tr>
+                <tr>
+                    <th><!--ID--></th>
+                    <th><input type="text" placeholder="filter item drop-down list" data-bind="value: ViewModel.addDetailViewModel.filterItem" class="form-control"/></th>
+                    <th width="50px"><!--Qty--></th>
+                    <!--
+        <th>CheckOut</th>
+        <th>CheckIn</th>
+            -->
+                    <th>   <!--Truck-->    </th>
+                    <th>   <!--Truck-->    </th>
+                    <th><!--Remove--></th>
+                </tr>
             </thead>
 
             <tbody id="details" data-bind="foreach: orderList">
                 <tr>
                     <td>
-                        <input type="button"
+                        <input type="button" class="form-control"
                                data-bind="value: available ? '[Y]':'[N]'
                                                     , css: available==0 ? 'btn btn-success btn-xs': available==1 ? 'btn btn-warning btn-xs':'btn btn-danger btn-xs'
                                                     , attr: {title: 'Green, inventory available. Red, short inventory.'}
@@ -39,7 +51,7 @@
                                             " />
                     </td>
 
-                    <td><select id="inpDetailItem" class="form-control" data-bind="options: ViewModel.addDetailViewModel.itemList, value: item, optionsCaption: '-- Item -- '"></select></td>
+                    <td><select id="inpDetailItem" class="form-control" data-bind="options: ViewModel.addDetailViewModel.filteredItemList, value: item, optionsCaption: '-- Item -- '"></select></td>
                     <td><input type="text" class="form-control" data-bind="value: orderQty" /></td>
                     <!--
                     <td><input type="text" class="form-control" data-bind="datepicker: CheckOut" /></td>
@@ -63,31 +75,16 @@
             </tbody>
         </table>
 
-        <br />
 
-        <input type="button" class="btn btn-primary" value="Add"
-               data-bind="click: ViewModel.detailListViewModel.addEventItem
+            <div class="form-inline">
+                <input type="button" class="btn-sm btn-primary form-control"  value="Save Changes"
+                       data-bind="click: save
                                 " />
 
-        <input type="button" class="btn btn-primary" value="Save Changes"
-               data-bind="click: save
+                <input type="button" class="btn-sm btn-primary form-control" style="width:150px" value="Add"
+                       data-bind="click: ViewModel.detailListViewModel.addEventItem
                                 " />
-
-        <input id="cbxLoadList" type="checkbox" data-bind="checked: cbxLoadList" /> Load List
-
-        <input type="checkbox" data-bind="checked: cbxPrint" /> Print
-
-        <input type="checkbox" data-bind="checked: cbxNotes" /> Notes
-
-        <input type="checkbox" data-bind="checked: cbxEditEvent" /> Edit Event
-
-        <input type="checkbox" data-bind="checked: cbxNewEvent" /> New Event
-
-        <input type="checkbox" data-bind="checked: cbxInventory" /> Inventory
-
-        <input type="checkbox" data-bind="checked: cbxTrucks" /> Trucks
-
-    </div>
+            </div>
 
 </div>
 

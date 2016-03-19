@@ -54,8 +54,12 @@ function Event(id, eventDate, checkOut, checkIn, eventName, available, comments,
             contentType: 'application/json',
             success: function (data) {
 
-                alert(data);
-                ViewModel.getOrders(event);
+                // Use array filter to find record to update. Not redo everything. 
+                ViewModel.oEvent().available(data.__interceptor._target.available);
+                ViewModel.oEvent().orderList(data.__interceptor._target.orderList);
+                //alert(data);
+                //ViewModel.getOrders(event);
+                alert('order list saved.');
 
             }
             , error: function (jqXHR, exception) { errorFunction(jqXHR, exception); }

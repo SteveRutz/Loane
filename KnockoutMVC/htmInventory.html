@@ -37,9 +37,11 @@
                     <div class="form-inline">
                         <input type="button" class="btn btn-primary" value="Save Changes" data-bind="click: $root.inventoryViewModel.saveInventory" />
 
-                        <select id="selOrderItem" class="form-control"
+                        <select id="selOrderItem" class="form-control" 
                                 data-bind="options: filteredMasterItems, value: bomMaster, optionsCaption: '-- Bills-Of-Material -- '"></select>
-                        &nbsp;&nbsp;&nbsp;&nbsp;**First Row Filter
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <select id="selOrderItem" class="form-control" style="width:135px"
+                                 data-bind="options: bomTypeList, value: bomType"></select>
                     </div>
 
                     <table id="TableInventory" class="table table-bordered table-condensed table-striped">
@@ -49,7 +51,10 @@
                                 <th class="sorting" data-bind="html: title, click: $parent.sort" />
                             </tr>
                             <tr>
-                                <th><input type="checkbox" class="form-control col-xs-2" data-bind="checked: filterOrderItem" /></th>
+                                <th>
+                                    <select id="selOrderItem" class="form-control" style="width:120px"
+                                            data-bind="options: filterMasterItems, value: filterMaster"></select>
+                                </th>
                                 <th><input type="text" placeholder="Item Filter Row" class="form-control" data-bind="value: filterItem" /></th>
                                 <th><input type="text" placeholder="Qty" class="form-control" data-bind="value: filterInvQty" /></th>
                                 <th><input type="checkbox" class="form-control col-xs-2" data-bind="checked: filterBomQty" /></th>
@@ -176,7 +181,6 @@
                                 <th class="sorting" data-bind="html: title, click: $parent.sort" />
                             </tr>
                             <!--<tr>
-                                <th><input type="checkbox" class="form-control col-xs-2" data-bind="checked: filterOrderItem" /></th>
                                 <th><input type="text" placeholder="Item Filter Row" class="form-control" data-bind="value: filterItem" /></th>
                                 <th><input type="text" placeholder="Qty" class="form-control" data-bind="value: filterInvQty" /></th>
                             </tr>-->

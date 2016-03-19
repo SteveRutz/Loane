@@ -282,7 +282,7 @@
     <Content Include="KnockoutModels\TruckListViewModel.js" />
     <Content Include="KnockoutModels\InventoryViewModel.js" />
     <Content Include="KnockoutModels\LoadListViewModel.js" />
-    <Content Include="KnockoutModels\DetailViewModel.js" />
+    <Content Include="KnockoutModels\zDetailViewModel.js" />
     <Content Include="KnockoutModels\EventViewModel.js" />
     <Content Include="Event.html" />
     <Content Include="LoaneBros.html" />

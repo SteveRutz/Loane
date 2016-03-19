@@ -29,23 +29,23 @@ namespace KnockoutMVC.Controllers
      */
 
 
-        [Route("{id:int}")]
-        public IEnumerable<order> Get(int id)
-        {
+        //[Route("{id:int}")]
+        //public IEnumerable<order> Get(int id)
+        //{
 
 
-            IEnumerable<order> ord = DetailsRepository.GetDetail(id);
+        //    IEnumerable<order> ord = DetailsRepository.GetDetail(id);
 
-            //IList<order> ord = DetailsRepository.GetDetails(evt);
+        //    //IList<order> ord = DetailsRepository.GetDetails(evt);
 
-            foreach (order o in ord)
-            {
-                o.orderEvent = null;
-            }
+        //    foreach (order o in ord)
+        //    {
+        //        o.orderEvent = null;
+        //    }
 
-            return ord;
+        //    return ord;
 
-        }
+        //}
 
         // POST api/student
         //public HttpResponseMessage Post()

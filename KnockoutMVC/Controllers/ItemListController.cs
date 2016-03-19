@@ -45,16 +45,37 @@ namespace KnockoutMVC.Controllers
 
         // POST api/inventory
         //public HttpResponseMessage Post(List<order> ords)
-        public HttpResponseMessage Post(events evt)
+        public events Post(events evt)
         {
 
             //DetailsRepository.saveAll(ords);
             DetailsRepository.saveAll(evt);
-            string msg = "Items updated";
-            var response = Request.CreateResponse(HttpStatusCode.Created, msg);
-            string url = Url.Link("DefaultApi", new { msg });
-            response.Headers.Location = new Uri(url);
-            return response;
+
+            var sessionFactory = FluentNHibernate.CreateSessionFactory();
+
+            using (var session = sessionFactory.OpenSession())
+            {
+                // retreive all stores and display them
+                using (session.BeginTransaction())
+                {
+                    evt = session.Load<events>(evt.id);
+
+                    IList<order> ord = evt.orderList.ToList();
+
+                    foreach (order o in ord)
+                    {
+                        o.orderEvent = null;
+                    }
+
+                }
+            }
+
+            return evt;
+            //string msg = "Items updated";
+            //var response = Request.CreateResponse(HttpStatusCode.Created, evt);
+            //string url = Url.Link("DefaultApi", new { evt.id });
+            //response.Headers.Location = new Uri(url);
+            //return response;
 
         }
 

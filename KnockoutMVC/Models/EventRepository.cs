@@ -122,6 +122,8 @@ namespace KnockoutMVC
             // create our NHibernate session factory
             var sessionFactory = FluentNHibernate.CreateSessionFactory();
 
+            events evt = null;
+
             using (var session = sessionFactory.OpenSession())
             {
                 // retreive all stores and display them
@@ -130,10 +132,12 @@ namespace KnockoutMVC
 
                     try
                     {
-
-                        events evt =  session.Load<events>(EventId);
-                        return evt;
-
+                        // This never worked. I would use entity framework next time.
+                        evt = session.CreateCriteria(typeof(events))
+                        .Add(NHibernate.Criterion.Restrictions.Eq("id", EventId))
+                        .UniqueResult<events>();
+                        //evt =  session.Get<events>(EventId);
+                        
                     }
                     catch (Exception Ex)
                     { // for some reason doesn't take the first time!!
@@ -144,6 +148,11 @@ namespace KnockoutMVC
 
                 }
             }
+
+            Mapper.CreateMap<events, events>();
+            events evt2 = Mapper.Map<events, events>(evt);
+
+            return evt2;
 
         }
 

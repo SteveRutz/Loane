@@ -14,6 +14,28 @@ namespace KnockoutMVC
     public class InventoryRepository
     {
 
+        static public string[] GetParticipating(int componentId)
+        {
+            SQLiteCommand cmd = new SQLiteCommand(new SQLiteConnection());
+
+            cmd.Connection.ConnectionString = string.Format("data source={0}", FluentNHibernate.DbFile);
+
+            cmd.CommandText = sql.participatingList(componentId);
+
+            cmd.Connection.Open();
+
+            SQLiteDataReader rdr = cmd.ExecuteReader();
+
+            List<string> myList = new List<string>();
+
+            while (rdr.Read())
+            {
+                myList.Add(rdr[0].ToString());
+            }
+
+            return myList.ToArray<string>();
+        }
+
         static public IList<inventory> GetInventory(string masterItem)
         {
             SQLiteCommand cmd = new SQLiteCommand(new SQLiteConnection());
@@ -44,39 +66,8 @@ namespace KnockoutMVC
 
             return inv;
         }
-/*
-        static public IList<inventory> GetInventory(string masterItem)
-        {
-
-            // create our NHibernate session factory
-            var sessionFactory = FluentNHibernate.CreateSessionFactory();
-
-            using (var session = sessionFactory.OpenSession())
-            {
-                // retreive all stores and display them
-                using (session.BeginTransaction())
-                {
-
-                    IList<inventory> Inventory = session.CreateCriteria(typeof(inventory)).List<inventory>();
-
-                    IList<bom> bom = session.CreateCriteria(typeof(bom)).List<bom>();
-
-                    IList<bom> bomItems = bom.Where(x => x.item == masterItem).ToList();
-
-                    IList<inventory> rtnList = (from I in Inventory
-                            join b in bomItems on I.item equals b.component into tt
-                            from t in tt.DefaultIfEmpty()
-                            select new inventory {qty=I.qty, item=I.item, master=I.master, bomQty=(t.qty==null ? 0 : t.qty)}).ToList();
-
-                    return rtnList;
-
-                }
-
-            }
 
 
-        }
-*/
         static public IList<inventory> GetInventory()
         {
 
@@ -150,7 +141,7 @@ namespace KnockoutMVC
 
         static public string saveAll(List<inventory> Inventory, string masterItem)
         {
-
+            if (masterItem == "undefined") { masterItem = null; }
             // create our NHibernate session factory
             var sessionFactory = FluentNHibernate.CreateSessionFactory();
 

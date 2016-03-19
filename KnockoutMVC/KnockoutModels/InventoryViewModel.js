@@ -20,12 +20,17 @@ function InventoryList() {
     // observable arrays are update binding elements upon array changes
     self.Inventory = ko.observableArray([]);
 
-    self.filterOrderItem = ko.observable(false);
     self.filterItem = ko.observable('');
     self.filterInvQty = ko.observable();
     self.filterBomQty = ko.observable(false);
+    self.filterMasterItems = ["All", "Master", "Comp"];
+    self.filterMaster = ko.observable();
 
     self.MasterItems = ko.observableArray([]);
+
+    self.bomTypeList = ["Order Item", "Component"];
+
+    self.bomType = ko.observable();
 
     self.bomMaster = ko.observable();
 
@@ -160,8 +165,10 @@ function InventoryList() {
             url: (path + 'api/inventory/' + Item.id()),
             type: 'get', //'delete'
             contentType: 'application/json',
-            success: function () {
-                self.Inventory.remove(Item);
+            success: function (data) {
+
+                if (data) { alert(data); }
+                else { //self.Inventory.remove(Item); }
             }
 
            , error: function (jqXHR, exception) { errorFunction(jqXHR, exception); }
@@ -182,14 +189,14 @@ function InventoryList() {
     ];
 
     self.bomHeaders = [
-{ title: 'Item', sortPropertyName: 'item', asc: false, active: true },
-{ title: 'Inv<br/>Qty', sortPropertyName: 'qty', asc: true, active: false },
-{ title: "BOM<br/>Qty", sortPropertyName: 'bomQty', asc: true, active: false }
-/*, {
-    title: '<input type="button" class="btn btn-danger btn-xs" value=" [x] " />'
-    , sortPropertyName: 'NA'
-    , asc: true, active: false
-} */
+    { title: 'Item', sortPropertyName: 'item', asc: false, active: true },
+    { title: 'Inv<br/>Qty', sortPropertyName: 'qty', asc: true, active: false },
+    { title: "BOM<br/>Qty", sortPropertyName: 'bomQty', asc: true, active: false }
+    /*, {
+        title: '<input type="button" class="btn btn-danger btn-xs" value=" [x] " />'
+        , sortPropertyName: 'NA'
+        , asc: true, active: false
+    } */
     ];
 
     self.delHeaders = [
@@ -244,7 +251,12 @@ function InventoryList() {
         return ko.utils.arrayFilter(self.Inventory(), function (rec) {
             return (
                 
-                      (self.filterOrderItem == null || self.filterOrderItem() == false || self.filterOrderItem() == rec.master())
+                      (self.filterOrderItem == null
+                        || self.filterOrderItem() == false
+                        || true == rec.master() && self.filterMaster() == "Master"
+                        || false == rec.master() && self.filterMaster() == "Comp"
+                        || rec == self.bomMaster()
+                      )
                         &&
                       (self.filterItem().length == 0 ||
                             rec.item().toLowerCase().indexOf(self.filterItem().toLowerCase()) > -1
@@ -255,7 +267,8 @@ function InventoryList() {
                         && 
                       (self.filterBomQty() == null || self.filterBomQty() == false || self.filterBomQty() == (rec.bomQty() > 0) )
                        &&
-                      (self.activeSort() != null) 
+                      (self.activeSort() != null)
+       
                    )
         }).sort(self.activeSort());
 
@@ -283,6 +296,8 @@ function InventoryList() {
             return (self.filterItem().length == 0
 
                 || rec.toLowerCase().indexOf(self.filterItem().toLowerCase()) > -1
+
+                || rec == self.bomMaster()
 
                )
 

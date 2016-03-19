@@ -37,11 +37,21 @@ namespace KnockoutMVC.Controllers
         [Route("{id:int}")]
         public HttpResponseMessage Get(int id)
         {
-            //Not able to get one record for delete.
-            //Could setup a delete controller or add method to string?
-            InventoryRepository.DeleteInventoryItem(id);
-            var response = Request.CreateResponse(HttpStatusCode.OK, id);
-            return response;
+            string[] participating = InventoryRepository.GetParticipating(id);
+
+            if (participating.Count() == 0)
+            {
+                //Not able to get one record for delete.
+                //Could setup a delete controller or add method to string?
+                InventoryRepository.DeleteInventoryItem(id);
+                var response = Request.CreateResponse(HttpStatusCode.OK, id);
+                return response;
+
+            }
+
+            var resp = Request.CreateResponse(HttpStatusCode.OK, participating);
+            return resp;
+
 
         }
 
@@ -53,10 +63,10 @@ namespace KnockoutMVC.Controllers
             string msg = InventoryRepository.saveAll(Inventory, masterItem);
 
             return new System.Web.Mvc.JsonResult()
-        {
-            Data = msg
-            //JsonRequestBehavior = System.Web.Mvc.JsonRequestBehavior.AllowGet
-        };
+            {
+                Data = msg
+                //JsonRequestBehavior = System.Web.Mvc.JsonRequestBehavior.AllowGet
+            };
 
             //var response = Request.CreateResponse(HttpStatusCode.Created, msg);
             //string url = Url.Link("DefaultApi",new{msg});
@@ -66,14 +76,14 @@ namespace KnockoutMVC.Controllers
         }
 
         // DELETE api/student/5
-        public HttpResponseMessage Delete(int id)
-        {
-            //EventsAccess A = new EventsAccess();
-            //A.DeleteEvent(id);
-            //new EventsAccess().DeleteEvent(id);
-            EventsRepository.DeleteEvent(id);
-            var response = Request.CreateResponse(HttpStatusCode.OK, id);
-            return response;
-        }
+        //public HttpResponseMessage Delete(int id)
+        //{
+        //    //EventsAccess A = new EventsAccess();
+        //    //A.DeleteEvent(id);
+        //    //new EventsAccess().DeleteEvent(id);
+        //    EventsRepository.DeleteEvent(id);
+        //    var response = Request.CreateResponse(HttpStatusCode.OK, id);
+        //    return response;
+        //}
     }
 }

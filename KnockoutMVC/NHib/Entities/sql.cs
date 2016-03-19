@@ -2,11 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Text;
 
 namespace KnockoutMVC.NHib.Entities
 {
     public static class sql
     {
+
+        public static string participatingList(int componentId)
+        {
+            StringBuilder SB = new StringBuilder();
+            SB.Append("Select item from bom where exists (");
+            SB.Append(string.Format("select * from inventory where inventory.item = bom.component and id = {0})", componentId));
+
+            return SB.ToString();
+        }
 
         public static string bomList(string masterItem)
         {
@@ -25,7 +35,7 @@ namespace KnockoutMVC.NHib.Entities
             System.Text.StringBuilder SB = new System.Text.StringBuilder();
             SB.Append("select ");
             SB.Append(" [order].truck, events.eventName, events.eventDate, [order].checkOut, [order].available As Avl ");
-            SB.Append(" , bom.component, bom.qty * [order].orderQty As LoadQty ");
+            SB.Append(" , bom.component, sum(bom.qty * [order].orderQty) As LoadQty ");
             SB.Append(" from events ");
             SB.Append(" inner join [order] on [order].orderEvent_id = events.id ");
             SB.Append(" inner join bom on bom.item = [order].item ");
@@ -44,7 +54,7 @@ namespace KnockoutMVC.NHib.Entities
             System.Text.StringBuilder SB = new System.Text.StringBuilder();
             SB.Append("select ");
             SB.Append(" [order].truck, events.eventName, events.eventDate, [order].checkOut, [order].available As Avl ");
-            SB.Append(" , bom.component, bom.qty * [order].orderQty As LoadQty ");
+            SB.Append(" , bom.component, sum(bom.qty * [order].orderQty) As LoadQty ");
             SB.Append(" from events ");
             SB.Append(" inner join [order] on [order].orderEvent_id = events.id ");
             SB.Append(" inner join bom on bom.item = [order].item ");

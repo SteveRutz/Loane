@@ -1,0 +1,33 @@
+﻿
+<style>
+    @media print {
+        #AdminMenu {visibility:hidden}
+        ul {visibility:hidden}
+    }
+
+</style>    
+
+<div id="AdminMenu" class="col-xs-2">
+        <hr />        
+
+        <p> <input type="checkbox" data-bind="checked: cbxNewEvent" /> New Event</p>
+
+        <p> <input type="checkbox" data-bind="checked: cbxEditEvent, disable: ViewModel.oEvent()==null" /> Edit Event</p>
+
+        <p> <input id="cbxLoadList" type="checkbox" data-bind="checked: cbxLoadList, disable: ViewModel.oEvent()==null" /> Load List</p>
+
+        <p> <input type="checkbox" data-bind="checked: cbxPrint, disable: ViewModel.oEvent()==null" /> Print</p>
+
+        <p> <input type="checkbox" data-bind="checked: cbxNotes, disable: ViewModel.oEvent()==null" /> Notes</p>
+
+        <p> <input type="checkbox" data-bind="checked: cbxDetail, disable: ViewModel.oEvent()==null" /> Details</p>
+
+        <p> <input type="checkbox" data-bind="checked: cbxEvent" /> Event</p>
+
+        <p> <input id="cbxInventory" type="checkbox" data-bind="checked: cbxInventory" /> Inventory</p>
+
+        <p> <input type="checkbox" data-bind="checked: cbxTrucks" /> Trucks</p>
+
+        <p><a class="btn btn-primary" href="javascript: alert('FTP');">Database Download</a></p>
+        
+    </div>

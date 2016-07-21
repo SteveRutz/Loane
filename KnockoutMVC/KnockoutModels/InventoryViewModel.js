@@ -28,10 +28,6 @@ function InventoryList() {
 
     self.MasterItems = ko.observableArray([]);
 
-    self.bomTypeList = ["Order Item", "Component"];
-
-    self.bomType = ko.observable();
-
     self.bomMaster = ko.observable();
 
     self.bomMaster.subscribe(function (data) {
@@ -167,11 +163,11 @@ function InventoryList() {
             contentType: 'application/json',
             success: function (data) {
 
-                if (data) { alert(data); }
-                else { //self.Inventory.remove(Item); }
+                if ($.isNumeric(data)) {
+                    self.Inventory.remove(Item);
+                } else { alert(data); }
             }
-
-           , error: function (jqXHR, exception) { errorFunction(jqXHR, exception); }
+            , error: function (jqXHR, exception) { errorFunction(jqXHR, exception); }
 
         });
     };
@@ -251,11 +247,9 @@ function InventoryList() {
         return ko.utils.arrayFilter(self.Inventory(), function (rec) {
             return (
                 
-                      (self.filterOrderItem == null
-                        || self.filterOrderItem() == false
+                      (self.filterMaster() == "All"
                         || true == rec.master() && self.filterMaster() == "Master"
                         || false == rec.master() && self.filterMaster() == "Comp"
-                        || rec == self.bomMaster()
                       )
                         &&
                       (self.filterItem().length == 0 ||
